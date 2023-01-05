@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto;
+using System.Linq.Expressions;
 
 namespace CompetitionEventsManager.Repository.IRepository
 {
@@ -9,7 +11,7 @@ namespace CompetitionEventsManager.Repository.IRepository
         Task<bool> IsUniqueUserAsync(string username);
         Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
         Task<LocalUser> RegisterAsync(RegistrationRequest registrationRequest);
-        Task Update(GetUserDto userDto);
+
 
     }
 }

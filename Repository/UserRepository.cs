@@ -3,30 +3,31 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
+using CompetitionEventsManager.Data;
+using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto;
 using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Services.IServices;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace CompetitionEventsManager.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly KnygynasContext _db;
+        private readonly DBContext _db;
         private readonly IPasswordService _passwordService;
         private readonly IJwtService _jwtService;
-        private readonly IStockService _stockService;
-        private readonly IMembershipService _membersService;
+  
 
         private DbSet<UserRepository> _dbSet;
 
-        public UserRepository(KnygynasContext db, IMembershipService membersService, IPasswordService passwordService, IStockService stockService, IJwtService jwtService)
+        public UserRepository(DBContext db, IPasswordService passwordService, IJwtService jwtService)
         {
             _db = db;
             // _dbSet = _db.Set<UserRepository>();
             _passwordService = passwordService;
             _jwtService = jwtService;
-            _stockService = stockService;
-            _membersService = membersService;
+           
         }
 
         /// <summary>
@@ -57,10 +58,7 @@ namespace CompetitionEventsManager.Repository
                 };
             }
 
-            // await _membersService.PridetiTaskuUzPrisijungima(user.Id);
-            await _membersService.AtnaujintiPrisijungimoData(user.Id);
-            await _membersService.SetUserLevel(user.Id);
-
+       
             var token = _jwtService.GetJwtToken(user.Id, user.Role, user.UserLevel); //,user.UserLevel
 
             LoginResponse loginResponse = new()
@@ -89,7 +87,6 @@ namespace CompetitionEventsManager.Repository
                 Name = registrationRequest.Name,
                 Role = registrationRequest.Role,
                 RegistrationDate = DateTime.Now,
-                ExpirationDate = DateTime.Now.AddYears(1),
                 WasOnline = DateTime.Now,
                 UserLevel = "Pradinukas",
             };
@@ -112,7 +109,6 @@ namespace CompetitionEventsManager.Repository
                     Id = user.Id,
                     Username = user.Username,
                     Role = user.Role,
-                    HasAmountOfBooks = user.HasAmountOfBooks
                 });
 
             }
@@ -126,8 +122,7 @@ namespace CompetitionEventsManager.Repository
                 Id = user.Id,
                 Username = user.Username,
                 Role = user.Role,
-                HasAmountOfBooks = user.HasAmountOfBooks,
-                // Debt = user.Debt,
+
             };
             return userDto;
         }
@@ -136,40 +131,8 @@ namespace CompetitionEventsManager.Repository
             var isRegistered = await _db.LocalUsers.AnyAsync(u => u.Id == userId);
             return isRegistered;
         }
-        public async Task Update(GetUserDto userDto)
-        {
-            try
-            {
-                LocalUser user = _db.LocalUsers.First(u => u.Id == userDto.Id);
-                user.HasAmountOfBooks = userDto.HasAmountOfBooks;
-                user.WasOnline = userDto.WasOnline;
-                user.LoyaltyPoints = userDto.Points;
-
-                _db.LocalUsers.Update(user);
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        //public async Task Update2(LocalUser userUpdated)
-        //{
-        //    try
-        //    {
-        //        LocalUser user = _db.LocalUsers.First(u => u.Id == userUpdated.Id);
-        //        user.HasAmountOfBooks = userUpdated.HasAmountOfBooks;
-        //        user.WasOnline = userUpdated.WasOnline;
-        //        user.LoyaltyPoints = userUpdated.LoyaltyPoints;
-
-        //        _db.LocalUsers.Update(user);
-        //        await _db.SaveChangesAsync();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+  
+   
 
 
 

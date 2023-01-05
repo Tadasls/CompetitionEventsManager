@@ -10,7 +10,7 @@ namespace CompetitionEventsManager.Data
     {
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
         public DbSet<Horse> Horses { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<LocalUser> LocalUsers { get; set; }
       
      
 
