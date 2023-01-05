@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Data\InitialData\" />
     <Folder Include="Models\Dto\" />
     <Folder Include="Models\Enums\" />
