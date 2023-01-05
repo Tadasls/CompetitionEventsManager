@@ -1,6 +1,6 @@
 ﻿namespace CompetitionEventsManager.Models
 {
-    public class Owner
+    public class User
     {
     }
 }
