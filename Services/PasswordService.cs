@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using CompetitionEventsManager.Services.IServices;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace CompetitionEventsManager.Services
