@@ -11,4 +11,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\InitialData\" />
+    <Folder Include="Models\Dto\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="Repository\IRepository\" />
+    <Folder Include="Services\IServices\" />
+    <Folder Include="Services\Wrapers\" />
+  </ItemGroup>
+
 </Project>
