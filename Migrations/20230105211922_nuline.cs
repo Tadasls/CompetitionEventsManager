@@ -20,7 +20,8 @@ namespace CompetitionEventsManager.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     HorseName = table.Column<string>(type: "TEXT", nullable: false),
-                    OwnerName = table.Column<string>(type: "TEXT", nullable: false)
+                    OwnerName = table.Column<string>(type: "TEXT", nullable: false),
+                    BornDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,22 +40,35 @@ namespace CompetitionEventsManager.Migrations
                     PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: false),
                     Role = table.Column<string>(type: "TEXT", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    WasOnline = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserLevel = table.Column<string>(type: "TEXT", nullable: false)
+                    WasOnline = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LocalUsers", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Riders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Riders", x => x.Id);
+                });
+
             migrationBuilder.InsertData(
                 table: "Horses",
-                columns: new[] { "Id", "HorseName", "OwnerName" },
+                columns: new[] { "Id", "BornDate", "HorseName", "OwnerName" },
                 values: new object[,]
                 {
-                    { 1, "The King", "Stasys" },
-                    { 2, "Perkunas", "Stasys" },
-                    { 3, "Nabagute", "Linas" }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The King", "Stasys" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Perkunas", "Stasys" },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nabagute", "Linas" }
                 });
         }
 
@@ -66,6 +80,9 @@ namespace CompetitionEventsManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "LocalUsers");
+
+            migrationBuilder.DropTable(
+                name: "Riders");
         }
     }
 }

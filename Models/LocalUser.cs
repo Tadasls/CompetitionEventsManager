@@ -17,7 +17,7 @@ namespace CompetitionEventsManager.Models
         public string Role { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime WasOnline { get; set; }
-        public string UserLevel { get; set; }
+     
 
 
 

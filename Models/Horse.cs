@@ -24,6 +24,9 @@ namespace CompetitionEventsManager.Models
         public string HorseName { get; set; }
         [Required]
         public string OwnerName { get; set; }
+
+        public DateTime BornDate { get; set; }
+
         //public Owner Owner{ get; set; }
         //public Raider Raider { get; set; }
 

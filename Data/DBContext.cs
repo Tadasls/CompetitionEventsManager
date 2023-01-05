@@ -11,6 +11,7 @@ namespace CompetitionEventsManager.Data
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
         public DbSet<Horse> Horses { get; set; }
         public DbSet<LocalUser> LocalUsers { get; set; }
+        public DbSet<Rider> Riders { get; set; }
       
      
 
@@ -21,15 +22,15 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Horse>()
          .HasKey(d => d.Id);
 
-     
+
 
             modelBuilder.Entity<Horse>()
-            .HasData(
-                new Horse(1, "The King", "Stasys"),
-                new Horse(2, "Perkunas", "Stasys"),
-                new Horse(3, "Nabagute", "Linas")
+      .HasData(
+          new Horse(1, "The King", "Stasys"),
+          new Horse(2, "Perkunas", "Stasys"),
+          new Horse(3, "Nabagute", "Linas")
 
-                );
+          );
 
 
 

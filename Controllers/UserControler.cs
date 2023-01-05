@@ -1,5 +1,8 @@
-﻿using CompetitionEventsManager.Models.Dto;
+﻿using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto;
+using CompetitionEventsManager.Repository;
 using CompetitionEventsManager.Repository.IRepository;
+using CompetitionEventsManager.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -9,45 +12,61 @@ namespace CompetitionEventsManager.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
+        private readonly IJwtService _jwtService;
 
-        public UserController(IUserRepository userRepo)
+        public UserController(IUserRepository userRepository, IUserService userService, IJwtService jwtService)
         {
-            _userRepo = userRepo;
-
+            _userRepository = userRepository;
+            _userService = userService;
+            _jwtService = jwtService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [HttpPost("login")]
-        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ActionResult))]
-        public async Task<IActionResult> Login([FromBody] LoginRequest model)
+        public IActionResult Login([FromBody] LoginRequest model)
         {
-            var loginResponse = await _userRepo.LoginAsync(model);
-            if (loginResponse.User == null || string.IsNullOrEmpty(loginResponse.Token))
-            {
-                return BadRequest(new { message = "Username or password is incorrect" });
-            }
+            var isOk = _userRepository.TryLogin(model.Username, model.Password, out var user);
+            if (!isOk)
+                return Unauthorized("Bad username or password");
 
-            return Ok(loginResponse);
+            var token = _jwtService.GetJwtToken(user.Id, user.Role);
+
+
+            return Ok(new LoginResponse { UserName = model.Username, Token = token });
         }
+
+
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationRequest model)
+        public IActionResult Register([FromBody] RegisterUserRequest model)
         {
-            var isUserNameUnique = await _userRepo.IsUniqueUserAsync(model.Username);
+            if (_userRepository.Exist(model.UserName))
+                return BadRequest("User already exists");
 
-            if (!isUserNameUnique)
+            _userService.CreatePasswordHash(model.Password, out var passwordHash, out var passwordSalt);
+            var user = new LocalUser
             {
-                return BadRequest(new { message = "Username already exists" });
-            }
+                Username = model.UserName,
+                Name= model.Name,
+                Role = model.Role,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
 
-            var user = await _userRepo.RegisterAsync(model);
+            var id = _userRepository.RegisterAsync(user);
 
-            if (user == null)
-            {
-                return BadRequest(new { message = "Error while registering" });
-            }
-
-            return Ok();
+            return Created(nameof(Login), new { id = id });
         }
+
+
         [HttpGet("Get/{id:int}")]
         public async Task<ActionResult<GetUserDto>> GetUserById(int id)
         {
@@ -55,7 +74,8 @@ namespace CompetitionEventsManager.Controllers
             {
                 return BadRequest("nera tokio ID");
             }
-            var user = await _userRepo.GetAsync(u => u.Id == id);
+            var user = await _userRepository.GetAsync(u => u.Id == id);
+
             if (user == null)
             {
                 return NotFound("nera tokio vartotojo");
@@ -68,8 +88,10 @@ namespace CompetitionEventsManager.Controllers
 
 
 
-
-
-
     }
+
+
+
+
 }
+

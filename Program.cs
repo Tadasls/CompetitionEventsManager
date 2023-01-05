@@ -28,9 +28,11 @@ namespace CompetitionEventsManager
               
             });
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IPasswordService, PasswordService>();
+            builder.Services.AddMokymaiServices();
+
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+
 
             var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 

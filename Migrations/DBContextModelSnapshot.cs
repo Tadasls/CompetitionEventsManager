@@ -23,6 +23,9 @@ namespace CompetitionEventsManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("BornDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("HorseName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -39,18 +42,21 @@ namespace CompetitionEventsManager.Migrations
                         new
                         {
                             Id = 1,
+                            BornDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HorseName = "The King",
                             OwnerName = "Stasys"
                         },
                         new
                         {
                             Id = 2,
+                            BornDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HorseName = "Perkunas",
                             OwnerName = "Stasys"
                         },
                         new
                         {
                             Id = 3,
+                            BornDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HorseName = "Nabagute",
                             OwnerName = "Linas"
                         });
@@ -81,10 +87,6 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserLevel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -95,6 +97,25 @@ namespace CompetitionEventsManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LocalUsers");
+                });
+
+            modelBuilder.Entity("CompetitionEventsManager.Models.Rider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Riders");
                 });
 #pragma warning restore 612, 618
         }
