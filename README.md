@@ -1,1 +1,3 @@
-# CompetitionEventsManager
+﻿# CompetitionEventsManager
+
+Žirgų varžybų organizavimas
