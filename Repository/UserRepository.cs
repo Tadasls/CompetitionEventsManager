@@ -30,10 +30,14 @@ namespace CompetitionEventsManager.Repository
         }
 
 
-
+        /// <summary>
+        /// Should return a flag indicating if a user with a specified username already exists
+        /// </summary>
+        /// <param name="username">Registration username</param>
+        /// <returns>A flag indicating if username already exists</returns>
         public virtual bool TryLogin(string userName, string password, out LocalUser? user)
         {
-            user =  _context.LocalUsers.FirstOrDefault(x => x.Username == userName);
+            user =  _context.LocalUsers.FirstOrDefault(x => x.UserName == userName);
             if (user == null)
                 return false;
 
@@ -43,6 +47,11 @@ namespace CompetitionEventsManager.Repository
             return true;
         }
 
+        /// <summary>
+        /// Should return a flag indicating if a user with a specified username already exists
+        /// </summary>
+        /// <param name="user">Registration username</param>
+        /// <returns>A flag indicating if username already exists</returns>
         public async Task<int> RegisterAsync(LocalUser user)
         {
             _context.LocalUsers.Add(user);
@@ -66,7 +75,11 @@ namespace CompetitionEventsManager.Repository
 
 
 
-
+        /// <summary>
+        /// Should return a flag indicating if a user with a specified username already exists
+        /// </summary>
+        /// <param name="userId">Registration username</param>
+        /// <returns>A flag indicating if username already exists</returns>
         public async Task<bool> IsRegisteredAsync(int userId) // same as exist
         {
             var isRegistered = await _context.LocalUsers.AnyAsync(u => u.Id == userId);
@@ -80,15 +93,20 @@ namespace CompetitionEventsManager.Repository
         /// <returns>A flag indicating if username already exists</returns>
         public async Task<bool> IsUniqueUserAsync(string username)
         {
-            var user = await _context.LocalUsers.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _context.LocalUsers.FirstOrDefaultAsync(x => x.UserName == username);
             if (user == null) return true;
             return false;
         }
 
 
-        public bool Exist(string userName)
+        /// <summary>
+        /// Should return a flag indicating if a user with a specified username already exists
+        /// </summary>
+        /// <param name="username">Registration username</param>
+        /// <returns>A flag indicating if username already exists</returns>
+        public bool Exist(string username)
         {
-            return _context.LocalUsers.Any(x => x.Username == userName);
+            return _context.LocalUsers.Any(x => x.UserName == username);
         }
 
 

@@ -16,8 +16,6 @@ namespace CompetitionEventsManager.Services
 
             services.AddTransient<IUserRepository, UserRepository>();
 
-
-
             return services;
         }
     }

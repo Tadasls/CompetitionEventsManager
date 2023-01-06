@@ -30,14 +30,14 @@ namespace CompetitionEventsManager.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest model)
         {
-            var isOk = _userRepository.TryLogin(model.Username, model.Password, out var user);
+            var isOk = _userRepository.TryLogin(model.UserName, model.Password, out var user);
             if (!isOk)
                 return Unauthorized("Bad username or password");
 
             var token = _jwtService.GetJwtToken(user.Id, user.Role);
 
 
-            return Ok(new LoginResponse { UserName = model.Username, Token = token });
+            return Ok(new LoginResponse { UserName = model.UserName, Token = token });
         }
 
 
@@ -54,7 +54,7 @@ namespace CompetitionEventsManager.Controllers
             _userService.CreatePasswordHash(model.Password, out var passwordHash, out var passwordSalt);
             var user = new LocalUser
             {
-                Username = model.UserName,
+                UserName = model.UserName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Role = model.Role,
@@ -68,6 +68,9 @@ namespace CompetitionEventsManager.Controllers
 
             return Created(nameof(Login), new { id = id });
         }
+
+        //need DScr 
+
 
 
         [HttpGet("Get/{id:int}")]
