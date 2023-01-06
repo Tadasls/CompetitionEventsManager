@@ -73,15 +73,16 @@ namespace CompetitionEventsManager.Repository
             return isRegistered;
         }
 
+        /// <summary>
+        /// Should return a flag indicating if a user with a specified username already exists
+        /// </summary>
+        /// <param name="username">Registration username</param>
+        /// <returns>A flag indicating if username already exists</returns>
         public async Task<bool> IsUniqueUserAsync(string username)
         {
             var user = await _context.LocalUsers.FirstOrDefaultAsync(x => x.Username == username);
-            if (user == null)
-            {
-                return true;
-            }
+            if (user == null) return true;
             return false;
-
         }
 
 

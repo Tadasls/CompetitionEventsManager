@@ -55,10 +55,13 @@ namespace CompetitionEventsManager.Controllers
             var user = new LocalUser
             {
                 Username = model.UserName,
-                Name= model.Name,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 Role = model.Role,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                RegistrationDate = DateTime.UtcNow,
+                WasOnline = DateTime.UtcNow
             };
 
             var id = _userRepository.RegisterAsync(user);
