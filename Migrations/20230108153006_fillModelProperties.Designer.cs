@@ -3,6 +3,7 @@ using System;
 using CompetitionEventsManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,55 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompetitionEventsManager.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230108153006_fillModelProperties")]
+    partial class fillModelProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
-
-            modelBuilder.Entity("CompetitionEventsManager.Models.Entry", b =>
-                {
-                    b.Property<int>("EntryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool?>("AgreemntOnContractNr1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("LocalUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool?>("NeedElectricity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool?>("NeedInvoice")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PlateNumbers")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool?>("Shavings")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("StayFromDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("StayToDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("numberOfCages")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("EntryID");
-
-                    b.HasIndex("LocalUserId");
-
-                    b.ToTable("Entry");
-                });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Horse", b =>
                 {
@@ -239,9 +199,6 @@ namespace CompetitionEventsManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EntryID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime?>("HorseBirthYear")
                         .HasColumnType("TEXT");
 
@@ -252,6 +209,9 @@ namespace CompetitionEventsManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Points")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReservationID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RiderFullName")
@@ -274,13 +234,56 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("PerformanceID");
 
-                    b.HasIndex("EntryID");
-
                     b.HasIndex("HorseID");
+
+                    b.HasIndex("ReservationID");
 
                     b.HasIndex("RiderID");
 
                     b.ToTable("Performance");
+                });
+
+            modelBuilder.Entity("CompetitionEventsManager.Models.Reservation", b =>
+                {
+                    b.Property<int>("ReservationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("AgreemntOnContractNr1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LocalUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("NeedElectricity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("NeedInvoice")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PlateNumbers")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("Shavings")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("StayFromDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("StayToDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("numberOfCages")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ReservationID");
+
+                    b.HasIndex("LocalUserId");
+
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Rider", b =>
@@ -331,13 +334,6 @@ namespace CompetitionEventsManager.Migrations
                     b.ToTable("Riders");
                 });
 
-            modelBuilder.Entity("CompetitionEventsManager.Models.Entry", b =>
-                {
-                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
-                        .WithMany("Reservations")
-                        .HasForeignKey("LocalUserId");
-                });
-
             modelBuilder.Entity("CompetitionEventsManager.Models.Horse", b =>
                 {
                     b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
@@ -354,15 +350,15 @@ namespace CompetitionEventsManager.Migrations
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Performance", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.Entry", null)
-                        .WithMany("Performances")
-                        .HasForeignKey("EntryID");
-
                     b.HasOne("CompetitionEventsManager.Models.Horse", "Horse")
                         .WithMany()
                         .HasForeignKey("HorseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CompetitionEventsManager.Models.Reservation", null)
+                        .WithMany("Performances")
+                        .HasForeignKey("ReservationID");
 
                     b.HasOne("CompetitionEventsManager.Models.Rider", "Rider")
                         .WithMany()
@@ -375,16 +371,18 @@ namespace CompetitionEventsManager.Migrations
                     b.Navigation("Rider");
                 });
 
+            modelBuilder.Entity("CompetitionEventsManager.Models.Reservation", b =>
+                {
+                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("LocalUserId");
+                });
+
             modelBuilder.Entity("CompetitionEventsManager.Models.Rider", b =>
                 {
                     b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
                         .WithMany("Riders")
                         .HasForeignKey("LocalUserId");
-                });
-
-            modelBuilder.Entity("CompetitionEventsManager.Models.Entry", b =>
-                {
-                    b.Navigation("Performances");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.LocalUser", b =>
@@ -396,6 +394,11 @@ namespace CompetitionEventsManager.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Riders");
+                });
+
+            modelBuilder.Entity("CompetitionEventsManager.Models.Reservation", b =>
+                {
+                    b.Navigation("Performances");
                 });
 #pragma warning restore 612, 618
         }

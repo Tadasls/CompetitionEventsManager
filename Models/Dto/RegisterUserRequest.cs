@@ -4,7 +4,8 @@ namespace CompetitionEventsManager.Models.Dto
 {
     public class RegisterUserRequest
     {
-        [Required]
+        [Required(ErrorMessage = "Reiksme yra labai labai svarbi")]
+        [MaxLength(50, ErrorMessage = "Mark cannot be longer than 50 characters")]
         public string? UserName { get; set; }
         [Required]
         public string? FirstName { get; set; }
@@ -13,6 +14,7 @@ namespace CompetitionEventsManager.Models.Dto
         [Required]
         public string? Password { get; set; }
         [Required]
+         [MaxLength(50, ErrorMessage = "Role cannot be longer than 50 characters")]
         public string? Role { get; set; }
 
     }

@@ -12,12 +12,14 @@ namespace CompetitionEventsManager.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
 
-        public UserController(IUserRepository userRepository, IUserService userService, IJwtService jwtService)
+        public UserController(IUserRepository userRepository, IUserService userService, IJwtService jwtService, ILogger<UserController> logger)
         {
+            _logger = logger;
             _userRepository = userRepository;
             _userService = userService;
             _jwtService = jwtService;
@@ -30,9 +32,20 @@ namespace CompetitionEventsManager.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest model)
         {
+            var userExist =  _userRepository.Exist(model.UserName);
+            if (!userExist)
+            {
+                _logger.LogWarning("Bandoma prisijungti prie sistemos su neegzistuojanciu prisijungimo Vardu ", model.UserName);
+                return Unauthorized("Bad username");
+            }
+
             var isOk = _userRepository.TryLogin(model.UserName, model.Password, out var user);
             if (!isOk)
-                return Unauthorized("Bad username or password");
+            {
+                _logger.LogWarning("Bandoma prisijungti prie Vartotojo {0} su neteisingu slaptazodziu", model.UserName);
+                return Unauthorized("Bad password");
+            }
+               
 
             var token = _jwtService.GetJwtToken(user.Id, user.Role);
 
@@ -66,7 +79,7 @@ namespace CompetitionEventsManager.Controllers
 
             var id = _userRepository.RegisterAsync(user);
 
-            return Created(nameof(Login), new { id = id });
+            return Created(nameof(Login), new { Id = id });
         }
 
         //need DScr 
