@@ -15,9 +15,15 @@ namespace CompetitionEventsManager.Services
 
 
             services.AddTransient<IUserRepository, UserRepository>();
-
-            services.AddScoped<IRiderRepository, RiderRepository>();
-            services.AddScoped<IHorseRepository, HorseRepository>();
+            services.AddTransient<IRiderRepository, RiderRepository>();
+            services.AddTransient<IHorseRepository, HorseRepository>();
+            services.AddTransient<ICompetitionRepository, CompetitionRepository>();
+            services.AddTransient<IEntryRepository, EntryRepository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<IPerformanceRepository, PerformanceRepository>();
+            services.AddTransient<IStaffRepository, StaffRepository>();
+          
 
 
 
