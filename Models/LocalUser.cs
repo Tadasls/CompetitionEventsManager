@@ -18,12 +18,19 @@ namespace CompetitionEventsManager.Models
         public string Role { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime WasOnline { get; set; }
-     
+        public string? Adress { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
+        public string? DefaultComunicationLanguage { get; set; }
+        public string? Status { get; set; }
+        public List<Notification> Notifications { get; set; }
+        public List<Rider> Riders { get; set; }
+        public List<Horse> Horses { get; set; }
+        public List<Reservation> Reservations { get; set; }
 
 
 
-                
-               
+
 
 
     }
