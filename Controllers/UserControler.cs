@@ -66,7 +66,7 @@ namespace CompetitionEventsManager.Controllers
 
             var id = _userRepository.RegisterAsync(user);
 
-            return Created(nameof(Login), new { id = id });
+            return Created(nameof(Login), new { Id = id });
         }
 
         //need DScr 
