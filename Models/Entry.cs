@@ -4,11 +4,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CompetitionEventsManager.Models
 {
-    public class Reservation
+    public class Entry
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ReservationID { get; set; }
+        public int EntryID { get; set; }
         public List<Performance> Performances { get; set; }
         public bool? NeedElectricity { get; set; }
         public string? PlateNumbers { get; set; }

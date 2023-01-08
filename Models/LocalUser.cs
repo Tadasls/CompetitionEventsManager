@@ -39,7 +39,7 @@ namespace CompetitionEventsManager.Models
         public List<Notification> Notifications { get; set; }
         public List<Rider> Riders { get; set; }
         public List<Horse> Horses { get; set; }
-        public List<Reservation> Reservations { get; set; }
+        public List<Entry> Reservations { get; set; }
 
 
 
