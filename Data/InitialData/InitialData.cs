@@ -11,17 +11,22 @@ namespace CompetitionEventsManager.Data.InitialData
         public static readonly Rider[] DataSeedRider = new Rider[] {
             new Rider
             {
-                Id = 1,
+                RiderID = 1,
                 FirstName = "Tadas",
                 LastName = "Laurinaitis",
             },
              new Rider
             {
-                Id = 1,
+                RiderID = 1,
                 FirstName = "Titas",
                 LastName = "Laurinaitis",
             },
-
+               new Rider
+            {
+                RiderID = 3,
+                FirstName = "Stasys",
+                LastName = "Laurinaitis",
+            },
 
 
 

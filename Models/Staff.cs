@@ -14,10 +14,10 @@ namespace CompetitionEventsManager.Models
         public string FirstName { get; set; }
         [Required]
         public string Lastname { get; set; }
-        public string Country { get; set; }
-        public int FeiID { get; set; }
-        public int NationalID { get; set; }
-        public string Position { get; set; }
+        public string? Country { get; set; }
+        public int? FeiID { get; set; }
+        public int? NationalID { get; set; }
+        public string? Position { get; set; }
 
 
 
