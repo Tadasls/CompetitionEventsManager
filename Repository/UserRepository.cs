@@ -106,7 +106,9 @@ namespace CompetitionEventsManager.Repository
         /// <returns>A flag indicating if username already exists</returns>
         public bool Exist(string username)
         {
-            return _context.LocalUsers.Any(x => x.UserName == username);
+            bool userExist = _context.LocalUsers.Any(x => x.UserName == username);
+            return userExist;
+           
         }
 
 
