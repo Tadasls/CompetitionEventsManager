@@ -30,8 +30,6 @@ namespace CompetitionEventsManager.Data
         {
 
            
-
-       
             modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
             modelBuilder.Entity<Entry>().HasKey(d => d.EntryID);
             modelBuilder.Entity<Event>().HasKey(d => d.EventID);

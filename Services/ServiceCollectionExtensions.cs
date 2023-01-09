@@ -13,7 +13,6 @@ namespace CompetitionEventsManager.Services
                 throw new ArgumentNullException(nameof(services));
             }
 
-
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRiderRepository, RiderRepository>();
             services.AddTransient<IHorseRepository, HorseRepository>();
@@ -24,8 +23,6 @@ namespace CompetitionEventsManager.Services
             services.AddTransient<IPerformanceRepository, PerformanceRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
           
-
-
 
             return services;
         }

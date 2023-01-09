@@ -2,12 +2,20 @@
 using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository;
 using CompetitionEventsManager.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileSystemGlobbing;
+using System.Diagnostics.Metrics;
+using System.Drawing;
 using System.Net.Mime;
+using System.Reflection;
 
 namespace CompetitionEventsManager.Controllers
 {
+    /// <summary>
+    /// Žirgų kontroleris
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class HorseController : ControllerBase
@@ -19,11 +27,8 @@ namespace CompetitionEventsManager.Controllers
         {
             _logger = logger;
             _horseRepo = repository;
-           
         }
-
                
-
         /// <summary>
         /// Fetch registered horse with a specified ID from DB
         /// </summary>
@@ -54,9 +59,6 @@ namespace CompetitionEventsManager.Controllers
             return Ok(new GetHorseDTO(horse));
         }
 
-
-        
-
         /// <summary>
         /// Fetches all registered Horses in the DB
         /// </summary>
@@ -85,6 +87,87 @@ namespace CompetitionEventsManager.Controllers
                 .Select(d => new GetHorseDTO(d))
                 .ToList());
         }
+
+        /// <summary>
+        /// Irasomas Žirgas i duomenu baze
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="400">paduodamos informacijos validacijos klaidos </response>
+        [HttpPost("Horser")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateHorseDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<CreateHorseDTO>> CreateHorse(CreateHorseDTO horseDTO)
+        {
+            if (horseDTO == null)
+            {
+                return BadRequest("Duomenys neužpildyti");
+            }
+
+            Horse model = new Horse()
+            {
+            HorseName = horseDTO.HorseName,
+            OwnerName = horseDTO.OwnerName,
+            YearOfBird = horseDTO.YearOfBird,
+            Breed = horseDTO.Breed,
+            Type = horseDTO.Type,
+            Gender = horseDTO.Gender,
+            Color = horseDTO.Color,
+            NatFedID = horseDTO.NatFedID,
+            FEIID = horseDTO.FEIID,
+            Heigth = horseDTO.Heigth,
+            Father = horseDTO.Father,
+            Mother = horseDTO.Mother,
+            Breeder = horseDTO.Breeder,
+            Country = horseDTO.Country,
+            Commets = horseDTO.Commets,
+            MedCheckDate = horseDTO.MedCheckDate,
+            PassportNo = horseDTO.PassportNo,
+            PassportNoExipreDate = horseDTO.PassportNoExipreDate,
+            ChipNumber = horseDTO.ChipNumber
+             };
+
+            await _horseRepo.CreateAsync(model);
+
+            return CreatedAtRoute("GetHorse", new { Id = model.HorseID }, horseDTO);
+        }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Trinamas Žirgas is duomenu bazes
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("horses/delete/{id:int}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteHorse(int id)
+        {
+            if (!await _horseRepo.ExistAsync(d => d.HorseID == id))
+            {
+                _logger.LogInformation("Horse with id {id} not found", id);
+                return NotFound("Nerasta įrašų pagal įvestą ID");
+            }
+            var horse = await _horseRepo.GetAsync(d => d.HorseID == id);
+            await _horseRepo.RemoveAsync(horse);
+            return NoContent();
+        }
+
+
+
+
+
 
 
 

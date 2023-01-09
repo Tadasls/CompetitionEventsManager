@@ -10,7 +10,7 @@ namespace CompetitionEventsManager.Repository
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly DBContext _db;
-        private DbSet<TEntity> _dbSet;
+        private readonly DbSet<TEntity> _dbSet;
 
         public Repository(DBContext db)
         {

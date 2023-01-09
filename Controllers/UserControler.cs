@@ -26,6 +26,7 @@ namespace CompetitionEventsManager.Controllers
             _jwtService = jwtService;
         }
 
+     
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
@@ -36,24 +37,20 @@ namespace CompetitionEventsManager.Controllers
             var userExist =  _userRepository.Exist(model.UserName);
             if (!userExist)
             {
-                _logger.LogWarning("Bandoma prisijungti prie sistemos su neegzistuojanciu prisijungimo Vardu ", model.UserName);
+                _logger.LogWarning("Bandoma prisijungti prie sistemos su {model.UserName} neegzistuojanciu prisijungimo Vardu ", model.UserName);
                 return Unauthorized("Bad username");
             }
 
             var isOk = _userRepository.TryLogin(model.UserName, model.Password, out var user);
             if (!isOk)
             {
-                _logger.LogWarning("Bandoma prisijungti prie Vartotojo {0} su neteisingu slaptazodziu", model.UserName);
+                _logger.LogWarning("Bandoma prisijungti prie Vartotojo {model.UserName} su neteisingu slaptazodziu", model.UserName);
                 return Unauthorized("Bad password");
             }
                
-
             var token = _jwtService.GetJwtToken(user.Id, user.Role);
-
-
             return Ok(new LoginResponse { UserName = model.UserName, Token = token });
         }
-
 
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -83,14 +80,10 @@ namespace CompetitionEventsManager.Controllers
                 Language = model.Language,
             };
 
-          
             var id = await _userRepository.RegisterAsync(user);
-
             return Created(nameof(Login), new { Id = id });
-
-
         }
-        //need DScr 
+        
 
 
 
@@ -108,7 +101,7 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("nera tokio vartotojo");
             }
 
-            return Ok(user);
+            return Ok(user);  // as pats grazinu visa userio info... halt
         }
 
 
@@ -116,9 +109,5 @@ namespace CompetitionEventsManager.Controllers
 
 
     }
-
-
-
-
 }
 

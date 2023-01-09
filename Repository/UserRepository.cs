@@ -19,7 +19,7 @@ namespace CompetitionEventsManager.Repository
     {
         private readonly DBContext _context;
         private readonly IUserService _userService;
-        private DbSet<LocalUser> _dbSet;
+        private readonly DbSet<LocalUser> _dbSet;
 
 
         public UserRepository(DBContext context, IUserService userService)
