@@ -1,4 +1,5 @@
-﻿using CompetitionEventsManager.Models.Dto.HorseDTO;
+﻿using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository;
 using CompetitionEventsManager.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
@@ -54,9 +55,36 @@ namespace CompetitionEventsManager.Controllers
         }
 
 
+        
 
+        /// <summary>
+        /// Fetches all registered Horses in the DB
+        /// </summary>
+        /// <returns>All Horses in DB</returns>
+        [HttpGet("Horses")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetHorses([FromQuery] FilterHorsesRequest req)
+        {
+            IEnumerable<Horse> entities = await _horseRepo.GetAllAsync();
 
+            if (req.HorseName != null)
+                entities = entities.Where(x => x.HorseName == req.HorseName);
 
+            if (req.OwnerName != null)
+                entities = entities.Where(x => x.OwnerName == req.OwnerName);
+
+            if (req.Breeder != null)
+                entities = entities.Where(x => x.Breeder == req.Breeder);
+
+            if (req.Country != null)
+                entities = entities.Where(x => x.Country == req.Country);
+
+                      
+            return Ok(entities
+                .Select(d => new GetHorseDTO(d))
+                .ToList());
+        }
 
 
 
