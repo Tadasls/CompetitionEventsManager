@@ -16,6 +16,7 @@ namespace CompetitionEventsManager.Controllers
     /// <summary>
     /// Žirgų kontroleris
     /// </summary>
+    
     [Route("api/[controller]")]
     [ApiController]
     public class HorseController : ControllerBase
@@ -28,7 +29,7 @@ namespace CompetitionEventsManager.Controllers
             _logger = logger;
             _horseRepo = repository;
         }
-               
+
         /// <summary>
         /// Fetch registered horse with a specified ID from DB
         /// </summary>
@@ -36,6 +37,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns>Horse with specified ID</returns>
         /// <response code="400">Customer bad request description</response>
         [HttpGet("horses/{id:int}", Name = "GetHorse")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -94,7 +96,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns></returns>
         /// <response code="400">paduodamos informacijos validacijos klaidos </response>
         [HttpPost("Horser")]
-        [Authorize]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateHorseDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

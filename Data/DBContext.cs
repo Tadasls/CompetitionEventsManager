@@ -34,8 +34,8 @@ namespace CompetitionEventsManager.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
-           
             modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
             modelBuilder.Entity<Entry>().HasKey(d => d.EntryID);
             modelBuilder.Entity<Event>().HasKey(d => d.EventID);
@@ -106,6 +106,15 @@ namespace CompetitionEventsManager.Data
            .HasForeignKey(ab => ab.CompetitionID);
 
 
+            //modelBuilder.Entity<Horse>()
+            //  .HasMany<Rider>(s => s.Riders)
+            //  .WithMany(c => c.Horses)
+            //  .Map(cs =>
+            //  {
+            //      cs.MapLeftKey("HorseID");
+            //      cs.MapRightKey("RiderID");
+            //      cs.ToTable("Performance");
+            //  });
 
 
 

@@ -15,12 +15,14 @@ namespace CompetitionEventsManager.Models
         public string LastName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        [MaxLength(50)]
         public string Role { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime WasOnline { get; set; }
         [Display(Name = "Adress")]
         public string? Adress { get; set; }
         [Display(Name = "Phone")]
+        [MaxLength(50)]
         public string? Phone { get; set; }
         [Display(Name = "Email")]
         public string? Email { get; set; }

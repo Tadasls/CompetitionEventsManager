@@ -63,39 +63,27 @@ namespace CompetitionEventsManager
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                option.IncludeXmlComments(xmlPath);
-
-                // This is added to show JWT UI part in Swagger
-                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                option.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+                var securityScheme = new OpenApiSecurityScheme
                 {
-                    Description =
-                        "JWT Authorization header is using Bearer scheme. \r\n\r\n" +
-                        "Enter 'Bearer' and token separated by a space. \r\n\r\n" +
-                        "Example: \"Bearer d5f41g85d1f52a\"",
-                    Name = "Authorization", // Header key name
+                    Description = "JWT Authorization header is using Bearer scheme. \r\n\r\n" +
+                        "Enter token. \r\n\r\n" +
+                        "Example: \"d5f41g85d1f52a\"",
+                    Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT"
-                });
-
-                option.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
                     {
-                        new OpenApiSecurityScheme()
-                        {
-                            Reference = new OpenApiReference()
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header
-                        },
-                        new List<string>()
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
                     }
-                });
+                };
+                option.AddSecurityDefinition("Bearer", securityScheme);
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, new[] { "Bearer" } } });
             });
+
 
             builder.Services.AddCors(p => p.AddPolicy("corsforTLS", builder =>
             {

@@ -33,8 +33,7 @@ namespace CompetitionEventsManager.Models
         public string? Country { get; set; } = "LT"; 
         public string? Comments { get; set; }
         public ICollection<LocalUser> LocalUsers { get; set; }
-
-
+        public virtual ICollection<Horse> Horses { get; set; }
 
 
     }

@@ -30,8 +30,7 @@ namespace CompetitionEventsManager.Models
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
         public ICollection<LocalUser> LocalUsers { get; set; }
-      
-
+        public virtual ICollection<Rider> Riders { get; set; }
 
 
 
