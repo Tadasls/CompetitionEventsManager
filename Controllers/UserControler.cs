@@ -1,9 +1,10 @@
 ﻿using CompetitionEventsManager.Models;
-using CompetitionEventsManager.Models.Dto;
+using CompetitionEventsManager.Models.Dto.UserDTO;
 using CompetitionEventsManager.Repository;
 using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 
 namespace CompetitionEventsManager.Controllers
@@ -74,13 +75,21 @@ namespace CompetitionEventsManager.Controllers
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 RegistrationDate = DateTime.UtcNow,
-                WasOnline = DateTime.UtcNow
+                WasOnline = DateTime.UtcNow,
+                Adress = model.Adress,
+                Phone = model.Phone,
+                Email = model.Email,
+                Language = model.Language,
             };
 
-            var id = _userRepository.RegisterAsync(user);
+        //need DScr 
 
-            return Created(nameof(Login), new { Id = id });
-        }
+
+
+
+     
+
+
 
         //need DScr 
 

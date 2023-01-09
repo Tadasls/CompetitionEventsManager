@@ -1,26 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.FileSystemGlobbing;
+using System.Drawing;
 
-namespace CompetitionEventsManager.Models
+namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
-    public class Horse
+    public class GetHorseDTO
     {
-        public Horse()
+        public GetHorseDTO(Horse dish)
         {
-
         }
 
-        public Horse(int id, string horseName, string ownerName)
-        {
-            HorseID = id;
-            HorseName = horseName;
-            OwnerName = ownerName;
-        }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HorseID { get; set; }
-        [Required]
         public string HorseName { get; set; }
         public string? OwnerName { get; set; }
         public DateTime? YearOfBird { get; set; }
@@ -40,7 +31,7 @@ namespace CompetitionEventsManager.Models
         public string? PassportNo { get; set; }
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
-      
+
 
 
 

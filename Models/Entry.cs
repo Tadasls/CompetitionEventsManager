@@ -10,14 +10,14 @@ namespace CompetitionEventsManager.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EntryID { get; set; }
         public List<Performance> Performances { get; set; }
-        public bool? NeedElectricity { get; set; }
+        public bool? NeedElectricity { get; set; } = false;
         public string? PlateNumbers { get; set; }
-        public int? numberOfCages { get; set; }
+        public int? NumberOfCages { get; set; } = 1;
         public DateTime? StayFromDate { get; set; }
         public DateTime? StayToDate { get; set; }
-        public bool? Shavings { get; set; }
-        public bool? NeedInvoice { get; set; }
-        public bool? AgreemntOnContractNr1 { get; set; }
+        public bool? Shavings { get; set; } = false; 
+        public bool? NeedInvoice { get; set; } = false;
+        public bool? AgreemntOnContractNr1 { get; set; } = false;
         public string? Status { get; set; }
 
 

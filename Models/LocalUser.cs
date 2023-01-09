@@ -10,21 +10,12 @@ namespace CompetitionEventsManager.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [Display(Name = "UserName")]
-        public string UserName { get; set; }
-        [Display(Name = "FirstName")]
-        public string FirstName { get; set; }
-        [Display(Name = "LastName")]
-        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string Name { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        [Display(Name = "Role")]
         public string Role { get; set; }
-        [DataType(DataType.Date)]
-        [Display(Name = "RegistrationDate")]
         public DateTime RegistrationDate { get; set; }
-        [DataType(DataType.Date)]
-        [Display(Name = "WasOnline")]
         public DateTime WasOnline { get; set; }
         [Display(Name = "Adress")]
         public string? Adress { get; set; }
@@ -33,7 +24,7 @@ namespace CompetitionEventsManager.Models
         [Display(Name = "Email")]
         public string? Email { get; set; }
         [Display(Name = "DefaultComunicationLanguage")]
-        public string? DefaultComunicationLanguage { get; set; }
+        public string? Language { get; set; }
         [Display(Name = "Status")]
         public string? Status { get; set; }
         public List<Notification> Notifications { get; set; }
@@ -42,8 +33,8 @@ namespace CompetitionEventsManager.Models
         public List<Entry> Reservations { get; set; }
 
 
-
-
+                
+               
 
 
     }

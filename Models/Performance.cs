@@ -16,12 +16,12 @@ namespace CompetitionEventsManager.Models
         public int RiderID { get; set; }
         public string? HorseName { get; set; }
         public string? RiderFullName { get; set; } 
-        public DateTime? HorseBirthYear { get; set; } 
-        public int? Points { get; set; } 
-        public double? Time { get; set; } 
-        public bool? Training { get; set; } 
+        public DateTime? HorseBirthYear { get; set; }
+        public int? Points { get; set; } = 0;
+        public double? Time { get; set; } = 0.0;
+        public bool? Training { get; set; } = false; 
         public string? Status { get; set; } 
-        public string? TraiCommetsning { get; set; } 
+        public string? Comments { get; set; } 
 
 
 

@@ -1,8 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CompetitionEventsManager.Models
+﻿namespace CompetitionEventsManager.Models
 {
     public class Event
     {
@@ -12,8 +8,8 @@ namespace CompetitionEventsManager.Models
         [Required]
         public string Title { get; set; }
         public string? Place { get; set; }
-        public string? Country { get; set; }
-        public string? Currency { get; set; }
+        public string? Country { get; set; } = "LT";
+        public string? Currency { get; set; } = "Eur";
         public string? Organizer { get; set; }
         public DateTime? Date { get; set; }
         public string? Type { get; set; }

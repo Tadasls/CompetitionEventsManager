@@ -1,5 +1,6 @@
 ﻿using CompetitionEventsManager.Data;
 using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository.IRepository;
 
 namespace CompetitionEventsManager.Repository

@@ -5,6 +5,18 @@ namespace CompetitionEventsManager.Models
 {
     public class Rider
     {
+
+        public Rider()
+        {
+
+        }
+        public Rider(int riderID, string firstName, string lastName)
+        {
+            RiderID = riderID;
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RiderID { get; set; }
@@ -18,7 +30,7 @@ namespace CompetitionEventsManager.Models
         public DateTime? DateOfBirth { get; set; }
         public DateTime? MedCheckDate { get; set; }
         public DateTime? InsuranceExiprationDate { get; set; }
-        public string? Country { get; set; }
+        public string? Country { get; set; } = "LT"; 
         public string? Comments { get; set; }
 
 

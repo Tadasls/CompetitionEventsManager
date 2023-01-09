@@ -3,6 +3,7 @@ using System;
 using CompetitionEventsManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompetitionEventsManager.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230108194944_FixedlanguageinModel")]
+    partial class FixedlanguageinModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
-<<<<<<< Updated upstream
-=======
             modelBuilder.Entity("CompetitionEventsManager.Models.Competition", b =>
                 {
                     b.Property<int>("CompetitionID")
@@ -293,15 +294,12 @@ namespace CompetitionEventsManager.Migrations
                         });
                 });
 
->>>>>>> Stashed changes
             modelBuilder.Entity("CompetitionEventsManager.Models.Horse", b =>
                 {
                     b.Property<int>("HorseID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-<<<<<<< Updated upstream
-=======
                     b.Property<string>("Breed")
                         .HasColumnType("TEXT");
 
@@ -332,16 +330,40 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<int?>("Heigth")
                         .HasColumnType("INTEGER");
 
->>>>>>> Stashed changes
                     b.Property<string>("HorseName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("LocalUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("MedCheckDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mother")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NatFedID")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("OwnerName")
-                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PassportNo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PassportNoExipreDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("YearOfBird")
                         .HasColumnType("TEXT");
 
                     b.HasKey("HorseID");
+
+                    b.HasIndex("LocalUserId");
 
                     b.ToTable("Horses");
 
@@ -441,9 +463,6 @@ namespace CompetitionEventsManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-<<<<<<< Updated upstream
-                    b.Property<string>("Name")
-=======
                     b.Property<string>("Adress")
                         .HasColumnType("TEXT");
 
@@ -458,7 +477,6 @@ namespace CompetitionEventsManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
->>>>>>> Stashed changes
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -470,6 +488,9 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("BLOB");
 
+                    b.Property<string>("Phone")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("TEXT");
 
@@ -477,11 +498,10 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserLevel")
-                        .IsRequired()
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -492,8 +512,6 @@ namespace CompetitionEventsManager.Migrations
 
                     b.ToTable("LocalUsers");
                 });
-<<<<<<< Updated upstream
-=======
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Notification", b =>
                 {
@@ -927,7 +945,6 @@ namespace CompetitionEventsManager.Migrations
 
                     b.Navigation("Riders");
                 });
->>>>>>> Stashed changes
 #pragma warning restore 612, 618
         }
     }
