@@ -16,7 +16,10 @@ namespace CompetitionEventsManager.Models.Dto
         [Required]
          [MaxLength(50, ErrorMessage = "Role cannot be longer than 50 characters")]
         public string? Role { get; set; }
-
+        public string? Adress { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
+        public string? Language { get; set; }
     }
 }
 

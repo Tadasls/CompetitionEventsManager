@@ -60,15 +60,16 @@ namespace CompetitionEventsManager.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterUserRequest model)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequest model)
         {
             if (_userRepository.Exist(model.UserName))
-                return BadRequest("User already exists");
+                return BadRequest(new { message = "Username already exists" });
 
             _userService.CreatePasswordHash(model.Password, out var passwordHash, out var passwordSalt);
+
             var user = new LocalUser
             {
-                Username = model.UserName,
+                UserName = model.UserName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Role = model.Role,
@@ -82,7 +83,8 @@ namespace CompetitionEventsManager.Controllers
                 Language = model.Language,
             };
 
-            var id = _userRepository.RegisterAsync(user);
+          
+            var id = await _userRepository.RegisterAsync(user);
 
             return Created(nameof(Login), new { Id = id });
 
