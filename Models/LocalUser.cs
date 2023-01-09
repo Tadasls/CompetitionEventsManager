@@ -11,6 +11,8 @@ namespace CompetitionEventsManager.Models
         public int Id { get; set; }
         [Required]
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Name { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
@@ -23,7 +25,7 @@ namespace CompetitionEventsManager.Models
         public string? Phone { get; set; }
         [Display(Name = "Email")]
         public string? Email { get; set; }
-        [Display(Name = "DefaultComunicationLanguage")]
+        [Display(Name = "Language")]
         public string? Language { get; set; }
         [Display(Name = "Status")]
         public string? Status { get; set; }

@@ -1,4 +1,7 @@
-﻿namespace CompetitionEventsManager.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CompetitionEventsManager.Models
 {
     public class Event
     {

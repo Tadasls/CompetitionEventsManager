@@ -68,7 +68,7 @@ namespace CompetitionEventsManager.Controllers
             _userService.CreatePasswordHash(model.Password, out var passwordHash, out var passwordSalt);
             var user = new LocalUser
             {
-                UserName = model.UserName,
+                Username = model.UserName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Role = model.Role,
@@ -82,15 +82,12 @@ namespace CompetitionEventsManager.Controllers
                 Language = model.Language,
             };
 
-        //need DScr 
+            var id = _userRepository.RegisterAsync(user);
+
+            return Created(nameof(Login), new { Id = id });
 
 
-
-
-     
-
-
-
+        }
         //need DScr 
 
 
