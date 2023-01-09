@@ -2,13 +2,34 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System.Drawing;
+using Microsoft.Extensions.Hosting;
 
 namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
     public class GetHorseDTO
     {
-        public GetHorseDTO(Horse dish)
+        public GetHorseDTO(Horse horse)
         {
+            HorseID = horse.HorseID;
+            HorseName = horse.HorseName;
+            OwnerName = horse.OwnerName;
+            YearOfBird = horse.YearOfBird;
+            Breed = horse.Breed;
+            Type = horse.Type;
+            Gender = horse.Gender;
+            Color = horse.Color;
+            NatFedID = horse.NatFedID;
+            FEIID = horse.FEIID;
+            Heigth = horse.Heigth;
+            Father = horse.Father;
+            Mother = horse.Mother;
+            Breeder = horse.Breeder;
+            Country = horse.Country;
+            Commets = horse.Commets;
+            MedCheckDate = horse.MedCheckDate;
+            PassportNo = horse.PassportNo;
+            PassportNoExipreDate = horse.PassportNoExipreDate;
+            ChipNumber = horse.ChipNumber;
         }
 
         public int HorseID { get; set; }
@@ -31,10 +52,6 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
         public string? PassportNo { get; set; }
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
-
-
-
-
 
 
     }

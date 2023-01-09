@@ -1,5 +1,6 @@
 ﻿using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository;
+using CompetitionEventsManager.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -11,9 +12,9 @@ namespace CompetitionEventsManager.Controllers
     public class HorseController : ControllerBase
     {
         private readonly ILogger<HorseController> _logger;
-        private readonly HorseRepository _horseRepo;
+        private readonly IHorseRepository _horseRepo;
    
-        public HorseController(ILogger<HorseController> logger, HorseRepository repository)
+        public HorseController(ILogger<HorseController> logger, IHorseRepository repository)
         {
             _logger = logger;
             _horseRepo = repository;
@@ -28,22 +29,13 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id">Requested Horse ID</param>
         /// <returns>Horse with specified ID</returns>
         /// <response code="400">Customer bad request description</response>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     GET horses/1
-        ///     {
-        ///    
-        ///     }
-        ///
-        /// </remarks>
         [HttpGet("horses/{id:int}", Name = "GetHorse")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Produces(MediaTypeNames.Application.Json)]
+       // [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<GetHorseDTO>> GetHorseById(int id)
         {       
             if (id == 0)

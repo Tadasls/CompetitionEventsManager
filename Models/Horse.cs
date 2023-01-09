@@ -5,18 +5,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Horse
     {
-        public Horse()
-        {
-
-        }
-
-        public Horse(int id, string horseName, string ownerName)
-        {
-            HorseID = id;
-            HorseName = horseName;
-            OwnerName = ownerName;
-        }
-
+     
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HorseID { get; set; }
