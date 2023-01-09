@@ -18,8 +18,9 @@ namespace CompetitionEventsManager.Models
         public string? FeiID { get; set; }
         public string? NationalID { get; set; }
         public string? Position { get; set; }
+        public List<Competition> Competitions { get; set; } 
 
 
 
-    }
+}
 }

@@ -1,6 +1,7 @@
 ﻿using CompetitionEventsManager.Data;
 using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompetitionEventsManager.Repository
 {
@@ -12,6 +13,37 @@ namespace CompetitionEventsManager.Repository
         {
             _db = db;
         }
+
+       
+        
+        
+        //eager Loding
+
+        //public void GetBlogs_EagerLoading()
+        //{
+        //    using var context = new DBContext();
+        //    var entries = context.Entries
+        //        .Include(b => b.Performances); 
+        //    foreach (var entry in entries)
+        //    {
+        //        Console.WriteLine($"** {entry.EntryID} {entry.PlateNumbers}");
+        //        foreach (var performance in entry.Performances)
+        //        {
+        //            Console.WriteLine($"- {performance.RiderID} {performance.HorseName}");
+        //        }
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

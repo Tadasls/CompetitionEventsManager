@@ -22,9 +22,8 @@ namespace CompetitionEventsManager.Models
         public bool? Training { get; set; } = false; 
         public string? Status { get; set; } 
         public string? Comments { get; set; } 
-
-
-
+        public List<Entry> Entries { get; set; }
+        public List<Competition> Competitions { get; set; }
 
 
     }

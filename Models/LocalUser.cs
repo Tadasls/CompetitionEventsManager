@@ -28,10 +28,11 @@ namespace CompetitionEventsManager.Models
         public string? Language { get; set; }
         [Display(Name = "Status")]
         public string? Status { get; set; }
-        public List<Notification> Notifications { get; set; }
-        public List<Rider> Riders { get; set; }
-        public List<Horse> Horses { get; set; }
-        public List<Entry> Reservations { get; set; }
+        public Notification Notification { get; set; }
+        public Entry Entry { get; set; }
+        public Rider Rider { get; set; }
+        public Horse Horse { get; set; }
+
 
 
                 

@@ -4,12 +4,18 @@ using CompetitionEventsManager.Models.Dto.HorseDTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Reflection.Metadata;
 
 
 namespace CompetitionEventsManager.Data
 {
     public class DBContext : DbContext
     {
+        public DBContext()
+        {
+        }
+
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
         public DbSet<Competition> Competitions { get; set; }
@@ -56,6 +62,53 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Performance>().HasData(HorseInitialData.PerformanceDataSeed);
             modelBuilder.Entity<Rider>().HasData(HorseInitialData.RidersDataSeed);
             modelBuilder.Entity<Staff>().HasData(HorseInitialData.StaffDataSeed);
+
+
+
+            modelBuilder.Entity<LocalUser>()
+            .HasOne<Rider>(ab => ab.Rider)
+            .WithMany(ab => ab.LocalUsers)
+             .HasForeignKey(ab => ab.Id);
+
+            modelBuilder.Entity<LocalUser>()
+            .HasOne<Horse>(ab => ab.Horse)
+            .WithMany(ab => ab.LocalUsers)
+            .HasForeignKey(ab => ab.Id);
+
+            modelBuilder.Entity<LocalUser>()
+           .HasOne<Notification>(ab => ab.Notification)
+           .WithMany(ab => ab.LocalUsers)
+           .HasForeignKey(ab => ab.Id);
+
+            modelBuilder.Entity<LocalUser>()
+           .HasOne<Entry>(ab => ab.Entry)
+           .WithMany(ab => ab.LocalUsers)
+           .HasForeignKey(ab => ab.Id);
+
+            modelBuilder.Entity<Entry>()
+           .HasOne<Performance>(ab => ab.Performances)
+           .WithMany(ab => ab.Entries)
+           .HasForeignKey(ab => ab.EntryID);
+
+            modelBuilder.Entity<Competition>()
+            .HasOne<Performance>(ab => ab.Performance)
+            .WithMany(ab => ab.Competitions)
+            .HasForeignKey(ab => ab.CompetitionID);
+
+            modelBuilder.Entity<Event>()
+           .HasOne<Competition>(ab => ab.Competition)
+           .WithMany(ab => ab.Events)
+           .HasForeignKey(ab => ab.EventID);
+
+            modelBuilder.Entity<Competition>()
+           .HasOne<Staff>(ab => ab.Staff)
+           .WithMany(ab => ab.Competitions)
+           .HasForeignKey(ab => ab.CompetitionID);
+
+
+
+
+
 
 
         }

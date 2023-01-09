@@ -29,6 +29,7 @@ namespace CompetitionEventsManager.Models
         public string? PassportNo { get; set; }
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
+        public ICollection<LocalUser> LocalUsers { get; set; }
       
 
 

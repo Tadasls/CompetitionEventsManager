@@ -32,12 +32,11 @@ namespace CompetitionEventsManager.Models
         public int? TimeBeetweenRuns { get; set; } = 10;
         public int? BreakTime { get; set; } = 10;
         public int? AdditionalTime { get; set; } = 10;
-        public List<Performance> Performances { get; set; }
-        public List<Staff> Staffs { get; set; }
+        public Performance Performance { get; set; }
+        public Staff Staff { get; set; }
+        public List<Event> Events { get; set; }
 
-
-
-
+       
 
 
 

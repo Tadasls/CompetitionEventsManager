@@ -9,7 +9,6 @@ namespace CompetitionEventsManager.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EntryID { get; set; }
-        public List<Performance> Performances { get; set; }
         public bool? NeedElectricity { get; set; } = false;
         public string? PlateNumbers { get; set; }
         public int? NumberOfCages { get; set; } = 1;
@@ -19,8 +18,8 @@ namespace CompetitionEventsManager.Models
         public bool? NeedInvoice { get; set; } = false;
         public bool? AgreemntOnContractNr1 { get; set; } = false;
         public string? Status { get; set; }
-
-
+        public Performance Performances { get; set; }
+        public ICollection<LocalUser> LocalUsers { get; set; }
 
 
 

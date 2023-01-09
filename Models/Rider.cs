@@ -32,8 +32,7 @@ namespace CompetitionEventsManager.Models
         public DateTime? InsuranceExiprationDate { get; set; }
         public string? Country { get; set; } = "LT"; 
         public string? Comments { get; set; }
-
-
+        public ICollection<LocalUser> LocalUsers { get; set; }
 
 
 

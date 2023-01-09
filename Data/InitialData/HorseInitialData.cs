@@ -11,6 +11,7 @@ using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 
 namespace CompetitionEventsManager.Data.InitialData
 {
@@ -394,10 +395,6 @@ namespace CompetitionEventsManager.Data.InitialData
            }; 
 
 
-
-
-
-
         public static readonly Staff[] StaffDataSeed = new Staff[] {
             new Staff
             {
@@ -432,9 +429,35 @@ namespace CompetitionEventsManager.Data.InitialData
            };
 
 
+          
+
+    //    public static readonly LocalUser[] LocalUsersDataSeed = new LocalUser[] {
 
 
+    //              string kodas = "TlSlTZjKsczePNRBc7x2bW9cNQX7hZo8PNCwQsZDsAY";
+    //              byte[] bytes = Encoding.ASCII.GetBytes(kodas);
 
+
+    //    new LocalUser
+    //        {
+
+    //            Id = 1,
+    //            UserName = "Tadas",
+    //            FirstName = "Tadas",
+    //            LastName = "Laurinaitis",
+    //            PasswordHash = TlSlTZjKsczePNRBc7x2bW9cNQX7hZo8PNCwQsZDsAY=,
+    //            PasswordSalt = puT7gLDRAGQRvzKOT0I8aCA6ujCCdxh7ipfY/6NIyvEGV0TWz46PFNde/GPH1gIXJD7KBQa2a6BXLkxpPSB9CQ==,
+    //            Role = "admin",
+    //            RegistrationDate = DateTime.Now,
+    //            WasOnline = DateTime.Now,
+    //            Adress = "Kaunas",
+    //            Phone = "860012345",
+    //            Language = "Lt",
+
+    //        },
+
+
+    //};
 
 
 

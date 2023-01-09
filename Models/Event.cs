@@ -16,8 +16,7 @@ namespace CompetitionEventsManager.Models
         public string? Organizer { get; set; }
         public DateTime? Date { get; set; }
         public string? Type { get; set; }
-       
+        public Competition Competition { get; set; }
 
-
-    }
+}
 }
