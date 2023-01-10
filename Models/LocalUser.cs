@@ -7,6 +7,7 @@ namespace CompetitionEventsManager.Models
     {
 
 
+        // reikia aspsirasyti konstrainus
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,7 +33,7 @@ namespace CompetitionEventsManager.Models
         public string? Language { get; set; }
         [Display(Name = "Status")]
         public string? Status { get; set; }
-        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; } 
         public virtual ICollection<Entry> Entries { get; set; }
         public virtual ICollection<Rider> Riders { get; set; }
         public virtual ICollection<Horse> Horses { get; set; }

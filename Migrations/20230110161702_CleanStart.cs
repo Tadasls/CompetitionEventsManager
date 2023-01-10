@@ -139,17 +139,17 @@ namespace CompetitionEventsManager.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Topic = table.Column<string>(type: "TEXT", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
-                    Status = table.Column<bool>(type: "INTEGER", nullable: true),
-                    LocalUserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Status = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notifications", x => x.NotificationID);
                     table.ForeignKey(
-                        name: "FK_Notifications_LocalUsers_LocalUserId",
-                        column: x => x.LocalUserId,
+                        name: "FK_Notifications_LocalUsers_NotificationID",
+                        column: x => x.NotificationID,
                         principalTable: "LocalUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,16 +286,16 @@ namespace CompetitionEventsManager.Migrations
 
             migrationBuilder.InsertData(
                 table: "Notifications",
-                columns: new[] { "NotificationID", "LocalUserId", "Message", "Status", "Topic" },
+                columns: new[] { "NotificationID", "Message", "Status", "Topic" },
                 values: new object[,]
                 {
-                    { 1, null, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 2, null, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 3, null, "Prasome atlikti Vet patikra", false, "Vet Patikra" },
-                    { 4, null, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
-                    { 5, null, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 6, null, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
-                    { 7, null, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" }
+                    { 1, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
+                    { 2, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
+                    { 3, "Prasome atlikti Vet patikra", false, "Vet Patikra" },
+                    { 4, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
+                    { 5, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
+                    { 6, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
+                    { 7, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" }
                 });
 
             migrationBuilder.InsertData(
@@ -352,11 +352,6 @@ namespace CompetitionEventsManager.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Horses_LocalUserId",
                 table: "Horses",
-                column: "LocalUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Notifications_LocalUserId",
-                table: "Notifications",
                 column: "LocalUserId");
 
             migrationBuilder.CreateIndex(

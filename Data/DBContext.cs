@@ -42,13 +42,10 @@ namespace CompetitionEventsManager.Data
             // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
 
-            // 1 klausimas
-
             //modelBuilder.Entity<Notification>()
             //.HasOne<LocalUser>(ab => ab.LocalUser)
             //.WithMany(ab => ab.Notifications)
-            //.HasForeignKey(ab => ab.NotificationID); // ar gerai ?
-
+            //.HasForeignKey(ab => ab.NotificationID); 
 
 
 

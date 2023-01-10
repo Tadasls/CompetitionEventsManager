@@ -14,8 +14,7 @@ namespace CompetitionEventsManager.Models
         public string Topic { get; set; }
         public string? Message { get; set; }
         public bool? Status { get; set; } = false;
-       
-        //public virtual LocalUser LocalUser { get; set; }    //ar gerai ?
+       // public virtual LocalUser? LocalUser { get; set; }  
 
 
     }

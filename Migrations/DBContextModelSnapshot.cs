@@ -576,9 +576,6 @@ namespace CompetitionEventsManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("LocalUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
@@ -590,8 +587,6 @@ namespace CompetitionEventsManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("NotificationID");
-
-                    b.HasIndex("LocalUserId");
 
                     b.ToTable("Notifications");
 
@@ -867,9 +862,13 @@ namespace CompetitionEventsManager.Migrations
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Notification", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
+                    b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Notifications")
-                        .HasForeignKey("LocalUserId");
+                        .HasForeignKey("NotificationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LocalUser");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Rider", b =>

@@ -346,13 +346,11 @@ namespace CompetitionEventsManager.Data.InitialData
         public static readonly Notification[] NotificationDataSeed = new Notification[] {
             new Notification    
             {
-                  
                     NotificationID = 1,
                     Topic =  "Vet Patikra",
                     Message = "Prasome atlikti Vet patikra",
                     Status =  true,
                    // LocalUser = new LocalUser{Id = 1},   
-
              },
              new Notification
             {
@@ -394,7 +392,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Status = false,
               //  LocalUser = new LocalUser{Id = 1},
             },
-                        new Notification
+                 new Notification
             {
               NotificationID = 7,
                 Topic = "Pakeistas Starto Laikas",
