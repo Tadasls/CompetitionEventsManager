@@ -1,23 +1,13 @@
 ﻿using CompetitionEventsManager.Data.InitialData;
 using CompetitionEventsManager.Models;
-using CompetitionEventsManager.Models.Dto.HorseDTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Win32;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace CompetitionEventsManager.Data
 {
     public class DBContext : DbContext
     {
-        public DBContext()
-        {
-        }
-
+       
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<Entry> Entries { get; set; }
@@ -52,6 +42,19 @@ namespace CompetitionEventsManager.Data
             // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
 
+            // 1 klausimas
+
+            //modelBuilder.Entity<Notification>()
+            //.HasOne<LocalUser>(ab => ab.LocalUser)
+            //.WithMany(ab => ab.Notifications)
+            //.HasForeignKey(ab => ab.NotificationID); // ar gerai ?
+
+
+
+
+
+
+
 
             //       modelBuilder.Entity<Horse>()
             //.HasMany<Rider>(s => s.Riders)
@@ -63,7 +66,7 @@ namespace CompetitionEventsManager.Data
             //    cs.ToTable("Performance");
             //});
 
-
+            //klausimas del rysiu
 
             //modelBuilder.Entity<Rider>()
             //.HasOne<LocalUser>(ab => ab.LocalUsers)
@@ -71,6 +74,17 @@ namespace CompetitionEventsManager.Data
             //.HasForeignKey(ab => ab.RiderID);
 
 
+
+            //modelBuilder.Entity<Entry>()
+            //     .HasKey(bc => new { bc.HorseID, bc.RiderID });
+            //modelBuilder.Entity<Entry>()
+            //    .HasOne(bc => bc.Horse)
+            //    .WithMany(b => b.Entries)
+            //    .HasForeignKey(bc => bc.HorseID);
+            //modelBuilder.Entity<Entry>()
+            //    .HasOne(bc => bc.Rider)
+            //    .WithMany(c => c.Entries)
+            //    .HasForeignKey(bc => bc.RiderID);
 
 
 

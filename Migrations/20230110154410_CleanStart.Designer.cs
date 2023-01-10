@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompetitionEventsManager.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230110145442_CleanStart")]
+    [Migration("20230110154410_CleanStart")]
     partial class CleanStart
     {
         /// <inheritdoc />

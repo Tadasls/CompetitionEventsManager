@@ -33,6 +33,7 @@ namespace CompetitionEventsManager
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
 
+            builder.Services.AddHttpContextAccessor();
 
             var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 

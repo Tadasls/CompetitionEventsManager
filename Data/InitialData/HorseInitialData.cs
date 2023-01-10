@@ -351,6 +351,7 @@ namespace CompetitionEventsManager.Data.InitialData
                     Topic =  "Vet Patikra",
                     Message = "Prasome atlikti Vet patikra",
                     Status =  true,
+                   // LocalUser = new LocalUser{Id = 1},   
 
              },
              new Notification
@@ -359,7 +360,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Topic = "Vet Patikra",
                 Message = "Prasome atlikti Vet patikra",
                 Status = true,
-                
+               // LocalUser = new LocalUser{Id = 1},
             },
                new Notification
             {
@@ -367,7 +368,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Topic = "Vet Patikra",
                 Message = "Prasome atlikti Vet patikra",
                 Status = false,
-               
+              // LocalUser = new LocalUser{Id = 1},
             },
                new Notification
             {
@@ -375,7 +376,7 @@ namespace CompetitionEventsManager.Data.InitialData
                Topic = "Pakeistas Starto Laikas",
                 Message = "Prasome patiklinti starto laika",
                 Status = false,
-                
+               // LocalUser = new LocalUser{Id = 1},
             },
                 new Notification
             {
@@ -383,7 +384,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Topic = "Vet Patikra",
                 Message = "Prasome atlikti Vet patikra",
                 Status = true,
-               
+              // LocalUser = new LocalUser{Id = 1},
             },
                  new Notification
             {
@@ -391,7 +392,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Topic = "Pakeistas Starto Laikas",
                 Message = "Prasome patiklinti starto laika",
                 Status = false,
-                
+              //  LocalUser = new LocalUser{Id = 1},
             },
                         new Notification
             {
@@ -399,7 +400,7 @@ namespace CompetitionEventsManager.Data.InitialData
                 Topic = "Pakeistas Starto Laikas",
                 Message = "Prasome patiklinti starto laika",
                 Status = false,
-             
+            // LocalUser = new LocalUser{Id = 1},
             },
            };
 

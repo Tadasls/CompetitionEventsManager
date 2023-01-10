@@ -32,6 +32,7 @@ namespace CompetitionEventsManager.Models
         public bool? Shavings { get; set; } = false; 
         public bool? NeedInvoice { get; set; } = false;
         public bool? AgreemntOnContractNr1 { get; set; } = false;
+       // public virtual LocalUser LocalUser { get; set; }
 
 
 

@@ -6,7 +6,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Notification
     {
-
+     
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationID { get; set; }
@@ -14,7 +14,8 @@ namespace CompetitionEventsManager.Models
         public string Topic { get; set; }
         public string? Message { get; set; }
         public bool? Status { get; set; } = false;
-
+       
+        //public virtual LocalUser LocalUser { get; set; }    //ar gerai ?
 
 
     }
