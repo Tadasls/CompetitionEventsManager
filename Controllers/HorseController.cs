@@ -68,7 +68,7 @@ namespace CompetitionEventsManager.Controllers
         [HttpGet("Horses")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetHorses([FromQuery] FilterHorsesRequest req)
+        public async Task<IActionResult> GetAllHorsesWithFilter([FromQuery] FilterHorsesRequest req)
         {
             IEnumerable<Horse> entities = await _horseRepo.GetAllAsync();
 
@@ -107,6 +107,7 @@ namespace CompetitionEventsManager.Controllers
         {
             if (horseDTO == null)
             {
+                _logger.LogInformation("Metodas be duomenų sukurimui buvo iškviestas tokiu laiku  ",  DateTime.Now);
                 return BadRequest("Duomenys neužpildyti");
             }
 
