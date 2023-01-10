@@ -44,7 +44,7 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("EventID")
+                    b.Property<int?>("EId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Number")
@@ -60,6 +60,9 @@ namespace CompetitionEventsManager.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("PointsForExeedindTimeLimit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("SecToStart")
@@ -86,9 +89,9 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("CompetitionID");
 
-                    b.HasIndex("EventID");
+                    b.HasIndex("EId");
 
-                    b.ToTable("Competitions");
+                    b.ToTable("Competitions", (string)null);
 
                     b.HasData(
                         new
@@ -164,8 +167,14 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<bool?>("AgreemntOnContractNr1")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Comments")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("CompetitionID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EntryID")
                         .ValueGeneratedOnAdd()
@@ -216,13 +225,18 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<bool?>("Training")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("HorseID", "RiderID");
+
+                    b.HasIndex("CompetitionID");
 
                     b.HasIndex("LocalUserId");
 
                     b.HasIndex("RiderID");
 
-                    b.ToTable("Entries");
+                    b.ToTable("Entries", (string)null);
 
                     b.HasData(
                         new
@@ -317,7 +331,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("EventID");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
 
                     b.HasData(
                         new
@@ -389,9 +403,6 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("LocalUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime?>("MedCheckDate")
                         .HasColumnType("TEXT");
 
@@ -413,14 +424,17 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("YearOfBird")
                         .HasColumnType("TEXT");
 
                     b.HasKey("HorseID");
 
-                    b.HasIndex("LocalUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Horses");
+                    b.ToTable("Horses", (string)null);
 
                     b.HasData(
                         new
@@ -567,7 +581,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocalUsers");
+                    b.ToTable("LocalUsers", (string)null);
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Notification", b =>
@@ -586,9 +600,14 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("NotificationID");
 
-                    b.ToTable("Notifications");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications", (string)null);
 
                     b.HasData(
                         new
@@ -671,9 +690,6 @@ namespace CompetitionEventsManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("LocalUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime?>("MedCheckDate")
                         .HasColumnType("TEXT");
 
@@ -683,11 +699,14 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<string>("RidersClubName")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("RiderID");
 
-                    b.HasIndex("LocalUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Riders");
+                    b.ToTable("Riders", (string)null);
 
                     b.HasData(
                         new
@@ -761,9 +780,6 @@ namespace CompetitionEventsManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CompetitionID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Country")
                         .HasColumnType("TEXT");
 
@@ -784,11 +800,14 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<string>("Position")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("StaffID");
 
-                    b.HasIndex("CompetitionID");
+                    b.HasIndex("SId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
 
                     b.HasData(
                         new
@@ -825,20 +844,26 @@ namespace CompetitionEventsManager.Migrations
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Competition", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.Event", null)
+                    b.HasOne("CompetitionEventsManager.Models.Event", "Event")
                         .WithMany("Competitions")
-                        .HasForeignKey("EventID");
+                        .HasForeignKey("EId");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Entry", b =>
                 {
+                    b.HasOne("CompetitionEventsManager.Models.Competition", "Competition")
+                        .WithMany()
+                        .HasForeignKey("CompetitionID");
+
                     b.HasOne("CompetitionEventsManager.Models.Horse", "Horse")
                         .WithMany()
                         .HasForeignKey("HorseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
+                    b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Entries")
                         .HasForeignKey("LocalUserId");
 
@@ -848,41 +873,49 @@ namespace CompetitionEventsManager.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Competition");
+
                     b.Navigation("Horse");
+
+                    b.Navigation("LocalUser");
 
                     b.Navigation("Rider");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Horse", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
+                    b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Horses")
-                        .HasForeignKey("LocalUserId");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("LocalUser");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Notification", b =>
                 {
                     b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Notifications")
-                        .HasForeignKey("NotificationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("LocalUser");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Rider", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.LocalUser", null)
+                    b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Riders")
-                        .HasForeignKey("LocalUserId");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("LocalUser");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Staff", b =>
                 {
-                    b.HasOne("CompetitionEventsManager.Models.Competition", null)
+                    b.HasOne("CompetitionEventsManager.Models.Competition", "Competition")
                         .WithMany("Staffs")
-                        .HasForeignKey("CompetitionID");
+                        .HasForeignKey("SId");
+
+                    b.Navigation("Competition");
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Competition", b =>

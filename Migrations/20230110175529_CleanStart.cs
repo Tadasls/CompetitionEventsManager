@@ -82,14 +82,15 @@ namespace CompetitionEventsManager.Migrations
                     TimeBeetweenRuns = table.Column<int>(type: "INTEGER", nullable: true),
                     BreakTime = table.Column<int>(type: "INTEGER", nullable: true),
                     AdditionalTime = table.Column<int>(type: "INTEGER", nullable: true),
-                    EventID = table.Column<int>(type: "INTEGER", nullable: true)
+                    SId = table.Column<int>(type: "INTEGER", nullable: true),
+                    EId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Competitions", x => x.CompetitionID);
                     table.ForeignKey(
-                        name: "FK_Competitions_Events_EventID",
-                        column: x => x.EventID,
+                        name: "FK_Competitions_Events_EId",
+                        column: x => x.EId,
                         principalTable: "Events",
                         principalColumn: "EventID");
                 });
@@ -119,14 +120,14 @@ namespace CompetitionEventsManager.Migrations
                     PassportNo = table.Column<string>(type: "TEXT", nullable: true),
                     PassportNoExipreDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ChipNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    LocalUserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Horses", x => x.HorseID);
                     table.ForeignKey(
-                        name: "FK_Horses_LocalUsers_LocalUserId",
-                        column: x => x.LocalUserId,
+                        name: "FK_Horses_LocalUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "LocalUsers",
                         principalColumn: "Id");
                 });
@@ -139,17 +140,17 @@ namespace CompetitionEventsManager.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Topic = table.Column<string>(type: "TEXT", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
-                    Status = table.Column<bool>(type: "INTEGER", nullable: true)
+                    Status = table.Column<bool>(type: "INTEGER", nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notifications", x => x.NotificationID);
                     table.ForeignKey(
-                        name: "FK_Notifications_LocalUsers_NotificationID",
-                        column: x => x.NotificationID,
+                        name: "FK_Notifications_LocalUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "LocalUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -168,14 +169,14 @@ namespace CompetitionEventsManager.Migrations
                     InsuranceExiprationDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Country = table.Column<string>(type: "TEXT", nullable: true),
                     Comments = table.Column<string>(type: "TEXT", nullable: true),
-                    LocalUserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Riders", x => x.RiderID);
                     table.ForeignKey(
-                        name: "FK_Riders_LocalUsers_LocalUserId",
-                        column: x => x.LocalUserId,
+                        name: "FK_Riders_LocalUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "LocalUsers",
                         principalColumn: "Id");
                 });
@@ -192,14 +193,14 @@ namespace CompetitionEventsManager.Migrations
                     FeiID = table.Column<string>(type: "TEXT", nullable: true),
                     NationalID = table.Column<string>(type: "TEXT", nullable: true),
                     Position = table.Column<string>(type: "TEXT", nullable: true),
-                    CompetitionID = table.Column<int>(type: "INTEGER", nullable: true)
+                    SId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Staffs", x => x.StaffID);
                     table.ForeignKey(
-                        name: "FK_Staffs_Competitions_CompetitionID",
-                        column: x => x.CompetitionID,
+                        name: "FK_Staffs_Competitions_SId",
+                        column: x => x.SId,
                         principalTable: "Competitions",
                         principalColumn: "CompetitionID");
                 });
@@ -227,11 +228,19 @@ namespace CompetitionEventsManager.Migrations
                     Shavings = table.Column<bool>(type: "INTEGER", nullable: true),
                     NeedInvoice = table.Column<bool>(type: "INTEGER", nullable: true),
                     AgreemntOnContractNr1 = table.Column<bool>(type: "INTEGER", nullable: true),
-                    LocalUserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    LocalUserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CompetitionID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Entries", x => new { x.HorseID, x.RiderID });
+                    table.ForeignKey(
+                        name: "FK_Entries_Competitions_CompetitionID",
+                        column: x => x.CompetitionID,
+                        principalTable: "Competitions",
+                        principalColumn: "CompetitionID");
                     table.ForeignKey(
                         name: "FK_Entries_Horses_HorseID",
                         column: x => x.HorseID,
@@ -253,12 +262,12 @@ namespace CompetitionEventsManager.Migrations
 
             migrationBuilder.InsertData(
                 table: "Competitions",
-                columns: new[] { "CompetitionID", "AdditionalTime", "ArenaType", "Article", "BreakTime", "Class", "CompetitionType", "Date", "EventID", "Number", "NumberOfJumps", "NumberOfObstackles", "Phase", "PointsForExeedindTimeLimit", "SecToStart", "SheduledRunTime", "SheduledStartTime", "Time", "TimeAllowed", "TimeBeetweenRuns", "Title" },
+                columns: new[] { "CompetitionID", "AdditionalTime", "ArenaType", "Article", "BreakTime", "Class", "CompetitionType", "Date", "EId", "Number", "NumberOfJumps", "NumberOfObstackles", "Phase", "PointsForExeedindTimeLimit", "SId", "SecToStart", "SheduledRunTime", "SheduledStartTime", "Time", "TimeAllowed", "TimeBeetweenRuns", "Title" },
                 values: new object[,]
                 {
-                    { 1, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "1A. ", 10, 8, 1, 1, 45, 2, null, null, null, 2, "Art.238.2.1 Konkūras pagal laiką, lentelė A" },
-                    { 2, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "3. ", 10, 8, 1, 1, 45, 2, null, null, null, 2, "Art.238.2.1 Konkūras pagal laiką, lentelė A" },
-                    { 3, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "5 ", 13, 10, 2, 1, 45, 2, null, null, null, 2, "Art.274.2.5 Dviejų fazių konkūras (Lentelė A, pagal laiką abejose fazėse" }
+                    { 1, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "1A. ", 10, 8, 1, 1, null, 45, 2, null, null, null, 2, "Art.238.2.1 Konkūras pagal laiką, lentelė A" },
+                    { 2, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "3. ", 10, 8, 1, 1, null, 45, 2, null, null, null, 2, "Art.238.2.1 Konkūras pagal laiką, lentelė A" },
+                    { 3, 5, "Maniezas", "Art.238.2.1 ", 10, "ATVIRA KLASĖ", "lentelė A", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), null, "5 ", 13, 10, 2, 1, null, 45, 2, null, null, null, 2, "Art.274.2.5 Dviejų fazių konkūras (Lentelė A, pagal laiką abejose fazėse" }
                 });
 
             migrationBuilder.InsertData(
@@ -273,34 +282,34 @@ namespace CompetitionEventsManager.Migrations
 
             migrationBuilder.InsertData(
                 table: "Horses",
-                columns: new[] { "HorseID", "Breed", "Breeder", "ChipNumber", "Color", "Commets", "Country", "FEIID", "Father", "Gender", "Heigth", "HorseName", "LocalUserId", "MedCheckDate", "Mother", "NatFedID", "OwnerName", "PassportNo", "PassportNoExipreDate", "Type", "YearOfBird" },
+                columns: new[] { "HorseID", "Breed", "Breeder", "ChipNumber", "Color", "Commets", "Country", "FEIID", "Father", "Gender", "Heigth", "HorseName", "MedCheckDate", "Mother", "NatFedID", "OwnerName", "PassportNo", "PassportNoExipreDate", "Type", "UserId", "YearOfBird" },
                 values: new object[,]
                 {
-                    { 1, "Lietuvos sunkusis", null, null, "^irma", null, "LT", null, null, "Kastratas", null, "Kingas", null, null, null, null, "S. Laurinaitis", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1008) },
-                    { 2, "Ristunas", null, null, "Juoda", null, "LT", null, null, "Kastratas", null, "Perkūnas", null, null, null, null, "S. Laurinaitis", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1009) },
-                    { 3, "KWPN", "E.Onrust", "528003 06.06881", "Širma", null, "Olandija", null, "Silverstone", "Kastratas", null, "Baltasar", null, null, "Sally", "1700034", "Virginijus Praškevičius", "528003 06.06881", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1972) },
-                    { 4, "Zangersheide", null, "528003 06.06881", "Širma", null, "Belgija", null, "CORONAS", "Eržilas", null, "Cassander Z", null, null, "ANDIENA VH ASDONK ET Z", "1700034", "Valdas Urbonas", "528003 06.06881", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1981) },
-                    { 5, "Žemaitukai", "Stasys Svetlauskas", null, "Bėra", null, "Belgija", null, "Koralas", "Kumelė", null, "Kamanė", null, null, "Kražė", "1700025", "Ernesta Valaitienė", "LTU003210052706", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2004) },
-                    { 6, "Lietuvos jojamųjų", "Egidijus Civinskas", null, "Juodbėra", null, "Lietuva", null, "Laralee", "Kastratas", null, "Kamanė", null, null, "Ela", "15444", "Gabrielė Stasiulionytė", "029272", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1987) }
+                    { 1, "Lietuvos sunkusis", null, null, "^irma", null, "LT", null, null, "Kastratas", null, "Kingas", null, null, null, "S. Laurinaitis", null, null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1008) },
+                    { 2, "Ristunas", null, null, "Juoda", null, "LT", null, null, "Kastratas", null, "Perkūnas", null, null, null, "S. Laurinaitis", null, null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1009) },
+                    { 3, "KWPN", "E.Onrust", "528003 06.06881", "Širma", null, "Olandija", null, "Silverstone", "Kastratas", null, "Baltasar", null, "Sally", "1700034", "Virginijus Praškevičius", "528003 06.06881", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1972) },
+                    { 4, "Zangersheide", null, "528003 06.06881", "Širma", null, "Belgija", null, "CORONAS", "Eržilas", null, "Cassander Z", null, "ANDIENA VH ASDONK ET Z", "1700034", "Valdas Urbonas", "528003 06.06881", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1981) },
+                    { 5, "Žemaitukai", "Stasys Svetlauskas", null, "Bėra", null, "Belgija", null, "Koralas", "Kumelė", null, "Kamanė", null, "Kražė", "1700025", "Ernesta Valaitienė", "LTU003210052706", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2004) },
+                    { 6, "Lietuvos jojamųjų", "Egidijus Civinskas", null, "Juodbėra", null, "Lietuva", null, "Laralee", "Kastratas", null, "Kamanė", null, "Ela", "15444", "Gabrielė Stasiulionytė", "029272", null, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1987) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Notifications",
-                columns: new[] { "NotificationID", "Message", "Status", "Topic" },
+                columns: new[] { "NotificationID", "Message", "Status", "Topic", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 2, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 3, "Prasome atlikti Vet patikra", false, "Vet Patikra" },
-                    { 4, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
-                    { 5, "Prasome atlikti Vet patikra", true, "Vet Patikra" },
-                    { 6, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" },
-                    { 7, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas" }
+                    { 1, "Prasome atlikti Vet patikra", true, "Vet Patikra", null },
+                    { 2, "Prasome atlikti Vet patikra", true, "Vet Patikra", null },
+                    { 3, "Prasome atlikti Vet patikra", false, "Vet Patikra", null },
+                    { 4, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas", null },
+                    { 5, "Prasome atlikti Vet patikra", true, "Vet Patikra", null },
+                    { 6, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas", null },
+                    { 7, "Prasome patiklinti starto laika", false, "Pakeistas Starto Laikas", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Riders",
-                columns: new[] { "RiderID", "Comments", "Country", "DateOfBirth", "FEIID", "FirstName", "InsuranceExiprationDate", "LastName", "LocalUserId", "MedCheckDate", "NationalFederationID", "RidersClubName" },
+                columns: new[] { "RiderID", "Comments", "Country", "DateOfBirth", "FEIID", "FirstName", "InsuranceExiprationDate", "LastName", "MedCheckDate", "NationalFederationID", "RidersClubName", "UserId" },
                 values: new object[,]
                 {
                     { 1, null, "LT", null, null, "Andrius", null, "Petrovas", null, null, null, null },
@@ -316,28 +325,33 @@ namespace CompetitionEventsManager.Migrations
 
             migrationBuilder.InsertData(
                 table: "Staffs",
-                columns: new[] { "StaffID", "CompetitionID", "Country", "FeiID", "FirstName", "Lastname", "NationalID", "Position" },
+                columns: new[] { "StaffID", "Country", "FeiID", "FirstName", "Lastname", "NationalID", "Position", "SId" },
                 values: new object[,]
                 {
-                    { 1, null, "LT", "FEI Level 1", "Marijonas", "Raila", "", "Ground Jury" },
-                    { 2, null, "LT", "", "Daiva", "Leonavičiūtė", "L3", "Jury" },
-                    { 3, null, "LT", "", "Ladas", "Katinas", "I NK", "Stuart" }
+                    { 1, "LT", "FEI Level 1", "Marijonas", "Raila", "", "Ground Jury", null },
+                    { 2, "LT", "", "Daiva", "Leonavičiūtė", "L3", "Jury", null },
+                    { 3, "LT", "", "Ladas", "Katinas", "I NK", "Stuart", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Entries",
-                columns: new[] { "HorseID", "RiderID", "AgreemntOnContractNr1", "Comments", "EntryID", "HorseBirthYear", "HorseName", "LocalUserId", "NeedElectricity", "NeedInvoice", "NumberOfCages", "PlateNumbers", "Points", "RiderFullName", "Shavings", "Status", "StayFromDate", "StayToDate", "Time", "Training" },
+                columns: new[] { "HorseID", "RiderID", "AgreemntOnContractNr1", "CId", "Comments", "CompetitionID", "EntryID", "HorseBirthYear", "HorseName", "LocalUserId", "NeedElectricity", "NeedInvoice", "NumberOfCages", "PlateNumbers", "Points", "RiderFullName", "Shavings", "Status", "StayFromDate", "StayToDate", "Time", "Training", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, true, null, 1, null, "The King", null, false, false, 1, "KEK:511", 0, "Linas Balciunas", false, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2018), 0.0, false },
-                    { 2, 2, false, null, 2, null, "Perkunas", null, false, true, 2, "KEK:515", 0, "S Laurinaitis", true, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2018), 0.0, false },
-                    { 3, 3, true, null, 3, null, "Nabagute", null, true, false, 5, "", 0, "Z Sarka", false, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), 0.0, true }
+                    { 1, 1, true, null, null, null, 1, null, "The King", null, false, false, 1, "KEK:511", 0, "Linas Balciunas", false, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2018), 0.0, false, null },
+                    { 2, 2, false, null, null, null, 2, null, "Perkunas", null, false, true, 2, "KEK:515", 0, "S Laurinaitis", true, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2018), 0.0, false, null },
+                    { 3, 3, true, null, null, null, 3, null, "Nabagute", null, true, false, 5, "", 0, "Z Sarka", false, "Confirmed", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2017), 0.0, true, null }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Competitions_EventID",
+                name: "IX_Competitions_EId",
                 table: "Competitions",
-                column: "EventID");
+                column: "EId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Entries_CompetitionID",
+                table: "Entries",
+                column: "CompetitionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Entries_LocalUserId",
@@ -350,19 +364,24 @@ namespace CompetitionEventsManager.Migrations
                 column: "RiderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Horses_LocalUserId",
+                name: "IX_Horses_UserId",
                 table: "Horses",
-                column: "LocalUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Riders_LocalUserId",
+                name: "IX_Notifications_UserId",
+                table: "Notifications",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Riders_UserId",
                 table: "Riders",
-                column: "LocalUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_CompetitionID",
+                name: "IX_Staffs_SId",
                 table: "Staffs",
-                column: "CompetitionID");
+                column: "SId");
         }
 
         /// <inheritdoc />

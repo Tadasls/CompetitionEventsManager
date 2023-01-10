@@ -11,10 +11,14 @@ namespace CompetitionEventsManager.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationID { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Topic { get; set; }
+        [MaxLength(300)]
         public string? Message { get; set; }
+        [MaxLength(50)]
         public bool? Status { get; set; } = false;
-       // public virtual LocalUser? LocalUser { get; set; }  
+        public int? UserId { get; set; }
+        public virtual LocalUser? LocalUser { get; set; }  
 
 
     }

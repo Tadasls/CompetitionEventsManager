@@ -24,8 +24,6 @@ namespace CompetitionEventsManager
             builder.Services.AddDbContext<DBContext>(option =>
             {
                option.UseSqlite(builder.Configuration.GetConnectionString("MyDefaultSQLConnection5"));
-                // option.UseLazyLoadingProxies(); EAGER ???????
-              
             });
 
             builder.Services.AddMokymaiServices();
@@ -54,7 +52,6 @@ namespace CompetitionEventsManager
                      ValidateAudience = false
                  };
              });
-
 
             builder.Services.AddControllers()
                  .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -85,7 +82,6 @@ namespace CompetitionEventsManager
                 option.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, new[] { "Bearer" } } });
             });
 
-
             builder.Services.AddCors(p => p.AddPolicy("corsforTLS", builder =>
             {
                 builder.WithOrigins("*")
@@ -93,7 +89,6 @@ namespace CompetitionEventsManager
                 .AllowAnyHeader();
 
             }));
-
 
             var app = builder.Build();
 
@@ -110,7 +105,6 @@ namespace CompetitionEventsManager
 
             app.UseAuthentication(); // Order matters
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -90,6 +90,8 @@ namespace CompetitionEventsManager.Controllers
                 .ToList());
         }
 
+
+
         /// <summary>
         /// Irasomas Žirgas i duomenu baze
         /// </summary>

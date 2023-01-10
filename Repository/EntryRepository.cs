@@ -19,39 +19,33 @@ namespace CompetitionEventsManager.Repository
         }
 
 
-        //eager Loding
+    
 
-        //public void Getdata_With_EagerLoading()
-        //{
-        //    using var context = new DBContext();
-        //    var entries = context.Entries
-        //        .Include(b => b.Horses);
-        //    foreach (var entry in entries)
-        //    {
-        //        Console.WriteLine($"** {entry.EntryID} {entry.PlateNumbers}");
-        //        foreach (var horse in entry.Horses)
-        //        {
-        //            Console.WriteLine($"- {horse.HorseName} {horse.RiderID}");
-        //        }
-        //    }
-        //}
+        public IEnumerable<Entry> Getdata_With_EagerLoading(int riderId)
+        {
+            using var context = new DBContext();
+            var duomenys = context.Entries
+            .Include(blog => blog.Competition)
+           // .Include(blog => blog.LocalUser)
+            .ToList();
+
+            return duomenys; 
+        }
 
 
 
-        //public IEnumerable<Horse> Get(int riderId)
-        //{
-        //    var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+        public IEnumerable<Horse> GetSome(int riderId)
+        {
+           // var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
 
-        //    var entities =
-        //        from entry in _db.Entries.Where(x => x.RiderID == riderId)
-        //        join horse in _db.Horses on entry.HorseID equals horse.HorseID
-        //        where entry.RiderID == riderId
-        //        select horse;
+            var entities =
+                from entry in _db.Entries.Where(x => x.RiderID == riderId)
+                join horse in _db.Horses on entry.HorseID equals horse.HorseID
+                where entry.RiderID == riderId
+                select horse;
 
-      
-
-        //    return entities;
-        //}
+            return entities;
+        }
 
 
 
