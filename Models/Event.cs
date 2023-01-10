@@ -5,6 +5,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Event
     {
+
         [System.ComponentModel.DataAnnotations.Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EventID { get; set; }
@@ -16,7 +17,7 @@ namespace CompetitionEventsManager.Models
         public string? Organizer { get; set; }
         public DateTime? Date { get; set; }
         public string? Type { get; set; }
-        public Competition Competition { get; set; }
+        public virtual List<Competition> Competitions { get; set; }
 
 }
 }

@@ -19,21 +19,20 @@ namespace CompetitionEventsManager.Repository
 
         //eager Loding
 
-        public void Getdata_With_EagerLoading()
-        {
-            using var context = new DBContext();
-            var performances = context.Performances
-                .Include(b => b.Entries);
-            foreach (var performance in performances)
-            {
-                Console.WriteLine($"** {performance.PerformanceID} {performance.Time}");
-                foreach (var entry in performance.Entries)
-                {
-                    Console.WriteLine($"- {entry.EntryID} {entry.PlateNumbers}");
-                }
-            }
-        }
-
+        //public void Getdata_With_EagerLoading()
+        //{
+        //    using var context = new DBContext();
+        //    var entries = context.Entries
+        //        .Include(b => b.Performances);
+        //    foreach (var entry in entries)
+        //    {
+        //        Console.WriteLine($"** {entry.EntryID} {entry.PlateNumbers}");
+        //        foreach (var performance in entry.Performances)
+        //        {
+        //            Console.WriteLine($"- {performance.HorseName} {performance.RiderID}");
+        //        }
+        //    }
+        //}
 
 
 

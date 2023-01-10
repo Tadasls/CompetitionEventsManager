@@ -5,7 +5,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Horse
     {
-     
+            
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HorseID { get; set; }
@@ -29,9 +29,6 @@ namespace CompetitionEventsManager.Models
         public string? PassportNo { get; set; }
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
-        public ICollection<LocalUser> LocalUsers { get; set; }
-        public virtual ICollection<Rider> Riders { get; set; }
-
 
 
 

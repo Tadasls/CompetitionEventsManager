@@ -7,6 +7,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Staff
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StaffID { get; set; }
@@ -18,9 +19,7 @@ namespace CompetitionEventsManager.Models
         public string? FeiID { get; set; }
         public string? NationalID { get; set; }
         public string? Position { get; set; }
-        public List<Competition> Competitions { get; set; } 
 
 
-
-}
+    }
 }

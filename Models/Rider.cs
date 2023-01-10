@@ -1,22 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
+using System.Reflection;
 
 namespace CompetitionEventsManager.Models
 {
     public class Rider
     {
-
-        public Rider()
-        {
-
-        }
-        public Rider(int riderID, string firstName, string lastName)
-        {
-            RiderID = riderID;
-            FirstName = firstName;
-            LastName = lastName;
-        }
-
+       
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RiderID { get; set; }
@@ -32,9 +23,8 @@ namespace CompetitionEventsManager.Models
         public DateTime? InsuranceExiprationDate { get; set; }
         public string? Country { get; set; } = "LT"; 
         public string? Comments { get; set; }
-        public ICollection<LocalUser> LocalUsers { get; set; }
-        public virtual ICollection<Horse> Horses { get; set; }
 
+    
 
     }
 }

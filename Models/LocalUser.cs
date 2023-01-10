@@ -6,6 +6,8 @@ namespace CompetitionEventsManager.Models
     public class LocalUser
     {
 
+
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -30,10 +32,10 @@ namespace CompetitionEventsManager.Models
         public string? Language { get; set; }
         [Display(Name = "Status")]
         public string? Status { get; set; }
-        public Notification Notification { get; set; }
-        public Entry Entry { get; set; }
-        public Rider Rider { get; set; }
-        public Horse Horse { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<Entry> Entries { get; set; }
+        public virtual ICollection<Rider> Riders { get; set; }
+        public virtual ICollection<Horse> Horses { get; set; }
 
 
 

@@ -9,6 +9,7 @@ namespace CompetitionEventsManager.Models
 {
     public class Competition
     {
+  
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompetitionID { get; set; }
@@ -32,9 +33,8 @@ namespace CompetitionEventsManager.Models
         public int? TimeBeetweenRuns { get; set; } = 10;
         public int? BreakTime { get; set; } = 10;
         public int? AdditionalTime { get; set; } = 10;
-        public Performance Performance { get; set; }
-        public Staff Staff { get; set; }
-        public List<Event> Events { get; set; }
+        public virtual List<Staff> Staffs { get; set; }
+       
 
        
 
