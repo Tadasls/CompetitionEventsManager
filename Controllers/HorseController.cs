@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.Hosting;
 using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Net.Mime;
@@ -37,7 +38,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns>Horse with specified ID</returns>
         /// <response code="400">Customer bad request description</response>
         [HttpGet("horses/{id:int}", Name = "GetHorse")]
-        [Authorize]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -141,9 +142,50 @@ namespace CompetitionEventsManager.Controllers
 
 
 
+        [HttpPut("Horses/update/{id:int}")]
+       // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateHorse(int id, UpdateHorseDTO updateHorseDTO)
+        {
+            if (id == 0 || updateHorseDTO == null)
+            {
+                return BadRequest();
+            }
+
+            var foundHorse = await _horseRepo.GetAsync(d => d.HorseID == id);
+
+            if (foundHorse == null)
+            {
+                return NotFound();
+            }
+
+            foundHorse.HorseName = updateHorseDTO.HorseName;
+            foundHorse.OwnerName = updateHorseDTO.OwnerName;
+            foundHorse.YearOfBird = updateHorseDTO.YearOfBird;
+            foundHorse.Breed = updateHorseDTO.Breed;
+            foundHorse.Type = updateHorseDTO.Type;
+            foundHorse.Gender = updateHorseDTO.Gender;
+            foundHorse.Color = updateHorseDTO.Color;
+            foundHorse.NatFedID = updateHorseDTO.NatFedID;
+            foundHorse.FEIID = updateHorseDTO.FEIID;
+            foundHorse.Heigth = updateHorseDTO.Heigth;
+            foundHorse.Father = updateHorseDTO.Father;
+            foundHorse.Mother = updateHorseDTO.Mother;
+            foundHorse.Breeder = updateHorseDTO.Breeder;
+            foundHorse.Country = updateHorseDTO.Country;
+            foundHorse.Commets = updateHorseDTO.Commets;
+            foundHorse.MedCheckDate = updateHorseDTO.MedCheckDate;
+            foundHorse.PassportNo = updateHorseDTO.PassportNo;
+            foundHorse.PassportNoExipreDate = updateHorseDTO.PassportNoExipreDate;
+            foundHorse.ChipNumber = updateHorseDTO.ChipNumber;
 
 
-
+            await _horseRepo.UpdateAsync(foundHorse);
+            return NoContent();
+        }
 
 
 
@@ -152,7 +194,7 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("horses/delete/{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -168,15 +210,6 @@ namespace CompetitionEventsManager.Controllers
             await _horseRepo.RemoveAsync(horse);
             return NoContent();
         }
-
-
-
-
-
-
-
-
-
 
 
 
