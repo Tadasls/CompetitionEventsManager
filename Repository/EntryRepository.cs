@@ -19,17 +19,19 @@ namespace CompetitionEventsManager.Repository
         }
 
 
-    
+
 
         public IEnumerable<Entry> Getdata_With_EagerLoading(int riderId)
         {
-            using var context = new DBContext();
-            var duomenys = context.Entries
-            .Include(blog => blog.Competition)
-           // .Include(blog => blog.LocalUser)
+           
+
+            var duomenys = _db.Entries
+            .Include(Entries => Entries.Competition)
+            // .Include(blog => blog.LocalUser)
             .ToList();
 
-            return duomenys; 
+            return duomenys;
+           
         }
 
 

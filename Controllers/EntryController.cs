@@ -30,17 +30,28 @@ namespace CompetitionEventsManager.Controllers
         [HttpGet("Entries")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Horse>> GetEntries( int req)
+        public async Task<ActionResult<Horse>> GetEntries( int Id)
         {
-           // var kazkas = _entryRepo.GetSome(req);
-            var kazkas = _entryRepo.Getdata_With_EagerLoading(req);
-
-
-
-            return Ok(kazkas);
+           var data = _entryRepo.GetSome(Id);
+         
+            return Ok(data);
         }
 
 
+        /// <summary>
+        /// Fetches all Entries in the DB
+        /// </summary>
+        /// <returns>All Horses in DB</returns>
+        [HttpGet("EntriesEager")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Horse>> GetEntriesEager(int Id)
+        {
+            
+            var data = _entryRepo.Getdata_With_EagerLoading(Id);
+
+            return Ok(data);
+        }
 
 
 

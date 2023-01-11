@@ -148,7 +148,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateHorse(int id, UpdateHorseDTO updateHorseDTO)
+        public async Task<ActionResult> UpdateHorse([FromBody] int id, UpdateHorseDTO updateHorseDTO)
         {
             if (id == 0 || updateHorseDTO == null)
             {
@@ -199,7 +199,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteHorse(int id)
+        public async Task<ActionResult> DeleteHorse([FromBody] int id)
         {
             if (!await _horseRepo.ExistAsync(d => d.HorseID == id))
             {
