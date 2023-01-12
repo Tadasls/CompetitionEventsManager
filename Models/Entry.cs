@@ -4,9 +4,14 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Entry
+    /// </summary>
     public class Entry
     {
-
+        /// <summary>
+        /// Entry ID
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [MaxLength(20)]

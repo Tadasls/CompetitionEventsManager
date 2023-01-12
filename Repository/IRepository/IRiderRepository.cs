@@ -2,7 +2,8 @@
 
 namespace CompetitionEventsManager.Repository.IRepository
 {
-    internal interface IRiderRepository : IRepository<Rider>
+    public interface IRiderRepository : IRepository<Rider>
     {
+
     }
 }

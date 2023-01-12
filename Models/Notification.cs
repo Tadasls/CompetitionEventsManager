@@ -4,6 +4,9 @@ using System.Reflection.Metadata;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Notification
+    /// </summary>
     public class Notification
     {
      

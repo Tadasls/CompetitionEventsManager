@@ -6,10 +6,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
+    /// <summary>
+    /// DTO
+    /// </summary>
     public class UpdateHorseDTO
     {
       
-        
         public string? HorseName { get; set; }
         public string? OwnerName { get; set; }
         public DateTime? YearOfBird { get; set; }

@@ -1,21 +1,24 @@
 ﻿namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
+    /// <summary>
+    /// Main items for filter
+    /// </summary>
     public class FilterHorsesRequest
     {
         /// <summary>
-        /// paieska pagal Žirgo varda
+        /// Search by Horse name
         /// </summary>
         public string? HorseName { get; set; }
         /// <summary>
-        /// paieska pagal Žirgo savininko vardą
+        /// search by Owner name
         /// </summary>
         public string? OwnerName { get; set; }
         /// <summary>
-        /// paieska pagal Žirgo veisėją
+        ///search by Breeder name
         /// </summary>
         public string? Breeder { get; set; }
         /// <summary>
-        /// paieska pagal Žirgo kilmės šalį
+        /// search by Country name
         /// </summary>
         public string? Country { get; set; }
 

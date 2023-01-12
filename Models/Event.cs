@@ -3,12 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Event model
+    /// </summary>
     public class Event
     {
-
-        [System.ComponentModel.DataAnnotations.Key]
+        /// <summary>
+        /// EventID
+        /// </summary>
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EventID { get; set; }
+        /// <summary>
+        /// Event Title
+        /// </summary>
         [Required]
         [StringLength(100)]
         public string Title { get; set; }

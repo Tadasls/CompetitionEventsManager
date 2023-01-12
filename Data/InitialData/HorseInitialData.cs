@@ -21,7 +21,7 @@ namespace CompetitionEventsManager.Data.InitialData
     public static class HorseInitialData
     {
 
-        public static readonly Rider[] RidersDataSeed = new Rider[] {
+        public static readonly Rider [] RidersDataSeed = new Rider[] {
                 new Rider
                 {
                     RiderID = 1,

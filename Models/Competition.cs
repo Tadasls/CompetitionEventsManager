@@ -8,9 +8,14 @@ using System.Diagnostics.Contracts;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// in Lithuania tai Yra Rungtis
+    /// </summary>
     public class Competition
     {
-  
+        /// <summary>
+        /// CompetitionID
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompetitionID { get; set; }
