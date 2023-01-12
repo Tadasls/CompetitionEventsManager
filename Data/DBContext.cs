@@ -26,8 +26,40 @@ namespace CompetitionEventsManager.Data
        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-                   
-         // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
+
+
+            modelBuilder.Entity<Event>().HasKey(d => d.EventID);
+            modelBuilder.Entity<Event>().HasData(HorseInitialData.EventDataSeed);
+
+            modelBuilder.Entity<Event>()
+             .HasMany(ab => ab.Competitions)
+             .WithOne(ab => ab.Event)
+             .HasForeignKey(ab => ab.EId);
+
+            modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
+            modelBuilder.Entity<Competition>().HasData(HorseInitialData.CompetitionDataSeed);
+
+            modelBuilder.Entity<Competition>()
+            .HasMany(ab => ab.Staffs)
+            .WithOne(ab => ab.Competition)
+            .HasForeignKey(ab => ab.SId);
+
+            modelBuilder.Entity<Staff>().HasKey(d => d.StaffID);
+            modelBuilder.Entity<Staff>().HasData(HorseInitialData.StaffDataSeed);
+
+            modelBuilder.Entity<Competition>()
+                .HasMany(ab => ab.Entries)
+                .WithOne(ab => ab.Competition)
+                .HasForeignKey(ab => ab.CId);
+
+            modelBuilder.Entity<LocalUser>().HasKey(d => d.Id);
+            modelBuilder.Entity<LocalUser>()
+             .HasMany(ab => ab.Entries)
+             .WithOne(ab => ab.LocalUser)
+             .HasForeignKey(ab => ab.UserId);
+
+            modelBuilder.Entity<Entry>().HasKey(x => new { x.HorseID, x.RiderID });
+            modelBuilder.Entity<Entry>().HasData(HorseInitialData.EntryDataSeed);
 
          modelBuilder.Entity<LocalUser>().HasKey(d => d.Id);
          modelBuilder.Entity<LocalUser>()
@@ -45,7 +77,6 @@ namespace CompetitionEventsManager.Data
           .WithOne(ab => ab.LocalUser)
           .HasForeignKey(ab => ab.UserId);
 
-
             modelBuilder.Entity<Notification>().HasKey(d => d.NotificationID);
             modelBuilder.Entity<Notification>().HasData(HorseInitialData.NotificationDataSeed);
 
@@ -55,56 +86,27 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Rider>().HasKey(d => d.RiderID);
             modelBuilder.Entity<Rider>().HasData(HorseInitialData.RidersDataSeed);
 
-            modelBuilder.Entity<Event>().HasKey(d => d.EventID);
-            modelBuilder.Entity<Event>().HasData(HorseInitialData.EventDataSeed);
-
-            modelBuilder.Entity<Event>()
-            .HasMany(ab => ab.Competitions)
-            .WithOne(ab => ab.Event)
-            .HasForeignKey(ab => ab.EId);
-
-            modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
-            modelBuilder.Entity<Competition>().HasData(HorseInitialData.CompetitionDataSeed);
 
 
-            modelBuilder.Entity<Competition>()
-            .HasMany(ab => ab.Staffs)
-            .WithOne(ab => ab.Competition)
-            .HasForeignKey(ab => ab.SId);
+            // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
-            modelBuilder.Entity<Staff>().HasKey(d => d.StaffID);
-            modelBuilder.Entity<Staff>().HasData(HorseInitialData.StaffDataSeed);
+            modelBuilder.Entity<Entry>()
+        .HasOne(e => e.Horse)
+        .WithMany()
+        .HasForeignKey(e => e.HorseID);
 
-            modelBuilder.Entity<Entry>().HasKey(x => new { x.HorseID, x.RiderID });
-            modelBuilder.Entity<Entry>().HasData(HorseInitialData.EntryDataSeed);
+            modelBuilder.Entity<Entry>()
+                    .HasOne(e => e.Rider)
+                    .WithMany()
+                    .HasForeignKey(e => e.RiderID);
 
 
 
 
 
-     //       modelBuilder.Entity<Horse>()
-     //.HasMany<Rider>(s => s.Riders)
-     //.WithMany(c => c.Horses)
-     //.Map(cs =>
-     //{
-     //    cs.MapLeftKey("HorseID");
-     //    cs.MapRightKey("RiderID");
-     //    cs.ToTable("Entry");
-     //});
 
 
 
-
-            //modelBuilder.Entity<Entry>()
-            //     .HasKey(bc => new { bc.HorseID, bc.RiderID });
-            //modelBuilder.Entity<Entry>()
-            //    .HasOne(bc => bc.Horse)
-            //    .WithMany(b => b.Entries)
-            //    .HasForeignKey(bc => bc.HorseID);
-            //modelBuilder.Entity<Entry>()
-            //    .HasOne(bc => bc.Rider)
-            //    .WithMany(c => c.Entries)
-            //    .HasForeignKey(bc => bc.RiderID);
 
 
 

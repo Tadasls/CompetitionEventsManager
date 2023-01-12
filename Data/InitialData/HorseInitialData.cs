@@ -1,5 +1,6 @@
 ﻿using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
+using CompetitionEventsManager.Services.Adapters;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -19,6 +20,7 @@ namespace CompetitionEventsManager.Data.InitialData
 {
     public static class HorseInitialData
     {
+
         public static readonly Rider[] RidersDataSeed = new Rider[] {
                 new Rider
                 {
@@ -433,7 +435,6 @@ namespace CompetitionEventsManager.Data.InitialData
                     Position = "Stuart",
                 }
                };
-
 
 
 
