@@ -26,7 +26,11 @@ namespace CompetitionEventsManager.Controllers
             _jwtService = jwtService;
         }
 
-     
+     /// <summary>
+     /// Login controler
+     /// </summary>
+     /// <param name="model"> Logins data </param>
+     /// <returns>Logins response with userName and Token</returns>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
@@ -52,6 +56,11 @@ namespace CompetitionEventsManager.Controllers
             return Ok(new LoginResponse { UserName = model.UserName, Token = token });
         }
 
+        /// <summary>
+        /// Register Controler
+        /// </summary>
+        /// <param name="model"> with data from request </param>
+        /// <returns>Created and ID </returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
@@ -87,22 +96,22 @@ namespace CompetitionEventsManager.Controllers
 
 
 
-        [HttpGet("Get/{id:int}")]
-        public async Task<ActionResult<GetUserDto>> GetUserById(int id)
-        {
-            if (id == 0)
-            {
-                return BadRequest("nera tokio ID");
-            }
-            var user = await _userRepository.GetAsync(u => u.Id == id);
+        //[HttpGet("Get/{id:int}")]  // pries atiduodant istrinti
+        //public async Task<ActionResult<GetUserDto>> GetUserById(int id)
+        //{
+        //    if (id == 0)
+        //    {
+        //        return BadRequest("No such ID");
+        //    }
+        //    var user = await _userRepository.GetAsync(u => u.Id == id);
 
-            if (user == null)
-            {
-                return NotFound("nera tokio vartotojo");
-            }
+        //    if (user == null)
+        //    {
+        //        return NotFound("No such User");
+        //    }
 
-            return Ok(user);  // as pats grazinu visa userio info... halt
-        }
+        //    return Ok(user);  // as pats grazinu visa userio info... su halt ir salt !! testavimui
+        //}
 
 
 
