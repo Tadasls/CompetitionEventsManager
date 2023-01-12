@@ -12,5 +12,7 @@ namespace CompetitionEventsManager.Repository.IRepository
         Task SaveAsync();
         Task UpdateAsync(TEntity entity);
         Task<bool> ExistAsync(Expression<Func<TEntity, bool>> filter);
+        Task<TEntity> GetFewDBAsync(Expression<Func<TEntity, bool>> filter, ICollection<string> includeTables, bool tracked = true);
+        Task<List<TEntity>> GetAllFewDBAsync(Expression<Func<TEntity, bool>>? filter, ICollection<string> includeTables);
     }
 }

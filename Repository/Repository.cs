@@ -3,6 +3,8 @@ using System.Linq.Expressions;
 using System.Linq;
 using CompetitionEventsManager.Data;
 using CompetitionEventsManager.Repository.IRepository;
+using Microsoft.AspNetCore.JsonPatch.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CompetitionEventsManager.Repository
 {
@@ -71,9 +73,33 @@ namespace CompetitionEventsManager.Repository
             _dbSet.Update(entity);
             await SaveAsync();
         }
+        public async Task<TEntity> GetFewDBAsync(Expression<Func<TEntity, bool>> filter, ICollection<string> includeTables, bool tracked = true)
+        {
+            IQueryable<TEntity> query = _dbSet;
+            if (!tracked) query = query.AsNoTracking();
+            query = query.Where(filter);
+            foreach (var tableName in includeTables)
+            {
+                query = query.Include(tableName);
+            }
+            return await query.FirstOrDefaultAsync();
+        }
+        public async Task<List<TEntity>> GetAllFewDBAsync(Expression<Func<TEntity, bool>>? filter, ICollection<string> includeTables)
+        {
+            IQueryable<TEntity> query = _dbSet;
+            if (filter != null) query = query.Where(filter);
+            foreach (var tableName in includeTables)
+            {
+                query = query.Include(tableName);
+            }
+            return await query.ToListAsync();
+        }
 
 
 
-      
+
+
+
+
     }
 }
