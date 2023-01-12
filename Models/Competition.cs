@@ -59,8 +59,8 @@ namespace CompetitionEventsManager.Models
         [MaxLength(20)]
         public int? EId { get; set; }
         public virtual Event? Event { get; set; }
-       
-    
+        public virtual List<Entry> Entries { get; set; }
+
 
 
     }
