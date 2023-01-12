@@ -39,7 +39,11 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="id">Requested Horse ID</param>
         /// <returns>Horse by specified ID</returns>
-        /// <response code="400">Customer bad request description</response>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="401">Client could not authenticate a request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("Horses/{id:int}", Name = "GetHorse")]
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
@@ -69,6 +73,8 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
+        /// <response code="200">OK</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("GetAllHorses")]
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
@@ -97,6 +103,9 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="horseDTO">New horse data</param>
         /// <returns>CreatedAtRoute with DTO</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost("CreateHorse")]
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateHorseDTO))]
@@ -142,6 +151,10 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id">specify which entry to update</param>
         /// <param name="updateHorseDTO"> DTo with specific properties</param>
         /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpPut("Horses/update/{id:int}")]
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -194,6 +207,10 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>No content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}", Name = "UpdatePartialHorse")]
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -229,6 +246,10 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id">Horse Id</param>
         /// <param name="request"> dto data for update</param>
         /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}/dto", Name = "UpdatePartialHorseDto")]
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -260,11 +281,15 @@ namespace CompetitionEventsManager.Controllers
             return NoContent();
         }
 
-       /// <summary>
-       /// To delete Horse
-       /// </summary>
-       /// <param name="id"></param>
-       /// <returns>No Content</returns>
+        /// <summary>
+        /// To delete Horse
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete("Horses/delete/{id:int}")]
        // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -29,11 +29,13 @@ namespace CompetitionEventsManager.Controllers
             _jwtService = jwtService;
         }
 
-     /// <summary>
-     /// Login controler
-     /// </summary>
-     /// <param name="model"> Logins data </param>
-     /// <returns>Logins response with userName and Token</returns>
+        /// <summary>
+        /// Login controler
+        /// </summary>
+        /// <param name="model"> Logins data </param>
+        /// <returns>Logins response with userName and Token</returns>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
@@ -64,6 +66,8 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="model"> with data from request </param>
         /// <returns>Created and ID </returns>
+        /// <response code="201">Created</response>
+        /// <response code="401">Unauthorized</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]

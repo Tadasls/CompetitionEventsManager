@@ -51,6 +51,8 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("no id input");
                 return BadRequest("Not entered ID");
             }
+            //_httpContextAccessor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
             if (!await _entryRepo.ExistAsync(d => d.HorseID == id))
             {
                 _logger.LogInformation("Horse with id {id} not found", id);
