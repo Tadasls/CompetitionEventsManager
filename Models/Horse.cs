@@ -3,12 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Horse Model
+    /// </summary>
     public class Horse
     {
-            
+        /// <summary>
+        /// Horse ID
+        /// </summary>     
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HorseID { get; set; }
+        /// <summary>
+        /// Horse Name
+        /// </summary>
         [Required]
         [MaxLength(100)]
         public string HorseName { get; set; }

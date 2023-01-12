@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Staff
+    /// </summary>
     public class Staff
     {
 

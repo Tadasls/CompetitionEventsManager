@@ -1,6 +1,8 @@
-﻿namespace CompetitionEventsManager.Repository.IRepository
+﻿using CompetitionEventsManager.Models;
+
+namespace CompetitionEventsManager.Repository.IRepository
 {
-    public interface ICompetitionRepository
+    public interface ICompetitionRepository : IRepository<Competition>
     {
     }
 }

@@ -2,24 +2,29 @@
 
 namespace CompetitionEventsManager.Models.Dto.UserDTO
 {
+    /// <summary>
+    /// Get DTO
+    /// </summary>
     public class GetUserDto
     {
-
+        /// <summary>
+        /// ID
+        /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Userio prtisijungimo vardas
+        ///Users name
         /// </summary>
         public string UserName { get; set; }
         /// <summary>
-        /// Userio  vardas
+        /// Users First Name
         /// </summary>
         public string FirstName { get; set; }
         /// <summary>
-        /// Userio  Pavarde
+        /// Users Last Name
         /// </summary>
         public string LastName { get; set; }
         /// <summary>
-        /// Userio  Role
+        /// Users  Role
         /// </summary>
         public string Role { get; set; }
 

@@ -9,6 +9,9 @@ using System.Xml.Linq;
 
 namespace CompetitionEventsManager.Controllers
 {
+    /// <summary>
+    /// That is User Controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

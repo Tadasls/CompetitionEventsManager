@@ -38,12 +38,8 @@ namespace CompetitionEventsManager.Repository
         public virtual bool TryLogin(string userName, string password, out LocalUser? user)
         {
             user =  _context.LocalUsers.FirstOrDefault(x => x.UserName == userName);
-            if (user == null)
-                return false;
-
-            if (!_userService.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return false;
-
+            if (user == null) return false;
+            if (!_userService.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return false;
             return true;
         }
 

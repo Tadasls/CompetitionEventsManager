@@ -5,6 +5,7 @@ using CompetitionEventsManager.Services.Adapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net.Mime;
 
 
@@ -20,7 +21,12 @@ namespace CompetitionEventsManager.Controllers
         private readonly ILogger<HorseController> _logger;
         private readonly IHorseRepository _horseRepo;
         private readonly IHorseAdapter _horseAdapter;
-
+        /// <summary>
+        /// this is Horse Controlller
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="horseAdapter"></param>
         public HorseController(ILogger<HorseController> logger, IHorseRepository repository, IHorseAdapter horseAdapter)
         {
             _logger = logger;
@@ -34,7 +40,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id">Requested Horse ID</param>
         /// <returns>Horse by specified ID</returns>
         /// <response code="400">Customer bad request description</response>
-        [HttpGet("horses/{id:int}", Name = "GetHorse")]
+        [HttpGet("Horses/{id:int}", Name = "GetHorse")]
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,7 +52,7 @@ namespace CompetitionEventsManager.Controllers
         {       
             if (id == 0)
             {
-                _logger.LogInformation("no id imput");
+                _logger.LogInformation("no id input");
                 return BadRequest("Not entered ID");
             }         
             if (!await _horseRepo.ExistAsync(d => d.HorseID == id))
@@ -67,8 +73,9 @@ namespace CompetitionEventsManager.Controllers
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllHorsesWithFilter([FromBody] FilterHorsesRequest req)
+        public async Task<IActionResult> GetAllHorsesWithFilter([FromQuery] FilterHorsesRequest req)
         {
+            _logger.LogInformation("Getting Horse list with parameters {req}", JsonConvert.SerializeObject(req));
             IEnumerable<Horse> entities = await _horseRepo.GetAllAsync();
             if (req.HorseName != null)
                 entities = entities.Where(x => x.HorseName == req.HorseName);
@@ -82,6 +89,8 @@ namespace CompetitionEventsManager.Controllers
                 .Select(d => new GetHorseDTO(d))
                 .ToList());
         }
+
+
 
         /// <summary>
         /// Adding new Horse into db
@@ -185,7 +194,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>No content</returns>
-        [HttpPatch("patch/{id:int}", Name = "UpdatePartialHorse")]
+        [HttpPatch("Patch/{id:int}", Name = "UpdatePartialHorse")]
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -220,7 +229,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id">Horse Id</param>
         /// <param name="request"> dto data for update</param>
         /// <returns>No Content</returns>
-        [HttpPatch("patch/{id:int}/dto", Name = "UpdatePartialHorseDto")]
+        [HttpPatch("Patch/{id:int}/dto", Name = "UpdatePartialHorseDto")]
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -256,13 +265,13 @@ namespace CompetitionEventsManager.Controllers
        /// </summary>
        /// <param name="id"></param>
        /// <returns>No Content</returns>
-        [HttpDelete("horses/delete/{id:int}")]
-        [Authorize(Roles = "admin,user")]
+        [HttpDelete("Horses/delete/{id:int}")]
+       // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteHorse([FromQuery] int id)
+        public async Task<ActionResult> DeleteHorse( int id)
         {
             if (!await _horseRepo.ExistAsync(d => d.HorseID == id))
             {

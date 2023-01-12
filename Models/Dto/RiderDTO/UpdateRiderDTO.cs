@@ -1,24 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Reflection;
 
-namespace CompetitionEventsManager.Models
+namespace CompetitionEventsManager.Models.Dto.RiderDTO
 {
     /// <summary>
-    /// Rider
+    /// DTO
     /// </summary>
-    public class Rider
+    public class UpdateRiderDTO
     {
-       
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [MaxLength(50)]
-        public int RiderID { get; set; }
-        [Required]
+      
         [MaxLength(100)]
         public string FirstName { get; set; }
-        [Required]
+       
         [MaxLength(100)]
         public string LastName { get; set; }
         [MaxLength(50)]
@@ -37,9 +29,9 @@ namespace CompetitionEventsManager.Models
         public string? Country { get; set; } = "LT";
         [MaxLength(50)]
         public string? Comments { get; set; }
-        [MaxLength(50)]
-        public int? UserId { get; set; }
-        public virtual LocalUser? LocalUser { get; set; }
+
+
+
 
 
     }

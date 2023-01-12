@@ -3,15 +3,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CompetitionEventsManager.Models
 {
+    /// <summary>
+    /// Local User
+    /// </summary>
     public class LocalUser
     {
 
 
-        // reikia aspsirasyti konstrainus
-
+        
+        /// <summary>
+        /// User ID
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        /// <summary>
+        /// UserName
+        /// </summary>
         [Required]
         [MaxLength(20)]
         public string UserName { get; set; }

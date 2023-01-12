@@ -6,6 +6,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
+    /// <summary>
+    /// DTO
+    /// </summary>
     public class GetHorseDTO
     {
         public GetHorseDTO(Horse horse)

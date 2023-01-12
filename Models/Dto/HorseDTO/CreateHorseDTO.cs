@@ -2,6 +2,9 @@
 
 namespace CompetitionEventsManager.Models.Dto.HorseDTO
 {
+    /// <summary>
+    /// DTO With Horse data
+    /// </summary>
     public class CreateHorseDTO
     {
        
