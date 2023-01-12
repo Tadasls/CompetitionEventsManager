@@ -1,5 +1,7 @@
 ﻿using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Repository;
+using Microsoft.AspNetCore.JsonPatch.Internal;
+using CompetitionEventsManager.Services.Adapters;
 
 namespace CompetitionEventsManager.Services
 {
@@ -21,7 +23,8 @@ namespace CompetitionEventsManager.Services
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
-          
+
+            services.AddTransient<IHorseAdapter, HorseAdapter>();
 
             return services;
         }
