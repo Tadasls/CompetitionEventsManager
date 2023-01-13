@@ -15,7 +15,7 @@
 
         public string? Position { get; set; }
 
-
+        public int? SId { get; set; }
 
     }
 }

@@ -115,6 +115,7 @@ namespace CompetitionEventsManager.Controllers
             FeiID = staffDTO.FeiID,
             NationalID = staffDTO.NationalID,
             Position = staffDTO.Position,
+            SId = staffDTO.SId,
         };
             await _staffRepo.CreateAsync(model);
             return CreatedAtRoute("GetStaff", new { Id = model.StaffID }, staffDTO);
@@ -160,6 +161,7 @@ namespace CompetitionEventsManager.Controllers
             foundStaff.FeiID = updateStaffDTO.FeiID;
             foundStaff.NationalID = updateStaffDTO.NationalID;
             foundStaff.Position = updateStaffDTO.Position;
+            foundStaff.SId = updateStaffDTO.SId;
 
             await _staffRepo.UpdateAsync(foundStaff);
             return NoContent();

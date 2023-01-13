@@ -33,6 +33,7 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
             PassportNo = horse.PassportNo;
             PassportNoExipreDate = horse.PassportNoExipreDate;
             ChipNumber = horse.ChipNumber;
+            UserId = horse.UserId;
         }
 
         public int HorseID { get; set; }
@@ -56,6 +57,6 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
 
-
+        public int? UserId { get; set; }
     }
 }

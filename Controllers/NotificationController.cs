@@ -108,6 +108,7 @@ namespace CompetitionEventsManager.Controllers
             Topic = notificationDTO.Topic,
             Message = notificationDTO.Message,
             Status = notificationDTO.Status,
+            UserId = notificationDTO.UserId,
         };
             await _notiRepo.CreateAsync(model);
             return CreatedAtRoute("GetNotification", new { Id = model.NotificationID }, notificationDTO);
@@ -154,6 +155,7 @@ namespace CompetitionEventsManager.Controllers
             foundNotification.Topic = updateNotificationDTO.Topic;
             foundNotification.Message = updateNotificationDTO.Message;
             foundNotification.Status = updateNotificationDTO.Status;
+            foundNotification.UserId = updateNotificationDTO.UserId;
 
             await _notiRepo.UpdateAsync(foundNotification);
             return NoContent();

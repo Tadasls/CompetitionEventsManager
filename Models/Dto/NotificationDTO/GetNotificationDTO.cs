@@ -10,6 +10,7 @@ namespace CompetitionEventsManager.Models.Dto.NotificationDTO
             Topic = notification.Topic;
             Message = notification.Message;
             Status = notification.Status;
+            UserId = notification.UserId;
         }
 
         public int NotificationID { get; set; }
@@ -19,6 +20,7 @@ namespace CompetitionEventsManager.Models.Dto.NotificationDTO
         public string? Message { get; set; }
     
         public bool? Status { get; set; } = false;
-  
+        public int? UserId { get; set; }
+
     }
 }

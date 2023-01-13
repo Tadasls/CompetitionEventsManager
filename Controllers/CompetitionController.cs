@@ -8,6 +8,8 @@ using System.Net.Mime;
 using CompetitionEventsManager.Models.Dto.CompetitionDTO;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -97,7 +99,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<CreateCompetitionDTO>> CreateHorse([FromBody] CreateCompetitionDTO competitionDTO)
+        public async Task<ActionResult<CreateCompetitionDTO>> CreateCompetition([FromBody] CreateCompetitionDTO competitionDTO)
         {
             if (competitionDTO == null)
             {
@@ -125,7 +127,9 @@ namespace CompetitionEventsManager.Controllers
             TimeBeetweenRuns = competitionDTO.TimeBeetweenRuns,
             BreakTime = competitionDTO.BreakTime,
             AdditionalTime = competitionDTO.AdditionalTime,
-        };
+            SId = competitionDTO.SId,
+            EId = competitionDTO.EId,
+            };
             await _competitionRepo.CreateAsync(model);
             return CreatedAtRoute("GetCompetition", new { Id = model.CompetitionID }, competitionDTO);
         }
@@ -150,7 +154,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateCompetition([FromQuery] int id, [FromBody] UpdateCompetitionDTO updateCompetitionDTO)
+        public async Task<ActionResult> UpdateCompetition( int id, [FromBody] UpdateCompetitionDTO updateCompetitionDTO)
         {
             if (id == 0 || updateCompetitionDTO == null)
             {
@@ -184,6 +188,8 @@ namespace CompetitionEventsManager.Controllers
             foundCompetition.TimeBeetweenRuns = updateCompetitionDTO.TimeBeetweenRuns;
             foundCompetition.BreakTime = updateCompetitionDTO.BreakTime;
             foundCompetition.AdditionalTime = updateCompetitionDTO.AdditionalTime;
+            foundCompetition.SId = updateCompetitionDTO.SId;
+            foundCompetition.EId = updateCompetitionDTO.EId;
 
             await _competitionRepo.UpdateAsync(foundCompetition);
             return NoContent();

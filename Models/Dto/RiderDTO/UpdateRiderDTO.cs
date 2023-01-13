@@ -30,8 +30,7 @@ namespace CompetitionEventsManager.Models.Dto.RiderDTO
         [MaxLength(50)]
         public string? Comments { get; set; }
 
-
-
+        public int? UserId { get; set; }
 
 
     }

@@ -21,7 +21,8 @@ namespace CompetitionEventsManager.Models.Dto.RiderDTO
             InsuranceExiprationDate = rider.InsuranceExiprationDate;
             Country = rider.Country;
             Comments = rider.Comments;
-        }
+            UserId = rider.UserId;
+    }
 
         [MaxLength(50)]
         public int RiderID { get; set; }
@@ -45,8 +46,8 @@ namespace CompetitionEventsManager.Models.Dto.RiderDTO
         public string? Country { get; set; }
         [MaxLength(50)]
         public string? Comments { get; set; }
-    
- 
+
+        public int? UserId { get; set; }
 
 
 

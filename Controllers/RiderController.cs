@@ -120,7 +120,8 @@ namespace CompetitionEventsManager.Controllers
                 InsuranceExiprationDate = riderDTO.InsuranceExiprationDate,
                 Country = riderDTO.Country,
                 Comments = riderDTO.Comments,
-                  };
+                UserId = riderDTO.UserId,
+        };
 
                 await _riderRepo.CreateAsync(model);
                 return CreatedAtRoute("GetRider", new { Id = model.RiderID }, riderDTO);
@@ -164,8 +165,9 @@ namespace CompetitionEventsManager.Controllers
             foundRider.InsuranceExiprationDate = updateRiderDTO.InsuranceExiprationDate;
             foundRider.Country = updateRiderDTO.Country;
             foundRider.Comments = updateRiderDTO.Comments;
+            foundRider.UserId = updateRiderDTO.UserId;
 
-                await _riderRepo.UpdateAsync(foundRider);
+        await _riderRepo.UpdateAsync(foundRider);
                 return NoContent();
             }
 

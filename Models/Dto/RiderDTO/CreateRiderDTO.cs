@@ -28,7 +28,9 @@ namespace CompetitionEventsManager.Models.Dto.RiderDTO
         public string? Country { get; set; } 
     
         public string? Comments { get; set; }
-       
+
+        public int? UserId { get; set; }
+
 
 
 

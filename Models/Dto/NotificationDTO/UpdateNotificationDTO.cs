@@ -9,7 +9,7 @@
         public string? Message { get; set; }
 
         public bool? Status { get; set; } = false;
-
+        public int? UserId { get; set; }
 
 
 

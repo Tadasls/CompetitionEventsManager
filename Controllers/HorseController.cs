@@ -5,6 +5,7 @@ using CompetitionEventsManager.Services.Adapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Net.Mime;
 
@@ -139,8 +140,9 @@ namespace CompetitionEventsManager.Controllers
             MedCheckDate = horseDTO.MedCheckDate,
             PassportNo = horseDTO.PassportNo,
             PassportNoExipreDate = horseDTO.PassportNoExipreDate,
-            ChipNumber = horseDTO.ChipNumber
-             };
+            ChipNumber = horseDTO.ChipNumber,
+            UserId = horseDTO.UserId,
+        };
             await _horseRepo.CreateAsync(model);
             return CreatedAtRoute("GetHorse", new { Id = model.HorseID }, horseDTO);
         }
@@ -164,7 +166,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateHorse([FromQuery] int id, [FromBody] UpdateHorseDTO updateHorseDTO)
+        public async Task<ActionResult> UpdateHorse(int id, [FromBody] UpdateHorseDTO updateHorseDTO)
         {
             if (id == 0 || updateHorseDTO == null)
             {
@@ -198,6 +200,7 @@ namespace CompetitionEventsManager.Controllers
             foundHorse.PassportNo = updateHorseDTO.PassportNo;
             foundHorse.PassportNoExipreDate = updateHorseDTO.PassportNoExipreDate;
             foundHorse.ChipNumber = updateHorseDTO.ChipNumber;
+            foundHorse.UserId = updateHorseDTO.UserId;
 
             await _horseRepo.UpdateAsync(foundHorse);
             return NoContent();

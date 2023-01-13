@@ -18,7 +18,7 @@
 
 
 
-
+        public int? SId { get; set; }
 
 
 

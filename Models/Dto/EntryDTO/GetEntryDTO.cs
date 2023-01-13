@@ -25,6 +25,9 @@ namespace CompetitionEventsManager.Models.Dto.EntryDTO
             Shavings = entry.Shavings;
             NeedInvoice = entry.NeedInvoice;
             AgreemntOnContractNr1 = entry.AgreemntOnContractNr1;
+            UserId = entry.UserId;
+            CId = entry.CId;
+
         }
 
         public int EntryID { get; set; }
@@ -59,6 +62,9 @@ namespace CompetitionEventsManager.Models.Dto.EntryDTO
         public bool? NeedInvoice { get; set; } = false;
 
         public bool? AgreemntOnContractNr1 { get; set; } = false;
+        public int? UserId { get; set; }
+        public int? CId { get; set; }
+
 
 
     }

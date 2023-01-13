@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Diagnostics.Metrics;
+using System.Security.Cryptography;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -135,6 +136,8 @@ namespace CompetitionEventsManager.Controllers
             Shavings = entryDTO.Shavings,
             NeedInvoice = entryDTO.NeedInvoice,
             AgreemntOnContractNr1 = entryDTO.AgreemntOnContractNr1,
+            UserId = entryDTO.UserId,
+            CId = entryDTO.CId,
         };
             await _entryRepo.CreateAsync(model);
             return CreatedAtRoute("GetEntry", new { Id = model.EntryID }, entryDTO);
@@ -190,8 +193,10 @@ namespace CompetitionEventsManager.Controllers
             foundEntry.Shavings = updateEntryDTO.Shavings;
             foundEntry.NeedInvoice = updateEntryDTO.NeedInvoice;
             foundEntry.AgreemntOnContractNr1 = updateEntryDTO.AgreemntOnContractNr1;
+            foundEntry.UserId = updateEntryDTO.UserId;
+            foundEntry.CId = updateEntryDTO.CId;
 
-            await _entryRepo.UpdateAsync(foundEntry);
+    await _entryRepo.UpdateAsync(foundEntry);
             return NoContent();
         }
 
