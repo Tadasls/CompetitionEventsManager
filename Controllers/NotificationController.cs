@@ -81,6 +81,87 @@ namespace CompetitionEventsManager.Controllers
         }
 
 
+        /// <summary>
+        /// Adding new Notification into db
+        /// </summary>
+        /// <param name="NotificationDTO">New Notification data</param>
+        /// <returns>CreatedAtRoute with DTO</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPost("CreateNotification")]
+        //[Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateNotificationDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<CreateNotificationDTO>> CreateNotification([FromBody] CreateNotificationDTO notificationDTO)
+        {
+            if (notificationDTO == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided");
+            }
+            Notification model = new Notification()
+            {
+          
+            Topic = notificationDTO.Topic,
+            Message = notificationDTO.Message,
+            Status = notificationDTO.Status,
+        };
+            await _notiRepo.CreateAsync(model);
+            return CreatedAtRoute("GetNotification", new { Id = model.NotificationID }, notificationDTO);
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Notification update place 
+        /// </summary>
+        /// <param name="id">specify which entry to update</param>
+        /// <param name="updateNotificationDTO"> DTo with specific properties</param>
+        /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPut("Notifications/update/{id:int}")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateNotification([FromQuery] int id, [FromBody] UpdateNotificationDTO updateNotificationDTO)
+        {
+            if (id == 0 || updateNotificationDTO == null)
+            {
+                _logger.LogInformation("no data imputed");
+                return BadRequest("No data was provided");
+            }
+
+            var foundNotification = await _notiRepo.GetAsync(d => d.NotificationID == id);
+            if (foundNotification == null)
+            {
+                _logger.LogInformation("Notification with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+
+            foundNotification.Topic = updateNotificationDTO.Topic;
+            foundNotification.Message = updateNotificationDTO.Message;
+            foundNotification.Status = updateNotificationDTO.Status;
+
+            await _notiRepo.UpdateAsync(foundNotification);
+            return NoContent();
+        }
+
+
+
+
 
 
 

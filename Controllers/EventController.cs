@@ -4,8 +4,11 @@ using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Diagnostics.Metrics;
 using System.Net.Mime;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -80,6 +83,88 @@ namespace CompetitionEventsManager.Controllers
                 .Select(d => new GetEventDTO(d))
                 .ToList());
         }
+
+
+
+        /// <summary>
+        /// Adding new Event into db
+        /// </summary>
+        /// <param name="eventDTO">New Event data</param>
+        /// <returns>CreatedAtRoute with DTO</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPost("CreateEvent")]
+        //[Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEventDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<CreateEventDTO>> CreateEvent([FromBody] CreateEventDTO eventDTO)
+        {
+            if (eventDTO == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided");
+            }
+            Event model = new Event()
+            {
+           
+            Title = eventDTO.Title,
+            Place = eventDTO.Place,
+            Country = eventDTO.Country,
+            Currency = eventDTO.Currency,
+            Organizer = eventDTO.Organizer,
+            Date = eventDTO.Date,
+            Type = eventDTO.Type,
+        };
+            await _eventRepo.CreateAsync(model);
+            return CreatedAtRoute("GetEvent", new { Id = model.EventID }, eventDTO);
+        }
+
+
+        /// <summary>
+        /// Event update place 
+        /// </summary>
+        /// <param name="id">specify which entry to update</param>
+        /// <param name="updateEventDTO"> DTo with specific properties</param>
+        /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPut("Events/update/{id:int}")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateEvent([FromQuery] int id, [FromBody] UpdateEventDTO updateEventDTO)
+        {
+            if (id == 0 || updateEventDTO == null)
+            {
+                _logger.LogInformation("No data imputed");
+                return BadRequest("No data was provided");
+            }
+            var foundEvent = await _eventRepo.GetAsync(d => d.EventID == id);
+            if (foundEvent == null)
+            {
+                _logger.LogInformation("Event with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+            foundEvent.Title = updateEventDTO.Title;
+            foundEvent.Place = updateEventDTO.Place;
+            foundEvent.Country = updateEventDTO.Country;
+            foundEvent.Currency = updateEventDTO.Currency;
+            foundEvent.Organizer = updateEventDTO.Organizer;
+            foundEvent.Date = updateEventDTO.Date;
+            foundEvent.Type = updateEventDTO.Type;
+        
+         await _eventRepo.UpdateAsync(foundEvent);
+            return NoContent();
+        }
+
+
 
 
 

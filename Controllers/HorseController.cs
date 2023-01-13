@@ -145,6 +145,9 @@ namespace CompetitionEventsManager.Controllers
             return CreatedAtRoute("GetHorse", new { Id = model.HorseID }, horseDTO);
         }
 
+
+
+
         /// <summary>
         /// Horse update place 
         /// </summary>
@@ -199,6 +202,9 @@ namespace CompetitionEventsManager.Controllers
             await _horseRepo.UpdateAsync(foundHorse);
             return NoContent();
         }
+
+
+
 
 
         /// <summary>

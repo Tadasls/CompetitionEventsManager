@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.JsonPatch.Internal;
 using Newtonsoft.Json;
 using System.Net.Mime;
 using CompetitionEventsManager.Models.Dto.EntryDTO;
+using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics.Metrics;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -48,7 +52,7 @@ namespace CompetitionEventsManager.Controllers
         {
             if (id == 0)
             {
-                _logger.LogInformation("no id input");
+                _logger.LogInformation("No id input");
                 return BadRequest("Not entered ID");
             }
             //_httpContextAccessor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -67,7 +71,7 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
-        [HttpGet("GetAllEentries")]
+        [HttpGet("GetAllEntries")]
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetEntryDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -90,9 +94,106 @@ namespace CompetitionEventsManager.Controllers
 
 
 
+        /// <summary>
+        /// Adding new Entry into db
+        /// </summary>
+        /// <param name="entryDTO">New Entry data</param>
+        /// <returns>CreatedAtRoute with DTO</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPost("CreateEntry")]
+        //[Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEntryDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<CreateEntryDTO>> CreateEntry([FromBody] CreateEntryDTO entryDTO)
+        {
+            if (entryDTO == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided");
+            }
+            Entry model = new Entry()
+            {
+            HorseID = entryDTO.HorseID,
+            RiderID = entryDTO.RiderID,
+            HorseName = entryDTO.HorseName,
+            RiderFullName = entryDTO.RiderFullName,
+            HorseBirthYear = entryDTO.HorseBirthYear,
+            Points = entryDTO.Points,
+            Time = entryDTO.Time,
+            Training = entryDTO.Training,
+            Status = entryDTO.Status,
+            Comments = entryDTO.Comments,
+            NeedElectricity = entryDTO.NeedElectricity,
+            PlateNumbers = entryDTO.PlateNumbers,
+            NumberOfCages = entryDTO.NumberOfCages,
+            StayFromDate = entryDTO.StayFromDate,
+            StayToDate = entryDTO.StayToDate,
+            Shavings = entryDTO.Shavings,
+            NeedInvoice = entryDTO.NeedInvoice,
+            AgreemntOnContractNr1 = entryDTO.AgreemntOnContractNr1,
+        };
+            await _entryRepo.CreateAsync(model);
+            return CreatedAtRoute("GetEntry", new { Id = model.EntryID }, entryDTO);
+        }
 
 
 
+
+        /// <summary>
+        /// Entry update place 
+        /// </summary>
+        /// <param name="id">specify which entry to update</param>
+        /// <param name="updateEntryDTO"> DTo with specific properties</param>
+        /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPut("Entrys/update/{id:int}")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateEntry([FromQuery] int id, [FromBody] UpdateEntryDTO updateEntryDTO)
+        {
+            if (id == 0 || updateEntryDTO == null)
+            {
+                _logger.LogInformation("no data imputed");
+                return BadRequest("No data was provided");
+            }
+
+            var foundEntry = await _entryRepo.GetAsync(d => d.EntryID == id);
+            if (foundEntry == null)
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+
+            foundEntry.HorseName = updateEntryDTO.HorseName;
+            foundEntry.RiderFullName = updateEntryDTO.RiderFullName;
+            foundEntry.HorseBirthYear = updateEntryDTO.HorseBirthYear;
+            foundEntry.Points = updateEntryDTO.Points;
+            foundEntry.Time = updateEntryDTO.Time;
+            foundEntry.Training = updateEntryDTO.Training;
+            foundEntry.Status = updateEntryDTO.Status;
+            foundEntry.Comments = updateEntryDTO.Comments;
+            foundEntry.NeedElectricity = updateEntryDTO.NeedElectricity;
+            foundEntry.PlateNumbers = updateEntryDTO.PlateNumbers;
+            foundEntry.NumberOfCages = updateEntryDTO.NumberOfCages;
+            foundEntry.StayFromDate = updateEntryDTO.StayFromDate;
+            foundEntry.StayToDate = updateEntryDTO.StayToDate;
+            foundEntry.Shavings = updateEntryDTO.Shavings;
+            foundEntry.NeedInvoice = updateEntryDTO.NeedInvoice;
+            foundEntry.AgreemntOnContractNr1 = updateEntryDTO.AgreemntOnContractNr1;
+
+            await _entryRepo.UpdateAsync(foundEntry);
+            return NoContent();
+        }
 
 
 

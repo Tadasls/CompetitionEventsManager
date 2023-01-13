@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Mime;
 using CompetitionEventsManager.Models.Dto.CompetitionDTO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Claims;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -79,6 +81,118 @@ namespace CompetitionEventsManager.Controllers
                 .Select(d => new GetCompetitionDTO(d))
                 .ToList());
         }
+
+
+        /// <summary>
+        /// Adding new Competition into db
+        /// </summary>
+        /// <param name="competitionDTO">New horse data</param>
+        /// <returns>CreatedAtRoute with DTO</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPost("CreateCompetition")]
+        //[Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateCompetitionDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<CreateCompetitionDTO>> CreateHorse([FromBody] CreateCompetitionDTO competitionDTO)
+        {
+            if (competitionDTO == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided");
+            }
+            Competition model = new Competition()
+            {
+            Title = competitionDTO.Title,
+            Number = competitionDTO.Number,
+            CompetitionType = competitionDTO.CompetitionType,
+            ArenaType = competitionDTO.ArenaType,
+            Article = competitionDTO.Article,
+            Phase = competitionDTO.Phase,
+            Date = competitionDTO.Date,
+            Time = competitionDTO.Time,
+            Class = competitionDTO.Class,
+            NumberOfJumps = competitionDTO.NumberOfJumps,
+            NumberOfObstackles = competitionDTO.NumberOfObstackles,
+            TimeAllowed = competitionDTO.TimeAllowed,
+            SecToStart = competitionDTO.SecToStart,
+            PointsForExeedindTimeLimit = competitionDTO.PointsForExeedindTimeLimit,
+            SheduledStartTime = competitionDTO.SheduledStartTime,
+            SheduledRunTime = competitionDTO.SheduledRunTime,
+            TimeBeetweenRuns = competitionDTO.TimeBeetweenRuns,
+            BreakTime = competitionDTO.BreakTime,
+            AdditionalTime = competitionDTO.AdditionalTime,
+        };
+            await _competitionRepo.CreateAsync(model);
+            return CreatedAtRoute("GetCompetition", new { Id = model.CompetitionID }, competitionDTO);
+        }
+
+
+
+
+
+        /// <summary>
+        /// Competition update place 
+        /// </summary>
+        /// <param name="id">specify which entry to update</param>
+        /// <param name="updateCompetitionDTO"> DTo with specific properties</param>
+        /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPut("Competitions/update/{id:int}")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateCompetition([FromQuery] int id, [FromBody] UpdateCompetitionDTO updateCompetitionDTO)
+        {
+            if (id == 0 || updateCompetitionDTO == null)
+            {
+                _logger.LogInformation("no data imputed");
+                return BadRequest("No data was provided");
+            }
+
+            var foundCompetition = await _competitionRepo.GetAsync(d => d.CompetitionID == id);
+            if (foundCompetition == null)
+            {
+                _logger.LogInformation("Competition with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+
+            foundCompetition.Title = updateCompetitionDTO.Title;
+            foundCompetition.Number = updateCompetitionDTO.Number;
+            foundCompetition.CompetitionType = updateCompetitionDTO.CompetitionType;
+            foundCompetition.ArenaType = updateCompetitionDTO.ArenaType;
+            foundCompetition.Article = updateCompetitionDTO.Article;
+            foundCompetition.Phase = updateCompetitionDTO.Phase;
+            foundCompetition.Date = updateCompetitionDTO.Date;
+            foundCompetition.Time = updateCompetitionDTO.Time;
+            foundCompetition.Class = updateCompetitionDTO.Class;
+            foundCompetition.NumberOfJumps = updateCompetitionDTO.NumberOfJumps;
+            foundCompetition.NumberOfObstackles = updateCompetitionDTO.NumberOfObstackles;
+            foundCompetition.TimeAllowed = updateCompetitionDTO.TimeAllowed;
+            foundCompetition.SecToStart = updateCompetitionDTO.SecToStart;
+            foundCompetition.PointsForExeedindTimeLimit = updateCompetitionDTO.PointsForExeedindTimeLimit;
+            foundCompetition.SheduledStartTime = updateCompetitionDTO.SheduledStartTime;
+            foundCompetition.SheduledRunTime = updateCompetitionDTO.SheduledRunTime;
+            foundCompetition.TimeBeetweenRuns = updateCompetitionDTO.TimeBeetweenRuns;
+            foundCompetition.BreakTime = updateCompetitionDTO.BreakTime;
+            foundCompetition.AdditionalTime = updateCompetitionDTO.AdditionalTime;
+
+            await _competitionRepo.UpdateAsync(foundCompetition);
+            return NoContent();
+        }
+
+
+
+
+
 
 
 

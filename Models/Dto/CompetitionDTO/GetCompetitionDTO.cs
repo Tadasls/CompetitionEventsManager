@@ -41,13 +41,13 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
         public int? NumberOfJumps { get; set; }
         public int? NumberOfObstackles { get; set; }
         public int? TimeAllowed { get; set; }
-        public int? SecToStart { get; set; } = 45;
-        public int? PointsForExeedindTimeLimit { get; set; } = 1;
+        public int? SecToStart { get; set; }
+        public int? PointsForExeedindTimeLimit { get; set; }
         public DateTime? SheduledStartTime { get; set; }
-        public int? SheduledRunTime { get; set; } = 2;
-        public int? TimeBeetweenRuns { get; set; } = 10;
-        public int? BreakTime { get; set; } = 10;
-        public int? AdditionalTime { get; set; } = 10;
+        public int? SheduledRunTime { get; set; }
+        public int? TimeBeetweenRuns { get; set; }
+        public int? BreakTime { get; set; }
+        public int? AdditionalTime { get; set; }
        
        
 
