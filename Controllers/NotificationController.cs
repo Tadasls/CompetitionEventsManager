@@ -235,6 +235,14 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("No such ID Entries was found");
             }
             var notification = await _notiRepo.GetAsync(d => d.NotificationID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != notification.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Notifications", currentUserId, id);
+                return Forbid("No access");
+            }
+
             await _notiRepo.RemoveAsync(notification);
             return NoContent();
         }

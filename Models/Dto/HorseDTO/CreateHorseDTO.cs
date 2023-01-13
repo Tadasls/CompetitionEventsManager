@@ -28,7 +28,6 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
         public DateTime? PassportNoExipreDate { get; set; }
         public string? ChipNumber { get; set; }
 
-        public int? UserId { get; set; }
 
     }
 }

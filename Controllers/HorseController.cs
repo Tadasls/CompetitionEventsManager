@@ -25,6 +25,7 @@ namespace CompetitionEventsManager.Controllers
         private readonly IHorseRepository _horseRepo;
         private readonly IHorseAdapter _horseAdapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         /// <summary>
         /// this is Horse Controlller
         /// </summary>
@@ -71,15 +72,6 @@ namespace CompetitionEventsManager.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Fetch registered horse with a specified ID from DB
         /// </summary>
@@ -100,8 +92,6 @@ namespace CompetitionEventsManager.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<GetHorseDTO>> GetHorseById(int id)
         {     
-            
-
 
             if (id == 0)
             {
@@ -168,6 +158,13 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Method without data started at: ",  DateTime.Now);
                 return BadRequest("No data provided");
             }
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId == null )
+            {
+                return Forbid("No access");
+            }
+
+
             Horse model = new Horse()
             {
             HorseName = horseDTO.HorseName,
@@ -189,13 +186,11 @@ namespace CompetitionEventsManager.Controllers
             PassportNo = horseDTO.PassportNo,
             PassportNoExipreDate = horseDTO.PassportNoExipreDate,
             ChipNumber = horseDTO.ChipNumber,
-            UserId = horseDTO.UserId,
+            UserId = currentUserId,
         };
             await _horseRepo.CreateAsync(model);
             return CreatedAtRoute("GetHorse", new { Id = model.HorseID }, horseDTO);
         }
-
-
 
 
         /// <summary>
@@ -228,7 +223,14 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Horse with id {id} not found", id);
                 return NotFound("No such entries with this ID");
             }
-          
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundHorse.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
             foundHorse.HorseName = updateHorseDTO.HorseName;
             foundHorse.OwnerName = updateHorseDTO.OwnerName;
             foundHorse.YearOfBird = updateHorseDTO.YearOfBird;
@@ -248,14 +250,11 @@ namespace CompetitionEventsManager.Controllers
             foundHorse.PassportNo = updateHorseDTO.PassportNo;
             foundHorse.PassportNoExipreDate = updateHorseDTO.PassportNoExipreDate;
             foundHorse.ChipNumber = updateHorseDTO.ChipNumber;
-            foundHorse.UserId = updateHorseDTO.UserId;
+
 
             await _horseRepo.UpdateAsync(foundHorse);
             return NoContent();
         }
-
-
-
 
 
         /// <summary>
@@ -274,7 +273,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdatePartialHorse([FromQuery] int id, [FromBody] JsonPatchDocument<Horse> request)
+        public async Task<ActionResult> UpdatePartialHorse( int id, [FromBody] JsonPatchDocument<Horse> request)
         {
             if (id == 0 || request == null)
             {
@@ -288,6 +287,15 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("No such Horse with ID was found");
             }
             var foundHorse = await _horseRepo.GetAsync(d => d.HorseID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundHorse.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
             request.ApplyTo(foundHorse, ModelState);
             await _horseRepo.UpdateAsync(foundHorse);
             if (!ModelState.IsValid)
@@ -313,7 +321,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdatePartialHorseByDto([FromQuery] int id, [FromBody] JsonPatchDocument<UpdateHorseDTO> request)
+        public async Task<ActionResult> UpdatePartialHorseByDto( int id, [FromBody] JsonPatchDocument<UpdateHorseDTO> request)
         {
             if (id == 0 || request == null)
             {
@@ -326,7 +334,16 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Horse with id {id} not found", id);
                 return NotFound("No such Horse with ID was found");
             }
+
             var foundHorse = await _horseRepo.GetAsync(d => d.HorseID == id, tracked: false);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundHorse.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
             var updateHorseDto = _horseAdapter.Bind(foundHorse);
             request.ApplyTo(updateHorseDto, ModelState);
             var horse = _horseAdapter.Bind(updateHorseDto, foundHorse.HorseID);
@@ -361,14 +378,32 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("No such ID Entries was found");
             }
             var horse = await _horseRepo.GetAsync(d => d.HorseID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != horse.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
             await _horseRepo.RemoveAsync(horse);
             return NoContent();
         }
 
 
 
-
-
-
+     
     }
+
+
+
+
+
+
+
+
+
+
+
 }
+

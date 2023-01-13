@@ -6,6 +6,7 @@ using CompetitionEventsManager.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Linq;
@@ -302,7 +303,7 @@ namespace CompetitionEventsManager.Controllers
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-            public async Task<ActionResult> Deleterider( int id)
+            public async Task<ActionResult> DeleteRider( int id)
             {
                 if (!await _riderRepo.ExistAsync(d => d.RiderID == id))
                 {
@@ -310,7 +311,17 @@ namespace CompetitionEventsManager.Controllers
                     return NotFound("No such ID Entries was found");
                 }
                 var rider = await _riderRepo.GetAsync(d => d.RiderID == id);
-                await _riderRepo.RemoveAsync(rider);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != rider.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Riders", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
+
+            await _riderRepo.RemoveAsync(rider);
                 return NoContent();
             }
 

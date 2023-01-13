@@ -378,6 +378,15 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("No such ID Entries was found");
             }
             var entry = await _entryRepo.GetAsync(d => d.EntryID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != entry.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Entries", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
             await _entryRepo.RemoveAsync(entry);
             return NoContent();
         }
