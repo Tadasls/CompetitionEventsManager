@@ -58,7 +58,7 @@ namespace CompetitionEventsManager.Data
              .WithOne(ab => ab.LocalUser)
              .HasForeignKey(ab => ab.UserId);
 
-            modelBuilder.Entity<Entry>().HasKey(x => new { x.HorseID, x.RiderID });
+            modelBuilder.Entity<Entry>().HasKey(d => d.EntryID);
             modelBuilder.Entity<Entry>().HasData(HorseInitialData.EntryDataSeed);
 
          modelBuilder.Entity<LocalUser>().HasKey(d => d.Id);

@@ -16,14 +16,10 @@ namespace CompetitionEventsManager.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [MaxLength(20)]
         public int EntryID { get; set; }
-        public Horse Horse { get; set; }
-        [Required]
         [MaxLength(20)]
-        public int HorseID { get; set; }
-        public Rider Rider { get; set; }
-        [Required]
+        public int? HorseID { get; set; }
         [MaxLength(20)]
-        public int RiderID { get; set; }
+        public int? RiderID { get; set; }
         [MaxLength(100)]
         public string? HorseName { get; set; }
         [MaxLength(100)]
@@ -61,7 +57,9 @@ namespace CompetitionEventsManager.Models
         public virtual LocalUser? LocalUser { get; set; }
         public int? CId { get; set; }
         public virtual Competition? Competition { get; set; }
+        public virtual Horse? Horse { get; set; }
+        public virtual Rider? Rider { get; set; }
 
 
     }
-}
+} 

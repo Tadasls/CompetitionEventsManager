@@ -137,7 +137,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateNotification([FromQuery] int id, [FromBody] UpdateNotificationDTO updateNotificationDTO)
+        public async Task<ActionResult> UpdateNotification( int id, [FromBody] UpdateNotificationDTO updateNotificationDTO)
         {
             if (id == 0 || updateNotificationDTO == null)
             {

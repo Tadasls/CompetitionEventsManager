@@ -32,9 +32,9 @@ namespace CompetitionEventsManager.Models.Dto.EntryDTO
 
         public int EntryID { get; set; }
      
-        public int HorseID { get; set; }
+        public int? HorseID { get; set; }
         
-        public int RiderID { get; set; }
+        public int? RiderID { get; set; }
    
         public string? HorseName { get; set; }
        

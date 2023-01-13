@@ -4,8 +4,6 @@
     {
 
 
-        public int EventID { get; set; }
-
         public string Title { get; set; }
 
         public string? Place { get; set; }

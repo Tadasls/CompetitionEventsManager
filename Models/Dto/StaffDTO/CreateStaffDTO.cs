@@ -2,8 +2,7 @@
 {
     public class CreateStaffDTO
     {
-        public int StaffID { get; set; }
-
+   
         public string FirstName { get; set; }
 
         public string Lastname { get; set; }
@@ -15,8 +14,6 @@
         public string? NationalID { get; set; }
 
         public string? Position { get; set; }
-
-
 
         public int? SId { get; set; }
 

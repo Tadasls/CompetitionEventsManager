@@ -139,7 +139,7 @@ namespace CompetitionEventsManager.Controllers
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-            public async Task<ActionResult> Updaterider([FromQuery] int id, [FromBody] UpdateRiderDTO updateRiderDTO)
+            public async Task<ActionResult> Updaterider( int id, [FromBody] UpdateRiderDTO updateRiderDTO)
             {
                 if (id == 0 || updateRiderDTO == null)
                 {

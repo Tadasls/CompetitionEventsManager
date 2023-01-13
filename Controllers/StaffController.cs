@@ -140,7 +140,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateStaff([FromQuery] int id, [FromBody] UpdateStaffDTO updateStaffDTO)
+        public async Task<ActionResult> UpdateStaff(int id, [FromBody] UpdateStaffDTO updateStaffDTO)
         {
             if (id == 0 || updateStaffDTO == null)
             {

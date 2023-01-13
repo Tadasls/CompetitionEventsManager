@@ -3,6 +3,7 @@ using System;
 using CompetitionEventsManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompetitionEventsManager.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230113113849_fixedRelationshipsAtEntryLevel")]
+    partial class fixedRelationshipsAtEntryLevel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
@@ -179,8 +182,11 @@ namespace CompetitionEventsManager.Migrations
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Entry", b =>
                 {
-                    b.Property<int>("EntryID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("HorseID")
+                        .HasMaxLength(20)
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RiderID")
                         .HasMaxLength(20)
                         .HasColumnType("INTEGER");
 
@@ -195,13 +201,14 @@ namespace CompetitionEventsManager.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("EntryID")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("HorseBirthYear")
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("HorseID")
-                        .HasMaxLength(20)
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("HorseName")
                         .HasMaxLength(100)
@@ -231,10 +238,6 @@ namespace CompetitionEventsManager.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("RiderID")
-                        .HasMaxLength(20)
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool?>("Shavings")
                         .HasMaxLength(50)
                         .HasColumnType("INTEGER");
@@ -262,11 +265,9 @@ namespace CompetitionEventsManager.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("EntryID");
+                    b.HasKey("HorseID", "RiderID");
 
                     b.HasIndex("CId");
-
-                    b.HasIndex("HorseID");
 
                     b.HasIndex("RiderID");
 
@@ -277,9 +278,10 @@ namespace CompetitionEventsManager.Migrations
                     b.HasData(
                         new
                         {
-                            EntryID = 1,
-                            AgreemntOnContractNr1 = true,
                             HorseID = 1,
+                            RiderID = 1,
+                            AgreemntOnContractNr1 = true,
+                            EntryID = 1,
                             HorseName = "The King",
                             NeedElectricity = false,
                             NeedInvoice = false,
@@ -287,7 +289,6 @@ namespace CompetitionEventsManager.Migrations
                             PlateNumbers = "KEK:511",
                             Points = 0,
                             RiderFullName = "Linas Balciunas",
-                            RiderID = 1,
                             Shavings = false,
                             Status = "Confirmed",
                             StayFromDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022),
@@ -297,9 +298,10 @@ namespace CompetitionEventsManager.Migrations
                         },
                         new
                         {
-                            EntryID = 2,
-                            AgreemntOnContractNr1 = false,
                             HorseID = 2,
+                            RiderID = 2,
+                            AgreemntOnContractNr1 = false,
+                            EntryID = 2,
                             HorseName = "Perkunas",
                             NeedElectricity = false,
                             NeedInvoice = true,
@@ -307,7 +309,6 @@ namespace CompetitionEventsManager.Migrations
                             PlateNumbers = "KEK:515",
                             Points = 0,
                             RiderFullName = "S Laurinaitis",
-                            RiderID = 2,
                             Shavings = true,
                             Status = "Confirmed",
                             StayFromDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022),
@@ -317,9 +318,10 @@ namespace CompetitionEventsManager.Migrations
                         },
                         new
                         {
-                            EntryID = 3,
-                            AgreemntOnContractNr1 = true,
                             HorseID = 3,
+                            RiderID = 3,
+                            AgreemntOnContractNr1 = true,
+                            EntryID = 3,
                             HorseName = "Nabagute",
                             NeedElectricity = true,
                             NeedInvoice = false,
@@ -327,7 +329,6 @@ namespace CompetitionEventsManager.Migrations
                             PlateNumbers = "",
                             Points = 0,
                             RiderFullName = "Z Sarka",
-                            RiderID = 3,
                             Shavings = false,
                             Status = "Confirmed",
                             StayFromDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021),
@@ -945,11 +946,15 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasOne("CompetitionEventsManager.Models.Horse", "Horse")
                         .WithMany()
-                        .HasForeignKey("HorseID");
+                        .HasForeignKey("HorseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CompetitionEventsManager.Models.Rider", "Rider")
                         .WithMany()
-                        .HasForeignKey("RiderID");
+                        .HasForeignKey("RiderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CompetitionEventsManager.Models.LocalUser", "LocalUser")
                         .WithMany("Entries")

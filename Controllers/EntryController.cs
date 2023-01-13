@@ -118,6 +118,7 @@ namespace CompetitionEventsManager.Controllers
             }
             Entry model = new Entry()
             {
+         
             HorseID = entryDTO.HorseID,
             RiderID = entryDTO.RiderID,
             HorseName = entryDTO.HorseName,
@@ -141,6 +142,8 @@ namespace CompetitionEventsManager.Controllers
         };
             await _entryRepo.CreateAsync(model);
             return CreatedAtRoute("GetEntry", new { Id = model.EntryID }, entryDTO);
+      
+
         }
 
 
@@ -162,7 +165,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateEntry([FromQuery] int id, [FromBody] UpdateEntryDTO updateEntryDTO)
+        public async Task<ActionResult> UpdateEntry( int id, [FromBody] UpdateEntryDTO updateEntryDTO)
         {
             if (id == 0 || updateEntryDTO == null)
             {
