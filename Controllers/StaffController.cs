@@ -24,22 +24,22 @@ namespace CompetitionEventsManager.Controllers
 
             private readonly ILogger<HorseController> _logger;
             private readonly IStaffRepository _staffRepo;
-           
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public StaffController(ILogger<HorseController> logger, IStaffRepository repository)
-            {
-                _logger = logger;
-                _staffRepo = repository;
-             
-            }
+        public StaffController(ILogger<HorseController> logger, IStaffRepository repository, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _staffRepo = repository;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-            /// <summary>
-            /// Fetch registered Staff with a specified ID from DB
-            /// </summary>
-            /// <param name="id">Requested Staff ID</param>
-            /// <returns>Staff by specified ID</returns>
-            /// <response code="400">Customer bad request description</response>
-            [HttpGet("Staff/{id:int}", Name = "GetStaff")]
+        /// <summary>
+        /// Fetch registered Staff with a specified ID from DB
+        /// </summary>
+        /// <param name="id">Requested Staff ID</param>
+        /// <returns>Staff by specified ID</returns>
+        /// <response code="400">Customer bad request description</response>
+        [HttpGet("Staff/{id:int}", Name = "GetStaff")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetStaffDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]

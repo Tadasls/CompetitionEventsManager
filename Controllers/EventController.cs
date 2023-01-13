@@ -23,22 +23,22 @@ namespace CompetitionEventsManager.Controllers
      
             private readonly ILogger<EventController> _logger;
             private readonly IEventRepository _eventRepo;
-       
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public EventController(ILogger<EventController> logger, IEventRepository repository)
-            {
-                _logger = logger;
-                _eventRepo = repository;
-              
-            }
+        public EventController(ILogger<EventController> logger, IEventRepository repository, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _eventRepo = repository;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-            /// <summary>
-            /// Fetch Events with a specified ID from DB
-            /// </summary>
-            /// <param name="id">Requested event ID</param>
-            /// <returns>Event by specified ID</returns>
-            /// <response code="400">Customer bad request description</response>
-            [HttpGet("Event/{id:int}", Name = "GetEvent")]
+        /// <summary>
+        /// Fetch Events with a specified ID from DB
+        /// </summary>
+        /// <param name="id">Requested event ID</param>
+        /// <returns>Event by specified ID</returns>
+        /// <response code="400">Customer bad request description</response>
+        [HttpGet("Event/{id:int}", Name = "GetEvent")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEventDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]

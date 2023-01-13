@@ -58,7 +58,7 @@ namespace CompetitionEventsManager.Controllers
             }
                
             var token = _jwtService.GetJwtToken(user.Id, user.Role);
-            return Ok(new LoginResponse { UserName = model.UserName, Token = token });
+            return Ok(new LoginResponse { UserName = model.UserName, ID = user.Id,  Token = token });
         }
 
         /// <summary>

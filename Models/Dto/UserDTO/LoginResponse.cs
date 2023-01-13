@@ -10,6 +10,10 @@
         /// </summary>
         public string? UserName { get; set; }
         /// <summary>
+        /// UserUserName
+        /// </summary>
+        public int? ID { get; set; }
+        /// <summary>
         /// User Token
         /// </summary>
         public string? Token { get; set; }

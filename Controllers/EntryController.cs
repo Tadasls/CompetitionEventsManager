@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
+using CompetitionEventsManager.Models.Dto.RiderDTO;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -26,12 +27,58 @@ namespace CompetitionEventsManager.Controllers
 
         private readonly ILogger<HorseController> _logger;
         private readonly IEntryRepository _entryRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EntryController(ILogger<HorseController> logger, IEntryRepository repository)
+        public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _entryRepo = repository;
+            _httpContextAccessor = new HttpContextAccessor();
         }
+
+
+        /// <summary>
+        /// To get All Entries by User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/GetAllEntriesForUser/{id:int}", Name = "GetAllEntries")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetEntryDTO>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetEntryDTO>> GetUsersEntriesByUserId(int id)
+        {
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != id)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access users {id} Entries", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            var userEnties = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>() { "LocalUser" });
+            if (userEnties == null) return NotFound("User does not have Entries");
+
+
+            return Ok(userEnties
+             .Select(userEnties => new GetEntryDTO(userEnties))
+             .ToList());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -292,6 +339,12 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Entry>> GetUserHorseByEntryId(int id)
         {
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != id)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
 
             var entryHorses = await _entryRepo.GetFewDBAsync(x => x.UserId == id, new List<string> { "Horse" });
 
@@ -300,22 +353,7 @@ namespace CompetitionEventsManager.Controllers
         }
 
 
-        /// <summary>
-        /// Fetches all Entries in the DB
-        /// </summary>
-        /// <returns>All Horses in DB</returns>
-        [HttpGet("HorsesFromEntriesAll")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Entry>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Entry>> GetUserHorsesByEntryId(int id)
-        {
-
-            var entryHorses = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string> { "Horse" });
-
-            return Ok(entryHorses); //grazino entry klasu su zirgo klase 
-
-        }
-
+ 
 
 
 

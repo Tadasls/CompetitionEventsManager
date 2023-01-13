@@ -1,4 +1,5 @@
 ﻿using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto.NotificationDTO;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
 using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Services.IServices;
@@ -26,22 +27,68 @@ namespace CompetitionEventsManager.Controllers
             private readonly ILogger<RiderController> _logger;
             private readonly IRiderRepository _riderRepo;
             private readonly IRiderAdapter _riderAdapter;
-           
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public RiderController(ILogger<RiderController> logger, IRiderRepository repository, IRiderAdapter riderAdapter)
+        public RiderController(ILogger<RiderController> logger, IRiderRepository repository, IRiderAdapter riderAdapter, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _riderRepo = repository;
+            _riderAdapter = riderAdapter;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        /// <summary>
+        /// To get All Riders by User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/GetAllRidersForUser/{id:int}", Name = "GetAllRiders")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetRiderDTO>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetRiderDTO>> GetUsersRidersByUserId(int id)
+        {
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != id)
             {
-                _logger = logger;
-                _riderRepo = repository;
-                _riderAdapter = riderAdapter;
+                _logger.LogWarning("User {currentUserId} tried to access users {id} Riders", currentUserId, id);
+                return Forbid("No access");
             }
 
-            /// <summary>
-            /// Fetch registered rider with a specified ID from DB
-            /// </summary>
-            /// <param name="id">Requested rider ID</param>
-            /// <returns>rider by specified ID</returns>
-            /// <response code="400">Customer bad request description</response>
-            [HttpGet("Riders/{id:int}", Name = "GetRider")]
+            var UserRiders = await _riderRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>() { "LocalUser" });
+            if (UserRiders == null) return NotFound("User does not have an Notifications");
+
+
+            return Ok(UserRiders
+             .Select(UserRiders => new GetRiderDTO(UserRiders))
+             .ToList());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Fetch registered rider with a specified ID from DB
+        /// </summary>
+        /// <param name="id">Requested rider ID</param>
+        /// <returns>rider by specified ID</returns>
+        /// <response code="400">Customer bad request description</response>
+        [HttpGet("Riders/{id:int}", Name = "GetRider")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRiderDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -23,21 +23,21 @@ namespace CompetitionEventsManager.Controllers
      
             private readonly ILogger<CompetitionController> _logger;
             private readonly ICompetitionRepository _competitionRepo;
-           
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public CompetitionController(ILogger<CompetitionController> logger, ICompetitionRepository repository)
-            {
-                _logger = logger;
-                _competitionRepo = repository;
-             
-            }
+        public CompetitionController(ILogger<CompetitionController> logger, ICompetitionRepository repository, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _competitionRepo = repository;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-                /// <summary>
-                /// Competition
-                /// </summary>
-                /// <param name="id"></param>
-                /// <returns></returns>
-            [HttpGet("Competition/{id:int}", Name = "GetCompetition")]
+        /// <summary>
+        /// Competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Competition/{id:int}", Name = "GetCompetition")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCompetitionDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]

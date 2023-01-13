@@ -19,22 +19,63 @@ namespace CompetitionEventsManager.Controllers
       
             private readonly ILogger<NotificationController> _logger;
             private readonly INotificationRepository _notiRepo;
-          
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public NotificationController(ILogger<NotificationController> logger, INotificationRepository repository)
+        public NotificationController(ILogger<NotificationController> logger, INotificationRepository repository, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _notiRepo = repository;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
+       /// <summary>
+       /// Notifications get All
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+        [HttpGet("/GetAllNotificationsForUser/{id:int}", Name = "GetAllNotifications")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetNotificationDTO>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetNotificationDTO>> GetUsersNotificationsByUserId(int id)
+        {
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != id)
             {
-                _logger = logger;
-                _notiRepo = repository;
-              
+                _logger.LogWarning("User {currentUserId} tried to access user {id} notifications", currentUserId, id);
+                return Forbid("No access");
             }
 
-            /// <summary>
-            /// Fetch all Notifications specified ID from DB
-            /// </summary>
-            /// <param name="id">Requested Notification ID</param>
-            /// <returns>Notification by specified ID</returns>
-            /// <response code="400">Customer bad request description</response>
-            [HttpGet("Notification/{id:int}", Name = "GetNotification")]
+            var userNotifications = await _notiRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>() { "LocalUser" });
+            if (userNotifications == null) return NotFound("User does not have an Notifications");
+
+
+            return Ok(userNotifications
+             .Select(userNotifications => new GetNotificationDTO(userNotifications))
+             .ToList());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Fetch all Notifications specified ID from DB
+        /// </summary>
+        /// <param name="id">Requested Notification ID</param>
+        /// <returns>Notification by specified ID</returns>
+        /// <response code="400">Customer bad request description</response>
+        [HttpGet("Notification/{id:int}", Name = "GetNotification")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetNotificationDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]

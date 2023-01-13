@@ -1,4 +1,5 @@
 ﻿using CompetitionEventsManager.Models;
+using CompetitionEventsManager.Models.Dto.EntryDTO;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Services.IServices;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Mime;
 
 
@@ -22,18 +24,61 @@ namespace CompetitionEventsManager.Controllers
         private readonly ILogger<HorseController> _logger;
         private readonly IHorseRepository _horseRepo;
         private readonly IHorseAdapter _horseAdapter;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         /// <summary>
         /// this is Horse Controlller
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="repository"></param>
         /// <param name="horseAdapter"></param>
-        public HorseController(ILogger<HorseController> logger, IHorseRepository repository, IHorseAdapter horseAdapter)
+        public HorseController(ILogger<HorseController> logger, IHorseRepository repository, IHorseAdapter horseAdapter, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _horseRepo = repository;
             _horseAdapter = horseAdapter;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+
+        /// <summary>
+        /// Fetches all Horses in the DB
+        /// </summary>
+        /// <returns>All Horses in DB</returns>
+        [HttpGet("/GetAllHorses/{id:int}", Name = "GetAllHorses")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetHorseDTO>> GetUserHorsesById(int id)
+        {
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+           if (currentUserId != id)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            var entryHorses = await _horseRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>(){ "LocalUser" });
+            if (entryHorses == null) return NotFound("User does not have an Horses");
+
+
+            return Ok(entryHorses
+             .Select(entryHorses => new GetHorseDTO(entryHorses))
+             .ToList());
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Fetch registered horse with a specified ID from DB
@@ -54,7 +99,10 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<GetHorseDTO>> GetHorseById(int id)
-        {       
+        {     
+            
+
+
             if (id == 0)
             {
                 _logger.LogInformation("no id input");
