@@ -1,6 +1,7 @@
 ﻿using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
+using CompetitionEventsManager.Services.IServices;
 
 namespace CompetitionEventsManager.Services.Adapters
 {

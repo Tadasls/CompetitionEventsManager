@@ -2,6 +2,7 @@
 using CompetitionEventsManager.Repository;
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using CompetitionEventsManager.Services.Adapters;
+using CompetitionEventsManager.Services.IServices;
 
 namespace CompetitionEventsManager.Services
 {

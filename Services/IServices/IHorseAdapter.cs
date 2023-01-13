@@ -1,7 +1,7 @@
 ﻿using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
 
-namespace CompetitionEventsManager.Services.Adapters
+namespace CompetitionEventsManager.Services.IServices
 {
     public interface IHorseAdapter
     {

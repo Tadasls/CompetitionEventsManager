@@ -8,9 +8,7 @@ namespace CompetitionEventsManager.Data
 {
     public class DBContext : DbContext
     {
-        //public DBContext()
-        //{
-        //}
+       
 
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
         public DbSet<Competition> Competitions { get; set; }

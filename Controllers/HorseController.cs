@@ -1,7 +1,7 @@
 ﻿using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository.IRepository;
-using CompetitionEventsManager.Services.Adapters;
+using CompetitionEventsManager.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
