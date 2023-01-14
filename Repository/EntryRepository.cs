@@ -19,8 +19,7 @@ namespace CompetitionEventsManager.Repository
 
         public IEnumerable<Horse> GetSomeWithSQL(int riderId)
         {
-            // var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-
+           
             var entities =
                 from entry in _db.Entries.Where(x => x.RiderID == riderId)
                 join horse in _db.Horses on entry.HorseID equals horse.HorseID
@@ -52,7 +51,7 @@ namespace CompetitionEventsManager.Repository
             var duomenys = _db.Entries
             .Include(ab => ab.Competition)
             .ToList();
-            return duomenys; // grazina eventus su competitionais !!!
+            return duomenys; // grazina entries su competitionais !!!
         }
 
 

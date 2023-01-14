@@ -4,9 +4,9 @@
     {
 
 
-        public int? HorseID { get; set; }
+        //public int? HorseID { get; set; }
 
-        public int? RiderID { get; set; }
+        //public int? RiderID { get; set; }
 
         public string? HorseName { get; set; }
 
@@ -34,8 +34,6 @@
         public bool? NeedInvoice { get; set; } = false;
 
         public bool? AgreemntOnContractNr1 { get; set; } = false;
-
-        public int? UserId { get; set; }
         public int? CId { get; set; }
 
 

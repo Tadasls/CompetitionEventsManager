@@ -183,7 +183,7 @@ namespace CompetitionEventsManager.Controllers
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-            public async Task<ActionResult> Updaterider( int id, [FromBody] UpdateRiderDTO updateRiderDTO)
+            public async Task<ActionResult> UpdateRider( int id, [FromBody] UpdateRiderDTO updateRiderDTO)
             {
                 if (id == 0 || updateRiderDTO == null)
                 {
@@ -198,6 +198,14 @@ namespace CompetitionEventsManager.Controllers
                     return NotFound("No such entries with this ID");
                 }
 
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundRider.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
             foundRider.FirstName = updateRiderDTO.FirstName;
             foundRider.FirstName = updateRiderDTO.FirstName;
             foundRider.LastName = updateRiderDTO.LastName;
@@ -209,7 +217,7 @@ namespace CompetitionEventsManager.Controllers
             foundRider.InsuranceExiprationDate = updateRiderDTO.InsuranceExiprationDate;
             foundRider.Country = updateRiderDTO.Country;
             foundRider.Comments = updateRiderDTO.Comments;
-            foundRider.UserId = updateRiderDTO.UserId;
+           
 
         await _riderRepo.UpdateAsync(foundRider);
                 return NoContent();

@@ -88,15 +88,15 @@ namespace CompetitionEventsManager.Data
 
             // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
-            modelBuilder.Entity<Entry>()
-        .HasOne(e => e.Horse)
-        .WithMany()
-        .HasForeignKey(e => e.HorseID);
+        //    modelBuilder.Entity<Entry>()
+        //.HasOne(e => e.Horse)
+        //.WithMany()
+        //.HasForeignKey(e => e.HorseID);
 
-            modelBuilder.Entity<Entry>()
-                    .HasOne(e => e.Rider)
-                    .WithMany()
-                    .HasForeignKey(e => e.RiderID);
+        //    modelBuilder.Entity<Entry>()
+        //            .HasOne(e => e.Rider)
+        //            .WithMany()
+        //            .HasForeignKey(e => e.RiderID);
 
 
 

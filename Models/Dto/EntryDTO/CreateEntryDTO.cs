@@ -40,8 +40,6 @@ namespace CompetitionEventsManager.Models.Dto.EntryDTO
         public bool? NeedInvoice { get; set; } = false;
 
         public bool? AgreemntOnContractNr1 { get; set; } = false;
-
-        public int? UserId { get; set; }
         public int? CId { get; set; }
  
 

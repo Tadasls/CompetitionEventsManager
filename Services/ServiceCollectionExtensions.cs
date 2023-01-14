@@ -27,6 +27,7 @@ namespace CompetitionEventsManager.Services
 
             services.AddTransient<IHorseAdapter, HorseAdapter>();
             services.AddTransient<IRiderAdapter, RiderAdapter>();
+            services.AddTransient<IEntryAdapter, EntryAdapter>();
 
             return services;
         }

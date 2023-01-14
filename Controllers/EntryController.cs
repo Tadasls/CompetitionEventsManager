@@ -14,6 +14,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
+using Microsoft.AspNetCore.JsonPatch;
+using CompetitionEventsManager.Services.IServices;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -28,12 +30,14 @@ namespace CompetitionEventsManager.Controllers
         private readonly ILogger<HorseController> _logger;
         private readonly IEntryRepository _entryRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEntryAdapter _entryAdapter;
 
-        public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor)
+        public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor, IEntryAdapter entryAdapter)
         {
             _logger = logger;
             _entryRepo = repository;
             _httpContextAccessor = new HttpContextAccessor();
+            _entryAdapter = entryAdapter;
         }
 
 
@@ -66,47 +70,6 @@ namespace CompetitionEventsManager.Controllers
              .ToList());
         }
 
-
-        /// <summary>
-        /// Fetch registered Entries with a specified ID from DB
-        /// </summary>
-        /// <param name="id">Requested Entry ID</param>
-        /// <returns>Entry by specified ID</returns>
-        /// <response code="400">Customer bad request description</response>
-        [HttpGet("Entries/{id:int}", Name = "GetEntry")]
-        //[Authorize(Roles = "admin,user")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEntryDTO))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<GetEntryDTO>> GetHorseById(int id)
-        {
-            if (id == 0)
-            {
-                _logger.LogInformation("No id input");
-                return BadRequest("Not entered ID");
-            }
-     
-
-            if (!await _entryRepo.ExistAsync(d => d.HorseID == id))
-            {
-                _logger.LogInformation("Horse with id {id} not found", id);
-                return NotFound("No such entries with this ID");
-            }
-            var horse = await _entryRepo.GetAsync(d => d.HorseID == id);
-
-            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-            if (currentUserId != horse.UserId)
-            {
-                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
-            }
-
-            return Ok(new GetEntryDTO(horse));
-        }
-
         /// <summary>
         /// Fetches all registered Entries in the DB
         /// </summary>
@@ -131,6 +94,7 @@ namespace CompetitionEventsManager.Controllers
                 .Select(d => new GetEntryDTO(d))
                 .ToList());
         }
+
 
 
         /// <summary>
@@ -206,7 +170,7 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateEntry( int id, [FromBody] UpdateEntryDTO updateEntryDTO)
+        public async Task<ActionResult> UpdateEntry(int id, [FromBody] UpdateEntryDTO updateEntryDTO)
         {
             if (id == 0 || updateEntryDTO == null)
             {
@@ -227,7 +191,6 @@ namespace CompetitionEventsManager.Controllers
                 return Forbid("No access");
             }
 
-
             foundEntry.HorseName = updateEntryDTO.HorseName;
             foundEntry.RiderFullName = updateEntryDTO.RiderFullName;
             foundEntry.HorseBirthYear = updateEntryDTO.HorseBirthYear;
@@ -244,12 +207,195 @@ namespace CompetitionEventsManager.Controllers
             foundEntry.Shavings = updateEntryDTO.Shavings;
             foundEntry.NeedInvoice = updateEntryDTO.NeedInvoice;
             foundEntry.AgreemntOnContractNr1 = updateEntryDTO.AgreemntOnContractNr1;
-            foundEntry.UserId = currentUserId;
             foundEntry.CId = updateEntryDTO.CId;
 
-    await _entryRepo.UpdateAsync(foundEntry);
+            await _entryRepo.UpdateAsync(foundEntry);
             return NoContent();
         }
+
+        /// <summary>
+        /// UpdatePartialEntry with Patch
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns>No content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPatch("Patch/{id:int}", Name = "UpdatePartialEntry")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdatePartialEntry(int id, [FromBody] JsonPatchDocument<Entry> request)
+        {
+            if (id == 0 || request == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided for update");
+            }
+            var EntryExists = await _entryRepo.ExistAsync(d => d.EntryID == id);
+            if (!EntryExists)
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such Entry with ID was found");
+            }
+            var foundEntry = await _entryRepo.GetAsync(d => d.EntryID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundEntry.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Entrys", currentUserId, id);
+                return Forbid("No access");
+            }
+
+
+            request.ApplyTo(foundEntry, ModelState);
+            await _entryRepo.UpdateAsync(foundEntry);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+
+        /// <summary>
+        ///  Update with Patch with DTO
+        /// </summary>
+        /// <param name="id">Entry Id</param>
+        /// <param name="request"> dto data for update</param>
+        /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPatch("Patch/{id:int}/dto", Name = "UpdatePartialEntryDto")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdatePartialEntryByDto(int id, [FromBody] JsonPatchDocument<UpdateEntryDTO> request)
+        {
+            if (id == 0 || request == null)
+            {
+                _logger.LogInformation("Method without data started at: ", DateTime.Now);
+                return BadRequest("No data provided for update");
+            }
+            var EntryExists = await _entryRepo.ExistAsync(d => d.EntryID == id);
+            if (!EntryExists)
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such Entry with ID was found");
+            }
+
+            var foundEntry = await _entryRepo.GetAsync(d => d.EntryID == id, tracked: false);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundEntry.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Entrys", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            var updateEntryDto = _entryAdapter.Bind(foundEntry);
+            request.ApplyTo(updateEntryDto, ModelState);
+            var Entry = _entryAdapter.Bind(updateEntryDto, foundEntry.EntryID);
+            await _entryRepo.UpdateAsync(Entry);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+
+
+
+        /// <summary>
+        /// To delete Entry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>No Content</returns>
+        [HttpDelete("Entry/delete/{id:int}")]
+        // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteEntry(int id)
+        {
+            if (!await _entryRepo.ExistAsync(d => d.EntryID == id))
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such ID Entries was found");
+            }
+            var entry = await _entryRepo.GetAsync(d => d.EntryID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != entry.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} Entries", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            await _entryRepo.RemoveAsync(entry);
+            return NoContent();
+        }
+
+
+
+
+
+
+        //kiti variantai
+
+
+        ///// <summary>
+        ///// Fetch registered Entries with a specified ID from DB
+        ///// </summary>
+        ///// <param name="id">Requested Entry ID</param>
+        ///// <returns>Entry by specified ID</returns>
+        ///// <response code="400">Customer bad request description</response>
+        //[HttpGet("Entries/{id:int}", Name = "GetEntry")]
+        ////[Authorize(Roles = "admin,user")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEntryDTO))]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //[Produces(MediaTypeNames.Application.Json)]
+        //public async Task<ActionResult<GetEntryDTO>> GetHorseById(int id)
+        //{
+        //    if (id == 0)
+        //    {
+        //        _logger.LogInformation("No id input");
+        //        return BadRequest("Not entered ID");
+        //    }
+
+
+        //    if (!await _entryRepo.ExistAsync(d => d.HorseID == id))
+        //    {
+        //        _logger.LogInformation("Horse with id {id} not found", id);
+        //        return NotFound("No such entries with this ID");
+        //    }
+        //    var horse = await _entryRepo.GetAsync(d => d.HorseID == id);
+
+        //    var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+        //    if (currentUserId != horse.UserId)
+        //    {
+        //        _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+        //        return Forbid("No access");
+        //    }
+
+        //    return Ok(new GetEntryDTO(horse));
+        //}
+
+
+
 
         /// <summary>
         /// Fetches all Entries in the DB
@@ -308,7 +454,7 @@ namespace CompetitionEventsManager.Controllers
 
             var data = _entryRepo.Getdata_With_EagerLoading3(Id);
 
-            return Ok(data); // graziai grazino visus eventus su visais competitionais
+            return Ok(data); // graziai grazino visus entries su visais competitionais
         }
 
         /// <summary>
@@ -332,40 +478,6 @@ namespace CompetitionEventsManager.Controllers
             return Ok(entryHorses);//grazino entry klasu su zirgo klase 
 
         }
-
-        
-        /// <summary>
-        /// To delete Entry
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>No Content</returns>
-        [HttpDelete("Entry/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteEntryHorse(int id)
-        {
-            if (!await _entryRepo.ExistAsync(d => d.EntryID == id))
-            {
-                _logger.LogInformation("Entry with id {id} not found", id);
-                return NotFound("No such ID Entries was found");
-            }
-            var entry = await _entryRepo.GetAsync(d => d.EntryID == id);
-
-            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-            if (currentUserId != entry.UserId)
-            {
-                _logger.LogWarning("User {currentUserId} tried to access user {id} Entries", currentUserId, id);
-                return Forbid("No access");
-            }
-
-
-            await _entryRepo.RemoveAsync(entry);
-            return NoContent();
-        }
-
 
 
 

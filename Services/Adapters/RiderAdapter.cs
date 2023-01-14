@@ -5,7 +5,7 @@ using CompetitionEventsManager.Services.IServices;
 
 namespace CompetitionEventsManager.Services.Adapters
 {
-    public class RiderAdapter: IRiderAdapter
+    public class RiderAdapter : IRiderAdapter
     {
         public UpdateRiderDTO Bind(Rider rider)
         {
