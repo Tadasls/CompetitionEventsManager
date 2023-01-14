@@ -72,24 +72,13 @@ namespace CompetitionEventsManager.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Fetch registered rider with a specified ID from DB
-        /// </summary>
-        /// <param name="id">Requested rider ID</param>
-        /// <returns>rider by specified ID</returns>
-        /// <response code="400">Customer bad request description</response>
-        [HttpGet("Riders/{id:int}", Name = "GetRider")]
+            /// <summary>
+            /// Fetch registered rider with a specified ID from DB
+            /// </summary>
+            /// <param name="id">Requested rider ID</param>
+            /// <returns>rider by specified ID</returns>
+            /// <response code="400">Customer bad request description</response>
+            [HttpGet("Riders/{id:int}", Name = "GetRider")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRiderDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -156,7 +145,14 @@ namespace CompetitionEventsManager.Controllers
                     _logger.LogInformation("Method without data started at: ", DateTime.Now);
                     return BadRequest("No data provided");
                 }
-                Rider model = new Rider()
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId == null)
+            {
+                return Forbid("No access");
+            }
+
+
+            Rider model = new Rider()
                 {
                 FirstName = riderDTO.FirstName,
                 LastName = riderDTO.LastName,
@@ -168,7 +164,7 @@ namespace CompetitionEventsManager.Controllers
                 InsuranceExiprationDate = riderDTO.InsuranceExiprationDate,
                 Country = riderDTO.Country,
                 Comments = riderDTO.Comments,
-                UserId = riderDTO.UserId,
+                UserId = currentUserId,
         };
 
                 await _riderRepo.CreateAsync(model);
@@ -246,7 +242,15 @@ namespace CompetitionEventsManager.Controllers
                     return NotFound("No such rider with ID was found");
                 }
                 var foundRider = await _riderRepo.GetAsync(d => d.RiderID == id);
-                request.ApplyTo(foundRider, ModelState);
+           
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundRider.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            request.ApplyTo(foundRider, ModelState);
                 await _riderRepo.UpdateAsync(foundRider);
                 if (!ModelState.IsValid)
                 {
@@ -281,7 +285,15 @@ namespace CompetitionEventsManager.Controllers
                     return NotFound("No such Rider with ID was found");
                 }
                 var foundRider = await _riderRepo.GetAsync(d => d.RiderID == id, tracked: false);
-                var updateRiderDto = _riderAdapter.Bind(foundRider);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundRider.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
+            var updateRiderDto = _riderAdapter.Bind(foundRider);
                 request.ApplyTo(updateRiderDto, ModelState);
                 var rider = _riderAdapter.Bind(updateRiderDto, foundRider.RiderID);
                 await _riderRepo.UpdateAsync(rider);
@@ -318,7 +330,6 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogWarning("User {currentUserId} tried to access user {id} Riders", currentUserId, id);
                 return Forbid("No access");
             }
-
 
 
             await _riderRepo.RemoveAsync(rider);

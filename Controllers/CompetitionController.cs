@@ -106,6 +106,13 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Method without data started at: ", DateTime.Now);
                 return BadRequest("No data provided");
             }
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId == null)
+            {
+                return Forbid("No access");
+            }
+
             Competition model = new Competition()
             {
             Title = competitionDTO.Title,

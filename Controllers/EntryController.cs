@@ -67,21 +67,6 @@ namespace CompetitionEventsManager.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Fetch registered Entries with a specified ID from DB
         /// </summary>
@@ -103,7 +88,7 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("No id input");
                 return BadRequest("Not entered ID");
             }
-            //_httpContextAccessor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
 
             if (!await _entryRepo.ExistAsync(d => d.HorseID == id))
             {
@@ -111,6 +96,14 @@ namespace CompetitionEventsManager.Controllers
                 return NotFound("No such entries with this ID");
             }
             var horse = await _entryRepo.GetAsync(d => d.HorseID == id);
+
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != horse.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
             return Ok(new GetEntryDTO(horse));
         }
 
@@ -140,8 +133,6 @@ namespace CompetitionEventsManager.Controllers
         }
 
 
-
-
         /// <summary>
         /// Adding new Entry into db
         /// </summary>
@@ -163,9 +154,14 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Method without data started at: ", DateTime.Now);
                 return BadRequest("No data provided");
             }
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId == null)
+            {
+                return Forbid("No access");
+            }
+
             Entry model = new Entry()
             {
-         
             HorseID = entryDTO.HorseID,
             RiderID = entryDTO.RiderID,
             HorseName = entryDTO.HorseName,
@@ -184,7 +180,7 @@ namespace CompetitionEventsManager.Controllers
             Shavings = entryDTO.Shavings,
             NeedInvoice = entryDTO.NeedInvoice,
             AgreemntOnContractNr1 = entryDTO.AgreemntOnContractNr1,
-            UserId = entryDTO.UserId,
+            UserId = currentUserId,
             CId = entryDTO.CId,
         };
             await _entryRepo.CreateAsync(model);
@@ -192,8 +188,6 @@ namespace CompetitionEventsManager.Controllers
       
 
         }
-
-
 
 
         /// <summary>
@@ -226,6 +220,13 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Entry with id {id} not found", id);
                 return NotFound("No such entries with this ID");
             }
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != foundEntry.UserId)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
+
 
             foundEntry.HorseName = updateEntryDTO.HorseName;
             foundEntry.RiderFullName = updateEntryDTO.RiderFullName;
@@ -243,30 +244,12 @@ namespace CompetitionEventsManager.Controllers
             foundEntry.Shavings = updateEntryDTO.Shavings;
             foundEntry.NeedInvoice = updateEntryDTO.NeedInvoice;
             foundEntry.AgreemntOnContractNr1 = updateEntryDTO.AgreemntOnContractNr1;
-            foundEntry.UserId = updateEntryDTO.UserId;
+            foundEntry.UserId = currentUserId;
             foundEntry.CId = updateEntryDTO.CId;
 
     await _entryRepo.UpdateAsync(foundEntry);
             return NoContent();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Fetches all Entries in the DB
@@ -328,8 +311,6 @@ namespace CompetitionEventsManager.Controllers
             return Ok(data); // graziai grazino visus eventus su visais competitionais
         }
 
-
-
         /// <summary>
         /// Fetches all Entries in the DB
         /// </summary>
@@ -352,13 +333,7 @@ namespace CompetitionEventsManager.Controllers
 
         }
 
-
- 
-
-
-
-
-
+        
         /// <summary>
         /// To delete Entry
         /// </summary>
@@ -390,10 +365,6 @@ namespace CompetitionEventsManager.Controllers
             await _entryRepo.RemoveAsync(entry);
             return NoContent();
         }
-
-
-
-
 
 
 
