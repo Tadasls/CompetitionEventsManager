@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompetitionEventsManager", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testai", "Testai", "{95CE446F-5975-417E-AB35-CCC79B5238CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompetitionEventsManagerTests", "..\CompetitionEventsManagerTests\CompetitionEventsManagerTests.csproj", "{300A9FA3-5251-412F-956D-D8F427979921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompetitionEventsManagerTests", "..\CompetitionEventsManagerTests\CompetitionEventsManagerTests.csproj", "{300A9FA3-5251-412F-956D-D8F427979921}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
