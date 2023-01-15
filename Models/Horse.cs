@@ -59,6 +59,8 @@ namespace CompetitionEventsManager.Models
         public int? UserId { get; set; }
         public virtual LocalUser? LocalUser { get; set; }
 
+        public List<Entry> Entries { get; set; } // test realtionships
+
 
     }
 }

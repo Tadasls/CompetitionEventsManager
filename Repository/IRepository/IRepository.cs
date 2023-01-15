@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using CompetitionEventsManager.Models;
+using System.Linq.Expressions;
 
 namespace CompetitionEventsManager.Repository.IRepository
 {
@@ -14,5 +15,6 @@ namespace CompetitionEventsManager.Repository.IRepository
         Task<bool> ExistAsync(Expression<Func<TEntity, bool>> filter);
         Task<TEntity> GetFewDBAsync(Expression<Func<TEntity, bool>> filter, ICollection<string> includeTables, bool tracked = true);
         Task<List<TEntity>> GetAllFewDBAsync(Expression<Func<TEntity, bool>>? filter, ICollection<string> includeTables);
+      
     }
 }

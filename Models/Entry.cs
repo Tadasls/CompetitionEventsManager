@@ -57,8 +57,8 @@ namespace CompetitionEventsManager.Models
         public virtual LocalUser? LocalUser { get; set; }
         public int? CId { get; set; }
         public virtual Competition? Competition { get; set; }
-       // public virtual Horse? Horse { get; set; }
-      // public virtual Rider? Rider { get; set; }
+        public virtual Horse? Horse { get; set; }// test realtionships
+        public virtual Rider? Rider { get; set; }// test realtionships
 
 
     }

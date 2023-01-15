@@ -92,9 +92,14 @@ namespace CompetitionEventsManager.Data
 
             // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
-       
 
+            modelBuilder.Entity<Entry>()
+              .HasOne(ab => ab.Horse)
+             .WithMany(ab => ab.Entries);
 
+            modelBuilder.Entity<Entry>()
+             .HasOne(ab => ab.Rider)
+             .WithMany(ab => ab.Entries);
 
 
 

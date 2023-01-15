@@ -20,18 +20,15 @@ namespace CompetitionEventsManager.Repository
 
 
 
-
-
-
-
-        public IEnumerable<Horse> GetSomeWithSQL(int riderId)
+        public IEnumerable<Entry> GetSomeWithSQL(int userId)
         {
            
             var entities =
-                from entry in _db.Entries.Where(x => x.RiderID == riderId)
+                from entry in _db.Entries.Where(x => x.UserId == userId)
                 join horse in _db.Horses on entry.HorseID equals horse.HorseID
-                where entry.RiderID == riderId
-                select horse;
+                join rider in _db.Riders on entry.RiderID equals rider.RiderID
+                where entry.UserId == userId
+                select entry;
 
             return entities; //grazina Horse objekta pagal entry esanty raiderio ID
         }
@@ -39,8 +36,8 @@ namespace CompetitionEventsManager.Repository
         {
            
             var duomenys = _db.Entries
-            .Include(Entries => Entries.Competition)
-            // .Include(blog => blog.LocalUser)
+            .Include(e => e.Horse)
+            .Include(e => e.Rider)
             .ToList();
 
             return duomenys; //grazina visus entries su visais competisions
@@ -53,14 +50,7 @@ namespace CompetitionEventsManager.Repository
             .ToList();
             return duomenys; // grazina eventus su competitionais !!!
         }
-        public IEnumerable<Entry> Getdata_With_EagerLoading3(int Id)
-        {
-            var duomenys = _db.Entries
-            .Include(ab => ab.Competition)
-            .ToList();
-            return duomenys; // grazina entries su competitionais !!!
-        }
-
+ 
 
 
 

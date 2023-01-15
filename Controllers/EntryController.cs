@@ -356,54 +356,13 @@ namespace CompetitionEventsManager.Controllers
         //kiti variantai
 
 
-        ///// <summary>
-        ///// Fetch registered Entries with a specified ID from DB
-        ///// </summary>
-        ///// <param name="id">Requested Entry ID</param>
-        ///// <returns>Entry by specified ID</returns>
-        ///// <response code="400">Customer bad request description</response>
-        //[HttpGet("Entries/{id:int}", Name = "GetEntry")]
-        ////[Authorize(Roles = "admin,user")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEntryDTO))]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[Produces(MediaTypeNames.Application.Json)]
-        //public async Task<ActionResult<GetEntryDTO>> GetHorseById(int id)
-        //{
-        //    if (id == 0)
-        //    {
-        //        _logger.LogInformation("No id input");
-        //        return BadRequest("Not entered ID");
-        //    }
-
-
-        //    if (!await _entryRepo.ExistAsync(d => d.HorseID == id))
-        //    {
-        //        _logger.LogInformation("Horse with id {id} not found", id);
-        //        return NotFound("No such entries with this ID");
-        //    }
-        //    var horse = await _entryRepo.GetAsync(d => d.HorseID == id);
-
-        //    var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-        //    if (currentUserId != horse.UserId)
-        //    {
-        //        _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-        //        return Forbid("No access");
-        //    }
-
-        //    return Ok(new GetEntryDTO(horse));
-        //}
-
-
 
 
         /// <summary>
         /// Fetches all Entries in the DB
         /// </summary>
         /// <returns>All Horses in DB</returns>
-        [HttpGet("Entries")]
+        [HttpGet("EntriesWithSQL")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Horse>> GetEntries(int Id)
@@ -444,42 +403,50 @@ namespace CompetitionEventsManager.Controllers
             return Ok(data); // graziai grazino visus eventus su visais competitionais
         }
 
-        /// <summary>
-        /// Fetches all Entries in the DB
-        /// </summary>
-        /// <returns>All Horses in DB</returns>
-        [HttpGet("EntriesEager3")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Entry>> GetEntriesEager3(int Id)
-        {
-
-            var data = _entryRepo.Getdata_With_EagerLoading3(Id);
-
-            return Ok(data); // graziai grazino visus entries su visais competitionais
-        }
+   
 
         /// <summary>
         /// Fetches all Entries in the DB
         /// </summary>
         /// <returns>All Horses in DB</returns>
-        [HttpGet("HorsesFromEntries")]
+        [HttpGet("HorsesFromEntriesAsyncFEWDB")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Entry>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Entry>> GetUserHorseByEntryId(int id)
         {
-            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-            if (currentUserId != id)
-            {
-                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
-            }
+            //var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            //if (currentUserId != id)
+            //{
+            //    _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+            //    return Forbid("No access");
+            //}
 
-            var entryHorses = await _entryRepo.GetFewDBAsync(x => x.UserId == id, new List<string> { "Horse" });
+            var entryHorses = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string> { "Horse", "Rider" ,"Competition" });
 
             return Ok(entryHorses);//grazino entry klasu su zirgo klase 
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
