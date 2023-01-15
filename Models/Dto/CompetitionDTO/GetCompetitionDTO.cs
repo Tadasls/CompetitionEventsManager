@@ -26,7 +26,7 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
             TimeBeetweenRuns = competition.TimeBeetweenRuns;
             BreakTime = competition.BreakTime;
             AdditionalTime = competition.AdditionalTime;
-            SId = competition.SId;
+           // SId = competition.SId;
             EId = competition.EId;
         }
 
@@ -50,7 +50,7 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
         public int? TimeBeetweenRuns { get; set; }
         public int? BreakTime { get; set; }
         public int? AdditionalTime { get; set; }
-        public int? SId { get; set; }
+     //   public int? SId { get; set; }
         public int? EId { get; set; }
 
 

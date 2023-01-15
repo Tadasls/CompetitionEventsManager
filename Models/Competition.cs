@@ -58,15 +58,15 @@ namespace CompetitionEventsManager.Models
         public int? BreakTime { get; set; } = 10;
         [MaxLength(20)]
         public int? AdditionalTime { get; set; } = 10;
-        [MaxLength(20)]
-        public int? SId { get; set; }
-        public virtual List<Staff> Staffs { get; set; }
+    
         [MaxLength(20)]
         public int? EId { get; set; }
         public virtual Event? Event { get; set; }
         public virtual List<Entry> Entries { get; set; }
+        public virtual List<Staff> Staffs { get; set; }
 
 
+        // public int? SId { get; set; }
 
     }
 }

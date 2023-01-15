@@ -3,19 +3,26 @@ using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CompetitionEventsManager.Repository
 {
     public class EntryRepository : Repository<Entry>, IEntryRepository
     {
         private readonly DBContext _db;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+      
 
-        public EntryRepository(DBContext db, IHttpContextAccessor httpContextAccessor) : base(db)
+        public EntryRepository(DBContext db) : base(db)
         {
             _db = db;
-            _httpContextAccessor = httpContextAccessor;
+           
         }
+
+
+
+
+
+
 
         public IEnumerable<Horse> GetSomeWithSQL(int riderId)
         {

@@ -29,7 +29,7 @@ namespace CompetitionEventsManager.Models
         [MaxLength(50)]
         public string? Position { get; set; }
         [MaxLength(50)]
-        public int? SId { get; set; }
-        public virtual Competition? Competition { get; set; }
+      //  public int? SId { get; set; }
+        public virtual List<Competition> Competitions { get; set; }
     }
 }

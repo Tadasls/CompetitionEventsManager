@@ -37,11 +37,13 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
             modelBuilder.Entity<Competition>().HasData(HorseInitialData.CompetitionDataSeed);
 
-            modelBuilder.Entity<Competition>()
-            .HasMany(ab => ab.Staffs)
-            .WithOne(ab => ab.Competition)
-            .HasForeignKey(ab => ab.SId);
 
+            modelBuilder.Entity<Competition>()
+                 .HasMany(med => med.Staffs)
+                 .WithMany(rev => rev.Competitions)
+                 .UsingEntity(ent => ent.ToTable("CompetionStaff")); // many to many
+
+  
             modelBuilder.Entity<Staff>().HasKey(d => d.StaffID);
             modelBuilder.Entity<Staff>().HasData(HorseInitialData.StaffDataSeed);
 
@@ -59,8 +61,8 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Entry>().HasKey(d => d.EntryID);
             modelBuilder.Entity<Entry>().HasData(HorseInitialData.EntryDataSeed);
 
-         modelBuilder.Entity<LocalUser>().HasKey(d => d.Id);
-         modelBuilder.Entity<LocalUser>()
+                   
+          modelBuilder.Entity<LocalUser>()
           .HasMany(ab => ab.Notifications)
           .WithOne(ab => ab.LocalUser)
           .HasForeignKey(ab => ab.UserId);
@@ -88,22 +90,7 @@ namespace CompetitionEventsManager.Data
 
             // modelBuilder.Entity<LocalUser>().HasData(HorseInitialData.LocalUserDataSeed);
 
-        //    modelBuilder.Entity<Entry>()
-        //.HasOne(e => e.Horse)
-        //.WithMany()
-        //.HasForeignKey(e => e.HorseID);
-
-        //    modelBuilder.Entity<Entry>()
-        //            .HasOne(e => e.Rider)
-        //            .WithMany()
-        //            .HasForeignKey(e => e.RiderID);
-
-
-
-
-
-
-
+       
 
 
 

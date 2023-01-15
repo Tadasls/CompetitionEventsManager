@@ -24,7 +24,12 @@ namespace CompetitionEventsManager.Controllers
             private readonly ILogger<CompetitionController> _logger;
             private readonly ICompetitionRepository _competitionRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        /// <summary>
+        /// competion controler
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="httpContextAccessor"></param>
         public CompetitionController(ILogger<CompetitionController> logger, ICompetitionRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
@@ -134,7 +139,7 @@ namespace CompetitionEventsManager.Controllers
             TimeBeetweenRuns = competitionDTO.TimeBeetweenRuns,
             BreakTime = competitionDTO.BreakTime,
             AdditionalTime = competitionDTO.AdditionalTime,
-            SId = competitionDTO.SId,
+            //SId = competitionDTO.SId,
             EId = competitionDTO.EId,
             };
             await _competitionRepo.CreateAsync(model);
@@ -195,7 +200,7 @@ namespace CompetitionEventsManager.Controllers
             foundCompetition.TimeBeetweenRuns = updateCompetitionDTO.TimeBeetweenRuns;
             foundCompetition.BreakTime = updateCompetitionDTO.BreakTime;
             foundCompetition.AdditionalTime = updateCompetitionDTO.AdditionalTime;
-            foundCompetition.SId = updateCompetitionDTO.SId;
+           // foundCompetition.SId = updateCompetitionDTO.SId;
             foundCompetition.EId = updateCompetitionDTO.EId;
 
             await _competitionRepo.UpdateAsync(foundCompetition);

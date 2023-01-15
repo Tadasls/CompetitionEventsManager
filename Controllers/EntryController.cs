@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
 using Microsoft.AspNetCore.JsonPatch;
 using CompetitionEventsManager.Services.IServices;
+using System.Security.Claims;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -184,6 +185,7 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Entry with id {id} not found", id);
                 return NotFound("No such entries with this ID");
             }
+            var currentUserRole = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
             if (currentUserId != foundEntry.UserId)
             {

@@ -24,8 +24,14 @@ namespace CompetitionEventsManager.Controllers
 
             private readonly ILogger<HorseController> _logger;
             private readonly IStaffRepository _staffRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+            private readonly IHttpContextAccessor _httpContextAccessor;
 
+        /// <summary>
+        /// Staff controler
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="httpContextAccessor"></param>
         public StaffController(ILogger<HorseController> logger, IStaffRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
@@ -106,7 +112,7 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Method without data started at: ", DateTime.Now);
                 return BadRequest("No data provided");
             }
-            Staff model = new Staff()
+            Staff model = new()
             {
             
             FirstName = staffDTO.FirstName,
@@ -115,7 +121,7 @@ namespace CompetitionEventsManager.Controllers
             FeiID = staffDTO.FeiID,
             NationalID = staffDTO.NationalID,
             Position = staffDTO.Position,
-            SId = staffDTO.SId,
+            //SId = staffDTO.SId,
         };
             await _staffRepo.CreateAsync(model);
             return CreatedAtRoute("GetStaff", new { Id = model.StaffID }, staffDTO);
@@ -161,7 +167,7 @@ namespace CompetitionEventsManager.Controllers
             foundStaff.FeiID = updateStaffDTO.FeiID;
             foundStaff.NationalID = updateStaffDTO.NationalID;
             foundStaff.Position = updateStaffDTO.Position;
-            foundStaff.SId = updateStaffDTO.SId;
+           //foundStaff.SId = updateStaffDTO.SId;
 
             await _staffRepo.UpdateAsync(foundStaff);
             return NoContent();
