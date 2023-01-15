@@ -59,7 +59,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != id)
             {
                 _logger.LogWarning("User {currentUserId} tried to access users {id} Entries", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var userEnties = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>() { "LocalUser" });
@@ -122,7 +122,7 @@ namespace CompetitionEventsManager.Controllers
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
             if (currentUserId == null)
             {
-                return Forbid("No access");
+                return Forbid();
             }
 
             Entry model = new Entry()
@@ -190,7 +190,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundEntry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             foundEntry.HorseName = updateEntryDTO.HorseName;
@@ -250,7 +250,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundEntry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} Entrys", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
 
@@ -300,7 +300,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundEntry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} Entrys", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var updateEntryDto = _entryAdapter.Bind(foundEntry);
@@ -341,7 +341,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != entry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} Entries", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             await _entryRepo.RemoveAsync(entry);
@@ -418,7 +418,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != id)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var entryHorses = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string> { "Horse", "Rider" ,"Competition" });

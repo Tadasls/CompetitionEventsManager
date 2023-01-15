@@ -58,7 +58,7 @@ namespace CompetitionEventsManager.Controllers
            if (currentUserId != id)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var entryHorses = await _horseRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>(){ "LocalUser" });
@@ -149,6 +149,7 @@ namespace CompetitionEventsManager.Controllers
         //[Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateHorseDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<CreateHorseDTO>> CreateHorse([FromBody] CreateHorseDTO horseDTO)
@@ -161,7 +162,7 @@ namespace CompetitionEventsManager.Controllers
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
             if (currentUserId == null )
             {
-                return Forbid("No access");
+                return Forbid();
             }
 
 
@@ -207,6 +208,7 @@ namespace CompetitionEventsManager.Controllers
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdateHorse(int id, [FromBody] UpdateHorseDTO updateHorseDTO)
@@ -227,7 +229,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundHorse.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
 
@@ -271,6 +273,7 @@ namespace CompetitionEventsManager.Controllers
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdatePartialHorse( int id, [FromBody] JsonPatchDocument<Horse> request)
@@ -292,7 +295,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundHorse.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
 
@@ -319,6 +322,7 @@ namespace CompetitionEventsManager.Controllers
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdatePartialHorseByDto( int id, [FromBody] JsonPatchDocument<UpdateHorseDTO> request)
@@ -341,7 +345,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != foundHorse.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var updateHorseDto = _horseAdapter.Bind(foundHorse);
@@ -368,6 +372,7 @@ namespace CompetitionEventsManager.Controllers
        // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteHorse( int id)
@@ -383,7 +388,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != horse.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             await _horseRepo.RemoveAsync(horse);

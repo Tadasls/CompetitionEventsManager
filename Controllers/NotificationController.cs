@@ -46,7 +46,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != id)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} notifications", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             var userNotifications = await _notiRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string>() { "LocalUser" });
@@ -225,6 +225,7 @@ namespace CompetitionEventsManager.Controllers
         // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteNotification(int id)
@@ -240,7 +241,7 @@ namespace CompetitionEventsManager.Controllers
             if (currentUserId != notification.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} Notifications", currentUserId, id);
-                return Forbid("No access");
+                return Forbid();
             }
 
             await _notiRepo.RemoveAsync(notification);

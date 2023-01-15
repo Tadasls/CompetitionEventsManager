@@ -115,7 +115,7 @@ namespace CompetitionEventsManager.Controllers
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
             if (currentUserId == null)
             {
-                return Forbid("No access");
+                return Forbid();
             }
 
             Competition model = new Competition()
