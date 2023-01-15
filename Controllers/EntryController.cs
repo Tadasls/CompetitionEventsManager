@@ -185,8 +185,12 @@ namespace CompetitionEventsManager.Controllers
                 _logger.LogInformation("Entry with id {id} not found", id);
                 return NotFound("No such entries with this ID");
             }
-            var currentUserRole = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            //var currentUserRole = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+
+
+
+
             if (currentUserId != foundEntry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);

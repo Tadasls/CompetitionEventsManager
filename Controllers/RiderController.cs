@@ -288,7 +288,7 @@ namespace CompetitionEventsManager.Controllers
                 if (id == 0 || request == null)
                 {
                     _logger.LogInformation("Method without data started at: ", DateTime.Now);
-                    return BadRequest("No data provided for update");
+                    return BadRequest();
                 }
                 var riderExists = await _riderRepo.ExistAsync(d => d.RiderID == id);
                 if (!riderExists)
