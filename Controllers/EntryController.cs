@@ -414,12 +414,12 @@ namespace CompetitionEventsManager.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Entry>> GetUserHorseByEntryId(int id)
         {
-            //var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-            //if (currentUserId != id)
-            //{
-            //    _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
-            //    return Forbid("No access");
-            //}
+            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+            if (currentUserId != id)
+            {
+                _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
+                return Forbid("No access");
+            }
 
             var entryHorses = await _entryRepo.GetAllFewDBAsync(x => x.UserId == id, new List<string> { "Horse", "Rider" ,"Competition" });
 
