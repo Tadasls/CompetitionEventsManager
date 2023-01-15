@@ -1,10 +1,10 @@
 ﻿using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
-using CompetitionEventsManager.Services.IServices;
 using CompetitionEventsManager.Models.Dto.EntryDTO;
 using System.Security.Cryptography;
 using System.Xml.Linq;
+using CompetitionEventsManager.Services.Adapters.IAdapters;
 
 namespace CompetitionEventsManager.Services.Adapters
 {

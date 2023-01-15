@@ -1,7 +1,7 @@
 ﻿using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.EntryDTO;
 
-namespace CompetitionEventsManager.Services.IServices
+namespace CompetitionEventsManager.Services.Adapters.IAdapters
 {
     public interface IEntryAdapter
     {

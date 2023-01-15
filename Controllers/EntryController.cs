@@ -15,8 +15,8 @@ using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
 using Microsoft.AspNetCore.JsonPatch;
-using CompetitionEventsManager.Services.IServices;
 using System.Security.Claims;
+using CompetitionEventsManager.Services.Adapters.IAdapters;
 
 namespace CompetitionEventsManager.Controllers
 {

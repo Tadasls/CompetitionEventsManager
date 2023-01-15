@@ -2,7 +2,7 @@
 using CompetitionEventsManager.Models.Dto.NotificationDTO;
 using CompetitionEventsManager.Models.Dto.RiderDTO;
 using CompetitionEventsManager.Repository.IRepository;
-using CompetitionEventsManager.Services.IServices;
+using CompetitionEventsManager.Services.Adapters.IAdapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;

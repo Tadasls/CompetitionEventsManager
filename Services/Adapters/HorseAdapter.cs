@@ -1,6 +1,6 @@
 ﻿using CompetitionEventsManager.Models;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
-using CompetitionEventsManager.Services.IServices;
+using CompetitionEventsManager.Services.Adapters.IAdapters;
 using Microsoft.Extensions.Hosting;
 using System.Drawing;
 
