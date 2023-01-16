@@ -14,9 +14,11 @@ using System.Reflection;
 
 namespace CompetitionEventsManager
 {
+    /// <summary>
+    /// Main class
+    /// </summary>
     public class Program
-    {
-
+    { 
         public static void Main(string[] args)
         {
 
