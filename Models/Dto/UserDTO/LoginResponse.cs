@@ -10,9 +10,13 @@
         /// </summary>
         public string? UserName { get; set; }
         /// <summary>
-        /// UserUserName
+        /// User ID
         /// </summary>
         public int? ID { get; set; }
+        /// <summary>
+        /// User Role
+        /// </summary>
+        public string? Role { get; set; }
         /// <summary>
         /// User Token
         /// </summary>

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Net.Mime;
 using CompetitionEventsManager.Repository.IRepository;
 using CompetitionEventsManager.Models.Dto.NotificationDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -76,7 +77,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns>Notification by specified ID</returns>
         /// <response code="400">Customer bad request description</response>
         [HttpGet("Notification/{id:int}", Name = "GetNotification")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetNotificationDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,7 +106,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
         [HttpGet("GetAllNotifications")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetNotificationDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllHorsesWithFilter([FromQuery] FilterNotificationRequest req)
@@ -131,7 +132,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateNotification")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateNotificationDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -173,7 +174,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Notifications/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -222,7 +223,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <returns>No Content</returns>
         [HttpDelete("Notification/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

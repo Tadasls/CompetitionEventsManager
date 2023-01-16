@@ -3,6 +3,7 @@ using CompetitionEventsManager.Repository;
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using CompetitionEventsManager.Services.Adapters;
 using CompetitionEventsManager.Services.Adapters.IAdapters;
+using CompetitionEventsManager.Services.IServices;
 
 namespace CompetitionEventsManager.Services
 {
@@ -28,6 +29,8 @@ namespace CompetitionEventsManager.Services
             services.AddTransient<IHorseAdapter, HorseAdapter>();
             services.AddTransient<IRiderAdapter, RiderAdapter>();
             services.AddTransient<IEntryAdapter, EntryAdapter>();
+
+            services.AddTransient<INotificationService, NotificationService>();
 
             return services;
         }

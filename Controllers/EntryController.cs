@@ -17,6 +17,9 @@ using CompetitionEventsManager.Models.Dto.RiderDTO;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Security.Claims;
 using CompetitionEventsManager.Services.Adapters.IAdapters;
+using CompetitionEventsManager.Services;
+using CompetitionEventsManager.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -32,6 +35,10 @@ namespace CompetitionEventsManager.Controllers
         private readonly IEntryRepository _entryRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEntryAdapter _entryAdapter;
+        private readonly INotificationService _notificationService;
+        
+
+
         /// <summary>
         /// EntryController
         /// </summary>
@@ -39,12 +46,13 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="repository"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="entryAdapter"></param>
-        public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor, IEntryAdapter entryAdapter)
+        public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor, IEntryAdapter entryAdapter, INotificationService notificationService)
         {
             _logger = logger;
             _entryRepo = repository;
             _httpContextAccessor = new HttpContextAccessor();
             _entryAdapter = entryAdapter;
+            _notificationService = notificationService;
         }
 
 
@@ -83,7 +91,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
         [HttpGet("GetAllEntries")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetEntryDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllEntriesWithFilter([FromQuery] FilterEntriesRequest req)
@@ -113,7 +121,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateEntry")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEntryDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -154,7 +162,13 @@ namespace CompetitionEventsManager.Controllers
             UserId = currentUserId,
             CId = entryDTO.CId,
         };
+
+
             await _entryRepo.CreateAsync(model);
+
+            _notificationService.MakeNotificationForUserWithRegistration(model.HorseID, model.RiderID, currentUserId);
+
+
             return CreatedAtRoute("GetEntry", new { Id = model.EntryID }, entryDTO);
       
 
@@ -172,7 +186,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Entrys/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -236,7 +250,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}", Name = "UpdatePartialEntry")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -285,7 +299,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}/dto", Name = "UpdatePartialEntryDto")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -333,7 +347,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <returns>No Content</returns>
         [HttpDelete("Entry/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

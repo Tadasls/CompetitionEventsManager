@@ -114,7 +114,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="req"></param>
             /// <returns>All Entities</returns>
             [HttpGet("GetAllRiders")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetRiderDTO>))]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
             public async Task<IActionResult> GetAllRidersWithFilter([FromQuery] FilterRidersRequest req)
@@ -139,7 +139,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="riderDTO">New rider data</param>
             /// <returns>CreatedAtRoute with DTO</returns>
             [HttpPost("CreateRider")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateRiderDTO))]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -185,7 +185,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="updateriderDTO"> DTo with specific properties</param>
             /// <returns>No content if update is Ok</returns>
             [HttpPut("riders/update/{id:int}")]
-            // [Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status204NoContent)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -239,7 +239,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="request"></param>
             /// <returns>No content</returns>
             [HttpPatch("patch/{id:int}", Name = "UpdatePartialrider")]
-            // [Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status204NoContent)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -283,7 +283,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="request"> dto data for update</param>
             /// <returns>No Content</returns>
             [HttpPatch("patch/{id:int}/dto", Name = "UpdatePartialriderDto")]
-            // [Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status204NoContent)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -328,7 +328,7 @@ namespace CompetitionEventsManager.Controllers
             /// <param name="id"></param>
             /// <returns>No Content</returns>
             [HttpDelete("riders/delete/{id:int}")]
-           // [Authorize(Roles = "admin,user")]
+           [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status204NoContent)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

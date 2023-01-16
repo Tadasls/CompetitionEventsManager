@@ -83,7 +83,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpGet("Horses/{id:int}", Name = "GetHorse")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetHorseDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -115,7 +115,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="200">OK</response>
         /// <response code="500">Internal server error</response>
         [HttpGet("GetAllHorses")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllHorsesWithFilter([FromQuery] FilterHorsesRequest req)
@@ -146,7 +146,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateHorse")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateHorseDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -205,7 +205,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Horses/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -270,7 +270,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}", Name = "UpdatePartialHorse")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -319,7 +319,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPatch("Patch/{id:int}/dto", Name = "UpdatePartialHorseDto")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -369,7 +369,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpDelete("Horses/delete/{id:int}")]
-       // [Authorize(Roles = "admin,user")]
+       [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

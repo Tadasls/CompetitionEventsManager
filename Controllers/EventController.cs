@@ -2,6 +2,7 @@
 using CompetitionEventsManager.Models.Dto.EventDTO;
 using CompetitionEventsManager.Models.Dto.HorseDTO;
 using CompetitionEventsManager.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -44,7 +45,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns>Event by specified ID</returns>
         /// <response code="400">Customer bad request description</response>
         [HttpGet("Event/{id:int}", Name = "GetEvent")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEventDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,7 +74,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
         [HttpGet("GetAllEvents")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetEventDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllEntriesWithFilter([FromQuery] FilterEventRequest req)
@@ -100,7 +101,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateEvent")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEventDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -139,7 +140,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Events/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -183,7 +184,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <returns>No Content</returns>
         [HttpDelete("Event/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -10,6 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompetitionEventsManager.Controllers
 {
@@ -48,7 +49,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpGet("Competition/{id:int}", Name = "GetCompetition")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCompetitionDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,7 +78,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
         [HttpGet("GetAllCompetitions")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetCompetitionDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllCompetitionsWithFilter([FromQuery] FilterCompetitionRequest req)
@@ -104,7 +105,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateCompetition")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateCompetitionDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -166,7 +167,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Competitions/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -205,7 +206,6 @@ namespace CompetitionEventsManager.Controllers
             foundCompetition.TimeBeetweenRuns = updateCompetitionDTO.TimeBeetweenRuns;
             foundCompetition.BreakTime = updateCompetitionDTO.BreakTime;
             foundCompetition.AdditionalTime = updateCompetitionDTO.AdditionalTime;
-           // foundCompetition.SId = updateCompetitionDTO.SId;
             foundCompetition.EId = updateCompetitionDTO.EId;
 
             await _competitionRepo.UpdateAsync(foundCompetition);
@@ -221,7 +221,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <returns>No Content</returns>
         [HttpDelete("Competition/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

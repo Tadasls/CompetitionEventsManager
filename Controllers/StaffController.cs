@@ -46,7 +46,7 @@ namespace CompetitionEventsManager.Controllers
         /// <returns>Staff by specified ID</returns>
         /// <response code="400">Customer bad request description</response>
         [HttpGet("Staff/{id:int}", Name = "GetStaff")]
-            //[Authorize(Roles = "admin,user")]
+            [Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetStaffDTO))]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -75,7 +75,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="req"></param>
         /// <returns>All Entities</returns>
         [HttpGet("GetAllStaff")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetStaffDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllStaffWithFilter([FromQuery] FilterStaffRequest req)
@@ -100,7 +100,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateStaff")]
-        //[Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateStaffDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -141,7 +141,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut("Staffs/update/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -167,17 +167,11 @@ namespace CompetitionEventsManager.Controllers
             foundStaff.FeiID = updateStaffDTO.FeiID;
             foundStaff.NationalID = updateStaffDTO.NationalID;
             foundStaff.Position = updateStaffDTO.Position;
-           //foundStaff.SId = updateStaffDTO.SId;
+      
 
             await _staffRepo.UpdateAsync(foundStaff);
             return NoContent();
         }
-
-
-
-
-
-
 
 
 
@@ -192,7 +186,7 @@ namespace CompetitionEventsManager.Controllers
         /// <param name="id"></param>
         /// <returns>No Content</returns>
         [HttpDelete("Staff/delete/{id:int}")]
-        // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
