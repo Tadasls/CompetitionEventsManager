@@ -4,7 +4,7 @@ using CompetitionEventsManager.Repository.IRepository;
 
 namespace CompetitionEventsManager.Repository
 {
-    public class NotificationRepository : Repository<Notification>, INotificationRepository
+    public class NotificationRepository : Repository<Notification>, INotificationRepository 
     {
 
         private readonly DBContext _db;

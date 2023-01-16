@@ -18,6 +18,9 @@ using System.Text;
 
 namespace CompetitionEventsManager.Data.InitialData
 {
+    /// <summary>
+    /// that initial data
+    /// </summary>
     public static class HorseInitialData
     {
 

@@ -33,6 +33,9 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
         public int CompetitionID { get; set; }
         public string Title { get; set; }
         public string? Number { get; set; }
+        /// <summary>
+        /// open class, or closed 
+        /// </summary>
         public string? CompetitionType { get; set; }
         public string? ArenaType { get; set; }
         public string? Article { get; set; }

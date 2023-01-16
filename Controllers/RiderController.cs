@@ -29,7 +29,13 @@ namespace CompetitionEventsManager.Controllers
             private readonly IRiderRepository _riderRepo;
             private readonly IRiderAdapter _riderAdapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        /// <summary>
+        /// RiderController
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="riderAdapter"></param>
+        /// <param name="httpContextAccessor"></param>
         public RiderController(ILogger<RiderController> logger, IRiderRepository repository, IRiderAdapter riderAdapter, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;

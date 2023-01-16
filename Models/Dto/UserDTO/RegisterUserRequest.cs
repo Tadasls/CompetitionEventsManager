@@ -17,11 +17,13 @@ namespace CompetitionEventsManager.Models.Dto.UserDTO
         /// User FirstName
         /// </summary>
         [Required]
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? FirstName { get; set; }
         /// <summary>
         /// User LastName
         /// </summary>
         [Required]
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? LastName { get; set; }
         /// <summary>
         /// User Password
@@ -38,18 +40,22 @@ namespace CompetitionEventsManager.Models.Dto.UserDTO
         /// <summary>
         /// User adress
         /// </summary>
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? Adress { get; set; }
         /// <summary>
         /// User phone
         /// </summary>
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? Phone { get; set; }
         /// <summary>
         /// user email
         /// </summary>
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? Email { get; set; }
         /// <summary>
         /// User language
         /// </summary>
+        [MaxLength(100, ErrorMessage = "cannot be longer than 100 characters")]
         public string? Language { get; set; }
 
 

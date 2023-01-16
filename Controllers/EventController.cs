@@ -24,7 +24,12 @@ namespace CompetitionEventsManager.Controllers
             private readonly ILogger<EventController> _logger;
             private readonly IEventRepository _eventRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        /// <summary>
+        /// EventController
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="httpContextAccessor"></param>
         public EventController(ILogger<EventController> logger, IEventRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;

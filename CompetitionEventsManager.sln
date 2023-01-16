@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompetitionEventsManager", "CompetitionEventsManager.csproj", "{9E326B04-900A-4D4A-8380-797B1ACAD643}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompetitionEventsManagerTests1", "..\CompetitionEventsManagerTests1\CompetitionEventsManagerTests1.csproj", "{44DFB414-CB58-4BF7-BBC1-610B5365C48F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompetitionEventsManagerTests1", "..\CompetitionEventsManagerTests1\CompetitionEventsManagerTests1.csproj", "{44DFB414-CB58-4BF7-BBC1-610B5365C48F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mano testai", "Mano testai", "{773B4042-2097-4148-B206-DB3A3D201FD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{44DFB414-CB58-4BF7-BBC1-610B5365C48F} = {773B4042-2097-4148-B206-DB3A3D201FD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25DBC635-BE88-4543-BCDD-C59F3096FD56}

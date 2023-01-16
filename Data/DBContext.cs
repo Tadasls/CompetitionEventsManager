@@ -6,6 +6,9 @@ using System.IO;
 
 namespace CompetitionEventsManager.Data
 {
+    /// <summary>
+    /// main duombaze
+    /// </summary>
     public class DBContext : DbContext
     {
         public DBContext()
@@ -34,7 +37,8 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Event>()
              .HasMany(ab => ab.Competitions)
              .WithOne(ab => ab.Event)
-             .HasForeignKey(ab => ab.EId);
+             .HasForeignKey(ab => ab.EId)
+             .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Competition>().HasKey(d => d.CompetitionID);
             modelBuilder.Entity<Competition>().HasData(HorseInitialData.CompetitionDataSeed);
@@ -52,32 +56,35 @@ namespace CompetitionEventsManager.Data
             modelBuilder.Entity<Competition>()
                 .HasMany(ab => ab.Entries)
                 .WithOne(ab => ab.Competition)
-                .HasForeignKey(ab => ab.CId);
+                .HasForeignKey(ab => ab.CId)
+              .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<LocalUser>().HasKey(d => d.Id);
-            modelBuilder.Entity<LocalUser>()
-             .HasMany(ab => ab.Entries)
-             .WithOne(ab => ab.LocalUser)
-             .HasForeignKey(ab => ab.UserId);
+            modelBuilder.Entity<LocalUser>().HasMany(ab => ab.Entries)
+                .WithOne(ab => ab.LocalUser)
+                .HasForeignKey(ab => ab.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Entry>().HasKey(d => d.EntryID);
             modelBuilder.Entity<Entry>().HasData(HorseInitialData.EntryDataSeed);
 
                    
           modelBuilder.Entity<LocalUser>()
-          .HasMany(ab => ab.Notifications)
-          .WithOne(ab => ab.LocalUser)
-          .HasForeignKey(ab => ab.UserId);
+                .HasMany(ab => ab.Notifications)
+                .WithOne(ab => ab.LocalUser)
+                .HasForeignKey(ab => ab.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
          modelBuilder.Entity<LocalUser>()
-          .HasMany(ab => ab.Riders)
-          .WithOne(ab => ab.LocalUser)
-          .HasForeignKey(ab => ab.UserId);
+                .HasMany(ab => ab.Riders)
+                .WithOne(ab => ab.LocalUser)
+                .HasForeignKey(ab => ab.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-         modelBuilder.Entity<LocalUser>()
-          .HasMany(ab => ab.Horses)
-          .WithOne(ab => ab.LocalUser)
-          .HasForeignKey(ab => ab.UserId);
+         modelBuilder.Entity<LocalUser>().HasMany(ab => ab.Horses)
+                .WithOne(ab => ab.LocalUser)
+                .HasForeignKey(ab => ab.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Notification>().HasKey(d => d.NotificationID);
             modelBuilder.Entity<Notification>().HasData(HorseInitialData.NotificationDataSeed);

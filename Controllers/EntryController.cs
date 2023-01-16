@@ -32,7 +32,13 @@ namespace CompetitionEventsManager.Controllers
         private readonly IEntryRepository _entryRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEntryAdapter _entryAdapter;
-
+        /// <summary>
+        /// EntryController
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="entryAdapter"></param>
         public EntryController(ILogger<HorseController> logger, IEntryRepository repository, IHttpContextAccessor httpContextAccessor, IEntryAdapter entryAdapter)
         {
             _logger = logger;

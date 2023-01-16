@@ -20,7 +20,13 @@ namespace CompetitionEventsManager.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
-
+        /// <summary>
+        /// user controler
+        /// </summary>
+        /// <param name="userRepository"></param>
+        /// <param name="userService"></param>
+        /// <param name="jwtService"></param>
+        /// <param name="logger"></param>
         public UserController(IUserRepository userRepository, IUserService userService, IJwtService jwtService, ILogger<UserController> logger)
         {
             _logger = logger;

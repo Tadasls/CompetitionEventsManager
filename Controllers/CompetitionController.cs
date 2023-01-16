@@ -42,6 +42,11 @@ namespace CompetitionEventsManager.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Ok</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("Competition/{id:int}", Name = "GetCompetition")]
             //[Authorize(Roles = "admin,user")]
             [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCompetitionDTO))]
@@ -206,16 +211,6 @@ namespace CompetitionEventsManager.Controllers
             await _competitionRepo.UpdateAsync(foundCompetition);
             return NoContent();
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
