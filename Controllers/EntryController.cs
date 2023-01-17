@@ -121,7 +121,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateEntry")]
-       // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEntryDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -209,8 +209,6 @@ namespace CompetitionEventsManager.Controllers
             var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
 
 
-
-
             if (currentUserId != foundEntry.UserId)
             {
                 _logger.LogWarning("User {currentUserId} tried to access user {id} horses", currentUserId, id);
@@ -238,6 +236,18 @@ namespace CompetitionEventsManager.Controllers
             await _entryRepo.UpdateAsync(foundEntry);
             return NoContent();
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// UpdatePartialEntry with Patch
@@ -463,7 +473,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="404">Page Not Found</response>
         /// <response code="500">Internal server error</response>
         [HttpGet("Entry/{id:int}", Name = "GetEntry")]
-       // [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEntryDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -486,6 +496,72 @@ namespace CompetitionEventsManager.Controllers
             var Entry = await _entryRepo.GetAsync(d => d.EntryID == id);
             return Ok(new GetEntryDTO(Entry));
         }
+
+
+
+
+
+
+        /// <summary>
+        /// Entry update place 
+        /// </summary>
+        /// <param name="id">specify which entry to update</param>
+        /// <param name="updateEntryDTO"> DTo with specific properties</param>
+        /// <returns>No content if update is Ok</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpPut("EntryAdmin/update/{id:int}")]
+        [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateEntryAdmin(int id, [FromBody] UpdateEntryDTO updateEntryDTO)
+        {
+            if (id == 0 || updateEntryDTO == null)
+            {
+                _logger.LogInformation("no data imputed");
+                return BadRequest("No data was provided");
+            }
+
+            var foundEntry = await _entryRepo.GetAsync(d => d.EntryID == id);
+            if (foundEntry == null)
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+            var currentUserRole = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+
+            if (currentUserRole != "admin")
+            {
+                _logger.LogWarning("User  tried to access user {id} horses", id);
+                return Forbid();
+            }
+
+            foundEntry.HorseName = updateEntryDTO.HorseName;
+            foundEntry.RiderFullName = updateEntryDTO.RiderFullName;
+            foundEntry.HorseBirthYear = updateEntryDTO.HorseBirthYear;
+            foundEntry.Points = updateEntryDTO.Points;
+            foundEntry.Time = updateEntryDTO.Time;
+            foundEntry.Training = updateEntryDTO.Training;
+            foundEntry.Status = updateEntryDTO.Status;
+            foundEntry.Comments = updateEntryDTO.Comments;
+            foundEntry.NeedElectricity = updateEntryDTO.NeedElectricity;
+            foundEntry.PlateNumbers = updateEntryDTO.PlateNumbers;
+            foundEntry.NumberOfCages = updateEntryDTO.NumberOfCages;
+            foundEntry.StayFromDate = updateEntryDTO.StayFromDate;
+            foundEntry.StayToDate = updateEntryDTO.StayToDate;
+            foundEntry.Shavings = updateEntryDTO.Shavings;
+            foundEntry.NeedInvoice = updateEntryDTO.NeedInvoice;
+            foundEntry.AgreemntOnContractNr1 = updateEntryDTO.AgreemntOnContractNr1;
+            foundEntry.CId = updateEntryDTO.CId;
+
+            await _entryRepo.UpdateAsync(foundEntry);
+            return NoContent();
+        }
+
 
 
 
