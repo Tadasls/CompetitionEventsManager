@@ -40,8 +40,14 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
         public string HorseName { get; set; }
         public string? OwnerName { get; set; }
         public DateTime? YearOfBird { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string? Breed { get; set; }
         public string? Type { get; set; }
+        /// <summary>
+        /// without balls is also a gender
+        /// </summary>
         public string? Gender { get; set; }
         public string? Color { get; set; }
         public string? NatFedID { get; set; }

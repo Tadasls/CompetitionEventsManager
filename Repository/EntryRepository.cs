@@ -32,7 +32,7 @@ namespace CompetitionEventsManager.Repository
 
             return entities; //grazina Horse objekta pagal entry esanty raiderio ID
         }
-        public IEnumerable<Entry> Getdata_With_EagerLoading(int riderId)
+        public IEnumerable<Entry> Getdata_With_EagerLoading()
         {
            
             var duomenys = _db.Entries
@@ -43,7 +43,7 @@ namespace CompetitionEventsManager.Repository
             return duomenys; //grazina visus entries su visais competisions
            
         }
-        public IEnumerable<Event> Getdata_With_EagerLoading2(int Id)
+        public IEnumerable<Event> Getdata_With_EagerLoading2()
         {
             var duomenys = _db.Events
             .Include(Event => Event.Competitions)

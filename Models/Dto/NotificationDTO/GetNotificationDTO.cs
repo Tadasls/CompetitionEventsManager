@@ -14,7 +14,9 @@ namespace CompetitionEventsManager.Models.Dto.NotificationDTO
         }
 
         public int NotificationID { get; set; }
-     
+     /// <summary>
+     /// main info
+     /// </summary>
         public string Topic { get; set; }
     
         public string? Message { get; set; }

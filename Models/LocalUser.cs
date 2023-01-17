@@ -8,8 +8,6 @@ namespace CompetitionEventsManager.Models
     /// </summary>
     public class LocalUser
     {
-
-
         
         /// <summary>
         /// User ID
@@ -23,8 +21,14 @@ namespace CompetitionEventsManager.Models
         [Required]
         [MaxLength(20)]
         public string UserName { get; set; }
+        /// <summary>
+        /// it your name
+        /// </summary>
         [MaxLength(100)]
         public string FirstName { get; set; }
+        /// <summary>
+        /// family name
+        /// </summary>
         [MaxLength(100)]
         public string LastName { get; set; }
         public byte[] PasswordHash { get; set; }

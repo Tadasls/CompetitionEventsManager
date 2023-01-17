@@ -21,7 +21,12 @@ namespace CompetitionEventsManager.Controllers
             private readonly ILogger<NotificationController> _logger;
             private readonly INotificationRepository _notiRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        /// <summary>
+        /// that makes noti control to be
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
+        /// <param name="httpContextAccessor"></param>
         public NotificationController(ILogger<NotificationController> logger, INotificationRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;

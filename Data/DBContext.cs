@@ -11,12 +11,17 @@ namespace CompetitionEventsManager.Data
     /// </summary>
     public class DBContext : DbContext
     {
-        public DBContext()
-        {
-        }
-
+        public DBContext() { }
+        /// <summary>
+        /// main data dase
+        /// </summary>
+        /// <param name="options"></param>
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+
         public DbSet<Competition> Competitions { get; set; }
+        /// <summary>
+        /// basic of data conections comes to this
+        /// </summary>
         public DbSet<Entry> Entries { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Horse> Horses { get; set; }

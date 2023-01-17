@@ -5,8 +5,13 @@
 
 
 
-
+        /// <summary>
+        /// thats auto generated
+        /// </summary>
         public int NotificationID { get; set; }
+        /// <summary>
+        /// main info
+        /// </summary>
         public string Topic { get; set; }
         public string? Message { get; set; }
         public bool? Status { get; set; } = false;

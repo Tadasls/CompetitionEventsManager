@@ -23,7 +23,9 @@ namespace CompetitionEventsManager.Models.Dto.EventDTO
         public string? Place { get; set; }
        
         public string? Country { get; set; } 
-      
+      /// <summary>
+      /// thats euros , maybe zlots if it happens in Poland
+      /// </summary>
         public string? Currency { get; set; }
        
         public string? Organizer { get; set; }

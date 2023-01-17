@@ -19,6 +19,9 @@ namespace CompetitionEventsManager.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompetitionID { get; set; }
+        /// <summary>
+        /// Competition titlew should be stated
+        /// </summary>
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }

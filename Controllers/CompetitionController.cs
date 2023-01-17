@@ -118,12 +118,6 @@ namespace CompetitionEventsManager.Controllers
                 return BadRequest("No data provided");
             }
 
-            var currentUserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-            if (currentUserId == null)
-            {
-                return Forbid();
-            }
-
             Competition model = new Competition()
             {
             Title = competitionDTO.Title,
@@ -145,7 +139,6 @@ namespace CompetitionEventsManager.Controllers
             TimeBeetweenRuns = competitionDTO.TimeBeetweenRuns,
             BreakTime = competitionDTO.BreakTime,
             AdditionalTime = competitionDTO.AdditionalTime,
-            //SId = competitionDTO.SId,
             EId = competitionDTO.EId,
             };
             await _competitionRepo.CreateAsync(model);

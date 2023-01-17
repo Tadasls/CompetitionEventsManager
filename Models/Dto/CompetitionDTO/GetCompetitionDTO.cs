@@ -43,13 +43,22 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
         public DateTime? Date { get; set; }
         public DateTime? Time { get; set; }
         public string? Class { get; set; }
+        /// <summary>
+        /// same obstackle can have up to three jumps
+        /// </summary>
         public int? NumberOfJumps { get; set; }
         public int? NumberOfObstackles { get; set; }
         public int? TimeAllowed { get; set; }
         public int? SecToStart { get; set; }
+        /// <summary>
+        /// up to 1 penalty poins per 1 sec
+        /// </summary>
         public int? PointsForExeedindTimeLimit { get; set; }
         public DateTime? SheduledStartTime { get; set; }
         public int? SheduledRunTime { get; set; }
+        /// <summary>
+        /// thats not break time
+        /// </summary>
         public int? TimeBeetweenRuns { get; set; }
         public int? BreakTime { get; set; }
         public int? AdditionalTime { get; set; }

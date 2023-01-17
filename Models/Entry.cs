@@ -26,6 +26,9 @@ namespace CompetitionEventsManager.Models
         public string? RiderFullName { get; set; }
         [MaxLength(50)]
         public DateTime? HorseBirthYear { get; set; }
+        /// <summary>
+        /// penalties, better to be zero..
+        /// </summary>
         [MaxLength(50)]
         public int? Points { get; set; } = 0;
         [MaxLength(50)]
@@ -36,6 +39,9 @@ namespace CompetitionEventsManager.Models
         public string? Status { get; set; }
         [MaxLength(50)]
         public string? Comments { get; set; }
+        /// <summary>
+        ///  thats is right to connect cable
+        /// </summary>
         [MaxLength(50)]
         public bool? NeedElectricity { get; set; } = false;
         [MaxLength(50)]

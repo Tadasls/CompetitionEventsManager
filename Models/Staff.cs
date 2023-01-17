@@ -22,14 +22,15 @@ namespace CompetitionEventsManager.Models
         public string Lastname { get; set; }
         [MaxLength(50)]
         public string? Country { get; set; } = "LT";
+        /// <summary>
+        /// just a number
+        /// </summary>
         [MaxLength(50)]
         public string? FeiID { get; set; }
         [MaxLength(50)]
         public string? NationalID { get; set; }
         [MaxLength(50)]
         public string? Position { get; set; }
-        [MaxLength(50)]
-      //  public int? SId { get; set; }
         public virtual List<Competition> Competitions { get; set; }
     }
 }

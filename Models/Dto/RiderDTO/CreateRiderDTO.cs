@@ -5,10 +5,15 @@ using System.Reflection;
 
 namespace CompetitionEventsManager.Models.Dto.RiderDTO
 {
+    /// <summary>
+    /// need data to enter new rider
+    /// </summary>
       public class CreateRiderDTO
     {
 
-       
+       /// <summary>
+       /// it a name
+       /// </summary>
         public string FirstName { get; set; }
      
         public string LastName { get; set; }

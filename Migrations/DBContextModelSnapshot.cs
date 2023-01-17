@@ -108,7 +108,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasIndex("EId");
 
-                    b.ToTable("Competitions");
+                    b.ToTable("Competitions", (string)null);
 
                     b.HasData(
                         new
@@ -268,7 +268,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Entries");
+                    b.ToTable("Entries", (string)null);
 
                     b.HasData(
                         new
@@ -369,7 +369,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("EventID");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
 
                     b.HasData(
                         new
@@ -491,7 +491,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Horses");
+                    b.ToTable("Horses", (string)null);
 
                     b.HasData(
                         new
@@ -641,7 +641,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocalUsers");
+                    b.ToTable("LocalUsers", (string)null);
                 });
 
             modelBuilder.Entity("CompetitionEventsManager.Models.Notification", b =>
@@ -670,7 +670,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
 
                     b.HasData(
                         new
@@ -781,7 +781,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Riders");
+                    b.ToTable("Riders", (string)null);
 
                     b.HasData(
                         new
@@ -883,7 +883,7 @@ namespace CompetitionEventsManager.Migrations
 
                     b.HasKey("StaffID");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
 
                     b.HasData(
                         new

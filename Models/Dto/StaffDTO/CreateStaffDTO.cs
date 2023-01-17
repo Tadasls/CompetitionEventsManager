@@ -1,8 +1,13 @@
 ﻿namespace CompetitionEventsManager.Models.Dto.StaffDTO
 {
+    /// <summary>
+    /// to create new staff
+    /// </summary>
     public class CreateStaffDTO
     {
-   
+   /// <summary>
+   /// ame as Name
+   /// </summary>
         public string FirstName { get; set; }
 
         public string Lastname { get; set; }

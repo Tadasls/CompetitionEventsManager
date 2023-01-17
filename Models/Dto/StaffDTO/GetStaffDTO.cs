@@ -13,7 +13,7 @@ namespace CompetitionEventsManager.Models.Dto.StaffDTO
             FeiID = staff.FeiID;
             NationalID = staff.NationalID;
             Position = staff.Position;
-           // SId = staff.SId;
+       
         }
 
         public int StaffID { get; set; }
@@ -23,14 +23,18 @@ namespace CompetitionEventsManager.Models.Dto.StaffDTO
         public string Lastname { get; set; }
       
         public string? Country { get; set; }
-       
+       /// <summary>
+       /// identification number
+       /// </summary>
         public string? FeiID { get; set; }
        
         public string? NationalID { get; set; }
-      
+      /// <summary>
+      /// place and position at field
+      /// </summary>
         public string? Position { get; set; }
 
-      //  public int? SId { get; set; }
+    
 
 
 

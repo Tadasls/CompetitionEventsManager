@@ -23,7 +23,9 @@ namespace CompetitionEventsManager.Data.InitialData
     /// </summary>
     public static class HorseInitialData
     {
-
+        /// <summary>
+        /// thats data seed for rider entity
+        /// </summary>
         public static readonly Rider [] RidersDataSeed = new Rider[] {
                 new Rider
                 {

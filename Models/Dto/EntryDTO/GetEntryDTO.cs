@@ -49,18 +49,26 @@ namespace CompetitionEventsManager.Models.Dto.EntryDTO
         public bool? Training { get; set; } = false;
         public string? Status { get; set; }
         public string? Comments { get; set; }
-       
+       /// <summary>
+       /// that gives right to connect cable to horse car
+       /// </summary>
         public bool? NeedElectricity { get; set; } = false;
         public string? PlateNumbers { get; set; }
       
         public int? NumberOfCages { get; set; } = 1;
         public DateTime? StayFromDate { get; set; }
         public DateTime? StayToDate { get; set; }
-        
+        /// <summary>
+        /// only for horse place
+        /// </summary>
         public bool? Shavings { get; set; } = false;
-      
+      /// <summary>
+      /// some paper from aacountants
+      /// </summary>
         public bool? NeedInvoice { get; set; } = false;
-
+        /// <summary>
+        /// please be good, do you agree?
+        /// </summary>
         public bool? AgreemntOnContractNr1 { get; set; } = false;
         public int? UserId { get; set; }
         public int? CId { get; set; }

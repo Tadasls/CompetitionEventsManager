@@ -18,6 +18,9 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
         public string? Breed { get; set; }
         public string? Type { get; set; }
         public string? Gender { get; set; }
+        /// <summary>
+        /// no whites horses please
+        /// </summary>
         public string? Color { get; set; }
         public string? NatFedID { get; set; }
         public string? FEIID { get; set; }

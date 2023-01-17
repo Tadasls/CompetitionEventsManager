@@ -7,13 +7,21 @@ namespace CompetitionEventsManager.Models.Dto.HorseDTO
     /// </summary>
     public class CreateHorseDTO
     {
-       
+       /// <summary>
+       /// animal name
+       /// </summary>
         public string HorseName { get; set; }
         public string? OwnerName { get; set; }
         public DateTime? YearOfBird { get; set; }
         public string? Breed { get; set; }
         public string? Type { get; set; }
+        /// <summary>
+        /// exm stalion
+        /// </summary>
         public string? Gender { get; set; }
+        /// <summary>
+        /// no white is not a color
+        /// </summary>
         public string? Color { get; set; }
         public string? NatFedID { get; set; }
         public string? FEIID { get; set; }

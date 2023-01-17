@@ -121,7 +121,7 @@ namespace CompetitionEventsManager.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal server error</response>
         [HttpPost("CreateEntry")]
-        [Authorize(Roles = "admin,user")]
+       // [Authorize(Roles = "admin,user")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateEntryDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -141,27 +141,27 @@ namespace CompetitionEventsManager.Controllers
 
             Entry model = new Entry()
             {
-            HorseID = entryDTO.HorseID,
-            RiderID = entryDTO.RiderID,
-            HorseName = entryDTO.HorseName,
-            RiderFullName = entryDTO.RiderFullName,
-            HorseBirthYear = entryDTO.HorseBirthYear,
-            Points = entryDTO.Points,
-            Time = entryDTO.Time,
-            Training = entryDTO.Training,
-            Status = entryDTO.Status,
-            Comments = entryDTO.Comments,
-            NeedElectricity = entryDTO.NeedElectricity,
-            PlateNumbers = entryDTO.PlateNumbers,
-            NumberOfCages = entryDTO.NumberOfCages,
-            StayFromDate = entryDTO.StayFromDate,
-            StayToDate = entryDTO.StayToDate,
-            Shavings = entryDTO.Shavings,
-            NeedInvoice = entryDTO.NeedInvoice,
-            AgreemntOnContractNr1 = entryDTO.AgreemntOnContractNr1,
-            UserId = currentUserId,
-            CId = entryDTO.CId,
-        };
+                HorseID = entryDTO.HorseID,
+                RiderID = entryDTO.RiderID,
+                HorseName = entryDTO.HorseName,
+                RiderFullName = entryDTO.RiderFullName,
+                HorseBirthYear = entryDTO.HorseBirthYear,
+                Points = entryDTO.Points,
+                Time = entryDTO.Time,
+                Training = entryDTO.Training,
+                Status = entryDTO.Status,
+                Comments = entryDTO.Comments,
+                NeedElectricity = entryDTO.NeedElectricity,
+                PlateNumbers = entryDTO.PlateNumbers,
+                NumberOfCages = entryDTO.NumberOfCages,
+                StayFromDate = entryDTO.StayFromDate,
+                StayToDate = entryDTO.StayToDate,
+                Shavings = entryDTO.Shavings,
+                NeedInvoice = entryDTO.NeedInvoice,
+                AgreemntOnContractNr1 = entryDTO.AgreemntOnContractNr1,
+                UserId = currentUserId,
+                CId = entryDTO.CId,
+            };
 
 
             await _entryRepo.CreateAsync(model);
@@ -170,9 +170,9 @@ namespace CompetitionEventsManager.Controllers
 
 
             return CreatedAtRoute("GetEntry", new { Id = model.EntryID }, entryDTO);
-      
 
         }
+
 
 
         /// <summary>
@@ -374,11 +374,7 @@ namespace CompetitionEventsManager.Controllers
 
 
 
-
-
-
-        //kiti variantai
-
+                //papildomi variantai
 
 
 
@@ -404,10 +400,10 @@ namespace CompetitionEventsManager.Controllers
         [HttpGet("EntriesEager")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Horse>> GetEntriesEager(int Id)
+        public async Task<ActionResult<Horse>> GetEntriesEager()
         {
 
-            var data = _entryRepo.Getdata_With_EagerLoading(Id);
+            var data = _entryRepo.Getdata_With_EagerLoading();
 
             return Ok(data); //grazino visus entries su visais competitions /id cia nieko nedaro
         }
@@ -419,10 +415,10 @@ namespace CompetitionEventsManager.Controllers
         [HttpGet("EntriesEager2")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetHorseDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Horse>> GetEntriesEager2(int Id)
+        public async Task<ActionResult<Horse>> GetEntriesEager2()
         {
 
-            var data = _entryRepo.Getdata_With_EagerLoading2(Id);
+            var data = _entryRepo.Getdata_With_EagerLoading2();
 
             return Ok(data); // graziai grazino visus eventus su visais competitionais
         }
@@ -456,7 +452,40 @@ namespace CompetitionEventsManager.Controllers
 
 
 
+        /// <summary>
+        /// Fetch entry with a specified ID from DB
+        /// </summary>
+        /// <param name="id">Requested Entry ID</param>
+        /// <returns>Horse by specified ID</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="401">Client could not authenticate a request</response>
+        /// <response code="404">Page Not Found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("Entry/{id:int}", Name = "GetEntry")]
+       // [Authorize(Roles = "admin,user")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEntryDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<GetEntryDTO>> GetEntryById(int id)
+        {
 
+            if (id == 0)
+            {
+                _logger.LogInformation("no id input");
+                return BadRequest("Not entered ID");
+            }
+            if (!await _entryRepo.ExistAsync(d => d.EntryID == id))
+            {
+                _logger.LogInformation("Entry with id {id} not found", id);
+                return NotFound("No such entries with this ID");
+            }
+            var Entry = await _entryRepo.GetAsync(d => d.EntryID == id);
+            return Ok(new GetEntryDTO(Entry));
+        }
 
 
 

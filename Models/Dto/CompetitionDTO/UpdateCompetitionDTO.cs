@@ -5,9 +5,21 @@
 
         public string? Title { get; set; }
         public string? Number { get; set; }
+        /// <summary>
+        /// opne
+        /// </summary>
         public string? CompetitionType { get; set; }
+        /// <summary>
+        /// field or inside
+        /// </summary>
         public string? ArenaType { get; set; }
+        /// <summary>
+        /// acording fei rules stated artickle
+        /// </summary>
         public string? Article { get; set; }
+        /// <summary>
+        /// up to 2 rounds
+        /// </summary>
         public int? Phase { get; set; } = 1;
         public DateTime? Date { get; set; }
         public DateTime? Time { get; set; }

@@ -25,6 +25,9 @@ namespace CompetitionEventsManager.Models
         public int? NationalFederationID { get; set; }
         [MaxLength(50)]
         public int? FEIID { get; set; }
+        /// <summary>
+        /// very important to be a part of team
+        /// </summary>
         [MaxLength(50)]
         public string? RidersClubName { get; set; }
         [MaxLength(50)]
@@ -40,7 +43,7 @@ namespace CompetitionEventsManager.Models
         [MaxLength(50)]
         public int? UserId { get; set; }
         public virtual LocalUser? LocalUser { get; set; }
-        public List<Entry> Entries { get; set; }// test realtionships
+        public List<Entry> Entries { get; set; }
 
 
 

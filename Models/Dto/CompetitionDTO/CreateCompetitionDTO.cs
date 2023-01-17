@@ -6,8 +6,9 @@ namespace CompetitionEventsManager.Models.Dto.CompetitionDTO
     {
 
         /// <summary>
-        /// Title
+        /// Title please be laconic
         /// </summary>
+        [MaxLength(200)]
         public string Title { get; set; }
         /// <summary>
         /// Number
